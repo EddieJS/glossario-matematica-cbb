@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossário de Matemática — Ensino Médio</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --c1:#E84393;--c2:#00B4D8;--c3:#06D6A0;
+  --bg:#0F0F1A;--card:#1A1A2E;--border:#2a2a45;
+  --text:#F0F0FF;--sub:#9999BB;--radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#1a0533,#0d1b4b,#0a2a1a);
+  padding:44px 24px 65px;text-align:center;position:relative;overflow:hidden;
+}
+header::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 15% 60%,rgba(232,67,147,.18) 0%,transparent 55%),
+    radial-gradient(circle at 85% 30%,rgba(0,180,216,.15) 0%,transparent 55%),
+    radial-gradient(circle at 50% 90%,rgba(6,214,160,.1) 0%,transparent 40%);
+}
+.header-inner{position:relative;}
+header h1{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,5vw,3rem);color:#fff;text-shadow:0 0 30px rgba(232,67,147,.5);}
+header p{color:rgba(255,255,255,.75);font-size:1rem;margin-top:8px;font-weight:700;}
+.header-tags{display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.htag{padding:5px 14px;border-radius:50px;font-family:'Fredoka One',cursive;font-size:.8rem;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);}
+
+/* SEARCH */
+.search-wrap{max-width:580px;margin:-28px auto 0;padding:0 20px;position:relative;z-index:10;}
+.search-wrap input{
+  width:100%;padding:16px 24px 16px 52px;border-radius:50px;border:2px solid var(--border);
+  font-size:1rem;font-family:'Nunito',sans-serif;font-weight:700;
+  background:#1A1A2E;color:var(--text);outline:none;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  transition:border-color .2s;
+}
+.search-wrap input:focus{border-color:#E84393;}
+.search-wrap::before{content:'🔍';position:absolute;left:40px;top:50%;transform:translateY(-50%);font-size:1.1rem;}
+
+/* TABS */
+.tabs{display:flex;justify-content:center;gap:10px;padding:32px 20px 16px;flex-wrap:wrap;}
+.tab{
+  padding:10px 22px;border-radius:50px;border:2px solid var(--border);
+  font-family:'Fredoka One',cursive;font-size:.95rem;cursor:pointer;
+  transition:all .2s;background:var(--card);color:var(--sub);
+}
+.tab:hover,.tab.active{border-color:#E84393;color:#E84393;background:#2a1030;}
+.tab.active{background:linear-gradient(135deg,#E84393,#a0004f);color:#fff;border-color:transparent;}
+
+/* THEME FILTER */
+.theme-filter{display:flex;justify-content:center;gap:8px;padding:0 20px 24px;flex-wrap:wrap;}
+.theme-btn{
+  padding:6px 16px;border-radius:50px;border:1.5px solid var(--border);
+  background:var(--card);font-family:'Nunito',sans-serif;font-weight:700;font-size:.82rem;
+  cursor:pointer;transition:all .2s;color:var(--sub);
+}
+.theme-btn.active,.theme-btn:hover{border-color:#00B4D8;color:#00B4D8;background:#001a2e;}
+
+.counter{text-align:center;padding:0 20px 16px;font-weight:700;color:var(--sub);font-size:.85rem;}
+
+/* GRID */
+.glossary{max-width:1100px;margin:0 auto;padding:0 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+
+/* CARD */
+.card{
+  background:var(--card);border-radius:var(--radius);padding:20px 20px 16px;
+  border:1.5px solid var(--border);
+  border-top:4px solid;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  cursor:pointer;position:relative;overflow:hidden;
+}
+.card::after{
+  content:'Explorar →';position:absolute;bottom:10px;right:16px;
+  font-size:.72rem;font-weight:800;color:rgba(255,255,255,.2);
+  transition:color .2s;
+}
+.card:hover::after{color:rgba(255,255,255,.5);}
+.card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.5);}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.card-badges{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;}
+.bserie{font-family:'Fredoka One',cursive;font-size:.7rem;padding:3px 10px;border-radius:50px;color:#fff;}
+.btheme{font-size:.7rem;padding:3px 10px;border-radius:50px;background:rgba(255,255,255,.08);color:#888;font-weight:700;}
+.card h3{font-family:'Fredoka One',cursive;font-size:1.15rem;margin-bottom:5px;color:#fff;}
+.card .simple{font-size:.88rem;line-height:1.5;font-weight:600;color:var(--sub);}
+.card .prereq-hint{
+  margin-top:10px;display:flex;align-items:center;gap:6px;
+  font-size:.75rem;font-weight:700;color:rgba(255,200,100,.7);
+}
+
+.no-results{text-align:center;padding:60px 20px;color:var(--sub);font-size:1rem;font-weight:700;grid-column:1/-1;}
+.no-results span{font-size:3rem;display:block;margin-bottom:12px;}
+
+/* MODAL */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);
+  z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:#13132a;border:1.5px solid var(--border);border-radius:24px;
+  width:100%;max-width:680px;max-height:92vh;overflow-y:auto;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);
+  transform:translateY(30px) scale(.97);transition:transform .3s,opacity .3s;opacity:0;
+}
+.overlay.open .modal{transform:translateY(0) scale(1);opacity:1;}
+.modal-band{padding:26px 26px 18px;border-radius:24px 24px 0 0;position:relative;}
+.modal-close{
+  position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.12);border:none;cursor:pointer;
+  font-size:1rem;color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:900;transition:background .2s;
+}
+.modal-close:hover{background:rgba(255,255,255,.25);}
+.modal-emoji{font-size:2.5rem;display:block;margin-bottom:6px;}
+.modal-title{font-family:'Fredoka One',cursive;font-size:1.75rem;color:#fff;}
+.modal-sub{color:rgba(255,255,255,.65);font-weight:700;font-size:.88rem;margin-top:4px;}
+.modal-bncc{
+  display:inline-block;margin-top:8px;padding:3px 12px;border-radius:50px;
+  background:rgba(255,255,255,.1);font-size:.75rem;font-weight:800;color:rgba(255,255,255,.6);
+}
+
+/* Modal Tabs */
+.modal-tabs{display:flex;border-bottom:1.5px solid var(--border);padding:0 24px;overflow-x:auto;}
+.mtab{
+  padding:13px 16px;font-family:'Fredoka One',cursive;font-size:.9rem;
+  cursor:pointer;border:none;background:none;color:var(--sub);
+  border-bottom:3px solid transparent;margin-bottom:-1.5px;
+  transition:all .2s;white-space:nowrap;
+}
+.mtab.active{color:#E84393;border-bottom-color:#E84393;}
+.modal-body{padding:22px 24px 30px;}
+.mpanel{display:none;animation:fadeIn .25s ease;}
+.mpanel.active{display:block;}
+
+/* Panel styles */
+.explain-box{
+  background:rgba(255,255,255,.04);border-radius:14px;
+  padding:18px 20px;margin-bottom:14px;line-height:1.7;
+  font-size:.95rem;font-weight:600;color:#ccc;border:1px solid var(--border);
+}
+.example-box{border-radius:14px;padding:16px 20px;border-left:4px solid;}
+.example-box .elabel{font-family:'Fredoka One',cursive;font-size:.85rem;margin-bottom:6px;opacity:.85;}
+.example-box p{font-size:.92rem;line-height:1.6;font-weight:600;color:#bbb;}
+
+/* PREREQUISITE PANEL */
+.prereq-section{margin-bottom:20px;}
+.prereq-title{
+  font-family:'Fredoka One',cursive;font-size:1rem;
+  color:rgba(255,200,80,1);margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.prereq-list{list-style:none;}
+.prereq-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 14px;margin-bottom:8px;
+  background:rgba(255,200,80,.06);border-radius:10px;
+  border-left:3px solid rgba(255,200,80,.5);
+  font-size:.88rem;font-weight:600;line-height:1.5;color:#ccc;
+}
+.prereq-item .picon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.prereq-item b{color:rgba(255,200,80,.9);}
+.prereq-alert{
+  margin-top:14px;padding:14px 16px;border-radius:12px;
+  background:rgba(232,67,147,.08);border:1px solid rgba(232,67,147,.2);
+  font-size:.85rem;font-weight:700;color:rgba(232,67,147,.9);line-height:1.6;
+}
+
+/* Visual */
+.visual-wrap{text-align:center;padding:8px 0 4px;}
+.visual-wrap svg{max-width:100%;height:auto;}
+.visual-caption{margin-top:12px;font-size:.87rem;color:var(--sub);font-weight:700;line-height:1.5;text-align:center;}
+
+/* Summary */
+.summary-list{list-style:none;}
+.summary-list li{
+  display:flex;align-items:flex-start;gap:12px;padding:11px 0;
+  border-bottom:1px solid var(--border);font-size:.92rem;font-weight:600;line-height:1.5;color:#ccc;
+}
+.summary-list li:last-child{border-bottom:none;}
+.summary-list .icon{font-size:1.2rem;flex-shrink:0;margin-top:1px;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+footer{text-align:center;padding:20px;color:#444;font-size:.82rem;font-weight:600;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>🎓 Glossário de Matemática</h1>
+    <p>Ensino Médio · Clique em qualquer termo para explorar e ver os pré-requisitos</p>
+    <div class="header-tags">
+      <span class="htag">📋 BNCC alinhado</span>
+      <span class="htag">🔑 Pré-requisitos por tema</span>
+      <span class="htag">🎨 Diagramas visuais</span>
+    </div>
+  </div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="searchInput" placeholder="Buscar… ex: logaritmo, função, trigonometria">
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-serie="all">Todos</button>
+  <button class="tab" data-serie="1">1ª série</button>
+  <button class="tab" data-serie="2">2ª série</button>
+  <button class="tab" data-serie="3">3ª série</button>
+</div>
+
+<div class="theme-filter">
+  <button class="theme-btn active" data-theme="all">Todos os temas</button>
+  <button class="theme-btn" data-theme="Funções">Funções</button>
+  <button class="theme-btn" data-theme="Geometria">Geometria</button>
+  <button class="theme-btn" data-theme="Álgebra">Álgebra</button>
+  <button class="theme-btn" data-theme="Estatística">Estatística</button>
+  <button class="theme-btn" data-theme="Financeira">Financeira</button>
+</div>
+
+<div class="counter" id="counter"></div>
+<div class="glossary" id="glossary"></div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-band" id="modalBand">
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <span class="modal-emoji" id="mEmoji"></span>
+      <div class="modal-title" id="mTitle"></div>
+      <div class="modal-sub" id="mSub"></div>
+      <span class="modal-bncc" id="mBncc"></span>
+    </div>
+    <div class="modal-tabs">
+      <button class="mtab active" onclick="switchTab(0,this)">📖 Explicação</button>
+      <button class="mtab" onclick="switchTab(1,this)">🔑 Pré-requisitos</button>
+      <button class="mtab" onclick="switchTab(2,this)">🎨 Visual</button>
+      <button class="mtab" onclick="switchTab(3,this)">✅ Resumão</button>
+    </div>
+    <div class="modal-body">
+      <div class="mpanel active" id="mp0"></div>
+      <div class="mpanel" id="mp1"></div>
+      <div class="mpanel" id="mp2"></div>
+      <div class="mpanel" id="mp3"></div>
+    </div>
+  </div>
+</div>
+
+<footer>Colégio Batista Brasileiro · Coordenação Pedagógica · Ensino Médio</footer>
+
+<script>
+const THEME_COLORS={
+  'Funções':'#E84393',
+  'Geometria':'#00B4D8',
+  'Álgebra':'#06D6A0',
+  'Estatística':'#FF9F43',
+  'Financeira':'#a29bfe'
+};
+const SERIE_COLORS={'1':'#E84393','2':'#00B4D8','3':'#06D6A0'};
+
+const terms=[
+  // ── 1ª SÉRIE ──────────────────────────────────────────────
+  {
+    serie:"1",theme:"Funções",emoji:"📈",term:"Função",bncc:"EM13MAT101",
+    simple:"Uma regra que associa cada valor de entrada (x) a exatamente um valor de saída (y). É a base de quase toda a matemática do EM.",
+    explain:"Uma função f relaciona dois conjuntos: para cada elemento x do <b>domínio</b>, existe exatamente um elemento y no <b>contradomínio</b>. A <b>imagem</b> é o conjunto dos valores y que de fato aparecem. Funções descrevem quase tudo que varia de forma organizada: temperatura ao longo do dia, crescimento de uma planta, preço em função da quantidade.",
+    example:"A distância percorrida por um carro a 80km/h: d(t) = 80t. Para t=2h, d=160km. Para t=3h, d=240km. Cada tempo gera exatamente uma distância.",
+    prereqs:[
+      {icon:"🔢",label:"Números Reais",desc:"Você precisa saber operar com todos os tipos de números — inteiros, fracionários, irracionais — porque as funções usam qualquer tipo."},
+      {icon:"🔤",label:"Expressão Algébrica (9º ano)",desc:"Entender o que é uma fórmula com letras. Função é uma expressão algébrica organizada."},
+      {icon:"📐",label:"Plano Cartesiano",desc:"Saber localizar pontos (x, y) no plano — os gráficos de funções são desenhados lá."},
+      {icon:"📊",label:"Proporcionalidade (6º ao 8º ano)",desc:"A noção de que uma grandeza pode depender de outra prepara para entender dependência funcional."},
+    ],
+    prereqAlert:"⚠️ Se você trava ao ver 'f(x)', provavelmente o pré-requisito é expressão algébrica ou números reais. Revise primeiro!",
+    visual:`<svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg" width="240">
+      <rect x="10" y="70" width="70" height="60" rx="10" fill="#1a0533" stroke="#E84393" stroke-width="2"/>
+      <text x="45" y="98" text-anchor="middle" font-family="Fredoka One" font-size="13" fill="#E84393">domínio</text>
+      <text x="45" y="118" text-anchor="middle" font-family="Nunito" font-size="11" fill="#aaa" font-weight="700">x</text>
+      <rect x="180" y="70" width="70" height="60" rx="10" fill="#0d1b4b" stroke="#00B4D8" stroke-width="2"/>
+      <text x="215" y="98" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#00B4D8">imagem</text>
+      <text x="215" y="118" text-anchor="middle" font-family="Nunito" font-size="11" fill="#aaa" font-weight="700">f(x)</text>
+      <rect x="95" y="80" width="70" height="40" rx="8" fill="#06D6A0" opacity=".15" stroke="#06D6A0" stroke-width="1.5"/>
+      <text x="130" y="97" text-anchor="middle" font-family="Fredoka One" font-size="11" fill="#06D6A0">função</text>
+      <text x="130" y="113" text-anchor="middle" font-family="Fredoka One" font-size="11" fill="#06D6A0">f(x) = 2x+1</text>
+      <line x1="80" y1="100" x2="95" y2="100" stroke="#E84393" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="165" y1="100" x2="180" y2="100" stroke="#00B4D8" stroke-width="2" marker-end="url(#ar2)"/>
+      <defs>
+        <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#E84393"/></marker>
+        <marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#00B4D8"/></marker>
+      </defs>
+      <text x="130" y="170" text-anchor="middle" font-family="Nunito" font-size="12" fill="#888" font-weight="700">entrada → regra → saída</text>
+    </svg>`,
+    visualCaption:"Cada valor de entrada (domínio) passa pela regra da função e produz exatamente uma saída (imagem).",
+    summary:["f(x) lê-se 'f de x' = valor de y para aquele x","Domínio = conjunto de entradas permitidas","Imagem = conjunto das saídas que de fato ocorrem","Gráfico: conjunto de todos os pontos (x, f(x)) no plano","Para cada x do domínio: exatamente um y. Nunca dois!"]
+  },
+  {
+    serie:"1",theme:"Funções",emoji:"📉",term:"Função do 1º Grau",bncc:"EM13MAT401",
+    simple:"Função onde x aparece com expoente 1. Gráfico é sempre uma reta. Forma: f(x) = ax + b.",
+    explain:"A função do 1º grau ou <b>função afim</b> tem a forma f(x) = ax + b. O parâmetro <b>a</b> (coeficiente angular) determina a inclinação da reta e o tipo de variação. O parâmetro <b>b</b> (coeficiente linear) indica onde a reta cruza o eixo y. Se a > 0: função crescente. Se a < 0: decrescente. Se a = 0: constante.",
+    example:"Plano de celular: R$30 fixos + R$0,50/min → f(m) = 0,5m + 30. Com 100 min: R$80. Com 200 min: R$130.",
+    prereqs:[
+      {icon:"⚖️",label:"Equação do 1º Grau (7º ano)",desc:"A função do 1º grau é uma equação resolvida para y. Quem não resolve equação, não entende a função."},
+      {icon:"🔤",label:"Expressão Algébrica",desc:"Saber calcular ax + b para diferentes valores de x."},
+      {icon:"📐",label:"Plano Cartesiano",desc:"O gráfico da função é uma reta no plano cartesiano — precisa saber plotar pontos."},
+      {icon:"📊",label:"Proporcionalidade Direta (7º ano)",desc:"Quando b=0, f(x)=ax é proporcionalidade direta — conceito do fundamental."},
+    ],
+    prereqAlert:"⚠️ Dificuldade em encontrar onde a reta corta os eixos? Revise plano cartesiano e equações do 1º grau.",
+    visual:`<svg viewBox="0 0 250 210" xmlns="http://www.w3.org/2000/svg" width="230">
+      <line x1="20" y1="185" x2="230" y2="185" stroke="#444" stroke-width="2"/>
+      <line x1="30" y1="10" x2="30" y2="195" stroke="#444" stroke-width="2"/>
+      <polygon points="224,179 237,185 224,191" fill="#444"/>
+      <polygon points="24,15 30,2 36,15" fill="#444"/>
+      <text x="238" y="189" font-family="Fredoka One" font-size="11" fill="#666">x</text>
+      <text x="33" y="11" font-family="Fredoka One" font-size="11" fill="#666">y</text>
+      <line x1="30" y1="155" x2="210" y2="45" stroke="#E84393" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="30" cy="155" r="5" fill="#a29bfe"/>
+      <text x="5" y="158" font-family="Fredoka One" font-size="11" fill="#a29bfe">b</text>
+      <text x="135" y="90" font-family="Fredoka One" font-size="12" fill="#E84393" transform="rotate(-30,135,90)">f(x) = ax + b</text>
+      <text x="180" y="60" font-family="Nunito" font-size="10" fill="#888" font-weight="700">a&gt;0: cresce</text>
+    </svg>`,
+    visualCaption:"O gráfico é sempre uma reta. O ponto roxo mostra onde a reta cruza o eixo y (valor b). A inclinação depende de a.",
+    summary:["Forma: f(x) = ax + b","a > 0: crescente | a < 0: decrescente | a = 0: constante","b = valor de f quando x = 0","Zero da função: f(x) = 0 → x = −b/a","Gráfico: linha reta no plano cartesiano"]
+  },
+  {
+    serie:"1",theme:"Funções",emoji:"🏹",term:"Função do 2º Grau",bncc:"EM13MAT302",
+    simple:"Função com x² — seu gráfico é uma parábola (curva em U ou ∩). Forma: f(x) = ax² + bx + c.",
+    explain:"A função do 2º grau (ou quadrática) tem a forma f(x) = ax² + bx + c, com a ≠ 0. Seu gráfico é uma <b>parábola</b>. O <b>vértice</b> é o ponto de máximo ou mínimo. As <b>raízes</b> são os valores de x onde f(x) = 0, calculadas por Bhaskara. O <b>discriminante Δ = b²−4ac</b> determina quantas raízes existem.",
+    example:"Lucro de uma empresa: L(x) = −x² + 10x − 16. Para achar o lucro máximo, calculamos o vértice: x_v = −b/2a = 5. L(5) = −25+50−16 = R$9 mil.",
+    prereqs:[
+      {icon:"🔎",label:"Bhaskara e Δ (9º ano)",desc:"As raízes da função são calculadas pela fórmula de Bhaskara. Sem isso, não se acha onde a parábola toca o eixo x."},
+      {icon:"🏹",label:"Função do 1º Grau",desc:"Entender função do 1º grau primeiro — a do 2º é uma evolução com o termo x²."},
+      {icon:"√",label:"Raiz Quadrada (8º ano)",desc:"O cálculo do Δ envolve raiz quadrada — precisa dominar isso."},
+      {icon:"📐",label:"Plano Cartesiano",desc:"O gráfico da parábola é desenhado no plano — precisa saber interpretar eixos."},
+    ],
+    prereqAlert:"⚠️ Não sabe calcular o vértice ou as raízes? Revise Bhaskara e a fórmula do vértice (xv = −b/2a).",
+    visual:`<svg viewBox="0 0 250 200" xmlns="http://www.w3.org/2000/svg" width="230">
+      <line x1="18" y1="165" x2="232" y2="165" stroke="#444" stroke-width="2"/>
+      <line x1="125" y1="10" x2="125" y2="175" stroke="#444" stroke-width="2"/>
+      <path d="M 25,158 Q 125,15 225,158" fill="none" stroke="#E84393" stroke-width="3"/>
+      <circle cx="125" cy="25" r="5" fill="#06D6A0"/>
+      <text x="138" y="25" font-family="Fredoka One" font-size="12" fill="#06D6A0">vértice</text>
+      <circle cx="55" cy="158" r="4" fill="#a29bfe"/>
+      <circle cx="195" cy="158" r="4" fill="#a29bfe"/>
+      <text x="42" y="178" font-family="Fredoka One" font-size="11" fill="#a29bfe">x₁</text>
+      <text x="182" y="178" font-family="Fredoka One" font-size="11" fill="#a29bfe">x₂</text>
+      <text x="125" y="195" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#E84393">f(x) = ax²+bx+c</text>
+    </svg>`,
+    visualCaption:"A parábola tem vértice (verde) e pode cruzar o eixo x em 2 pontos (roxos = raízes), 1 ou nenhum.",
+    summary:["a>0: parábola ∪ (mínimo) | a<0: parábola ∩ (máximo)","Vértice: xᵥ=−b/2a ; yᵥ=−Δ/4a","Δ=b²−4ac: >0 → 2 raízes | =0 → 1 | <0 → nenhuma","Raízes calculadas por Bhaskara","Usada em física, lucro máximo, trajetórias"]
+  },
+  {
+    serie:"1",theme:"Funções",emoji:"🌿",term:"Função Exponencial",bncc:"EM13MAT304",
+    simple:"Função onde a variável x está no expoente. Forma: f(x) = aˣ. Cresce ou decresce de forma muito rápida.",
+    explain:"Na função exponencial f(x) = aˣ (com a > 0 e a ≠ 1), a base <b>a</b> determina o comportamento: se a > 1, a função cresce rapidamente (crescimento exponencial). Se 0 < a < 1, ela decresce (decaimento exponencial). É a função que modela fenômenos de crescimento acelerado — vírus, juros compostos, radioatividade.",
+    example:"Uma bactéria dobra a cada hora: f(t) = 2ᵗ. Após 1h: 2. Após 5h: 32. Após 10h: 1.024. O crescimento é explosivo!",
+    prereqs:[
+      {icon:"🔢",label:"Potenciação e Radiciação (8º ano)",desc:"Função exponencial é toda baseada em potências. Sem dominar aˣ, a ≠ 0 e as leis de expoentes, é impossível avançar."},
+      {icon:"📈",label:"Função (conceito geral)",desc:"Precisa entender o que é domínio, imagem e gráfico de função antes."},
+      {icon:"💰",label:"Porcentagem (6º ano)",desc:"O crescimento exponencial está ligado a porcentagens repetidas — juros compostos, por exemplo."},
+      {icon:"📏",label:"Plano Cartesiano",desc:"O gráfico da função exponencial é uma curva — precisa interpretar o plano."},
+    ],
+    prereqAlert:"⚠️ Confunde 2³ com 3×2? Isso indica que as leis de potenciação precisam ser revisadas antes de qualquer coisa.",
+    visual:`<svg viewBox="0 0 250 200" xmlns="http://www.w3.org/2000/svg" width="230">
+      <line x1="20" y1="180" x2="230" y2="180" stroke="#444" stroke-width="2"/>
+      <line x1="40" y1="10" x2="40" y2="190" stroke="#444" stroke-width="2"/>
+      <path d="M 40,172 C 80,165 120,140 145,110 C 170,80 195,45 220,15" fill="none" stroke="#06D6A0" stroke-width="3"/>
+      <circle cx="40" cy="172" r="4" fill="#E84393"/>
+      <text x="44" y="168" font-family="Fredoka One" font-size="11" fill="#E84393">(0,1)</text>
+      <text x="170" y="35" font-family="Fredoka One" font-size="12" fill="#06D6A0">f(x) = aˣ</text>
+      <text x="170" y="52" font-family="Nunito" font-size="10" fill="#888" font-weight="700">a &gt; 1: cresce</text>
+      <path d="M 40,155 C 80,160 120,168 170,172 C 195,174 215,175 225,176" fill="none" stroke="#FF9F43" stroke-width="2" stroke-dasharray="5,3"/>
+      <text x="140" y="192" font-family="Nunito" font-size="10" fill="#FF9F43" font-weight="700">0&lt;a&lt;1: decresce</text>
+    </svg>`,
+    visualCaption:"Curva verde (a>1): cresce explosivamente. Curva laranja tracejada (0<a<1): decai. Ambas passam pelo ponto (0,1).",
+    summary:["Forma: f(x) = aˣ (a>0, a≠1)","a>1: crescimento exponencial (cresce rápido)","0<a<1: decaimento exponencial (decresce rápido)","Sempre passa pelo ponto (0,1)","Usada em: juros compostos, crescimento de populações, radioatividade"]
+  },
+  {
+    serie:"1",theme:"Álgebra",emoji:"📐",term:"Progressão Aritmética (PA)",bncc:"EM13MAT507",
+    simple:"Sequência onde a diferença entre termos consecutivos é sempre a mesma. Essa diferença chama-se razão (r).",
+    explain:"Uma PA é uma sequência numérica em que cada termo se obtém somando uma constante <b>r</b> (razão) ao anterior. A fórmula do termo geral é <b>aₙ = a₁ + (n−1)·r</b>. A PA está intimamente ligada à função do 1º grau — o índice n faz o papel do x.",
+    example:"Poupança: você começa com R$100 e deposita R$50 por mês. Saldo após n meses: a₁=100, r=50. Após 6 meses: a₆ = 100 + 5×50 = R$350.",
+    prereqs:[
+      {icon:"📈",label:"Função do 1º Grau",desc:"A PA é uma função afim com domínio nos naturais. Entender a função do 1º grau facilita muito o entendimento da PA."},
+      {icon:"⚖️",label:"Equação do 1º Grau",desc:"Para descobrir r ou a₁, é preciso resolver equações do 1º grau."},
+      {icon:"🔢",label:"Operações com Números Reais",desc:"Todas as contas da PA envolvem operações básicas com qualquer tipo de número."},
+    ],
+    prereqAlert:"⚠️ Confunde r com o valor do termo? Lembre: r é a diferença entre termos consecutivos, não o valor de um termo.",
+    visual:`<svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg" width="245">
+      ${[2,5,8,11,14].map((n,i)=>{
+        const x=20+i*48;
+        return `<circle cx="${x}" cy="60" r="22" fill="#1a0533" stroke="#E84393" stroke-width="2"/>
+        <text x="${x}" y="65" text-anchor="middle" font-family="Fredoka One" font-size="16" fill="#E84393">${n}</text>
+        <text x="${x}" y="100" text-anchor="middle" font-family="Fredoka One" font-size="11" fill="#888">a${i+1}</text>
+        ${i<4?`<text x="${x+24}" y="55" text-anchor="middle" font-family="Fredoka One" font-size="13" fill="#06D6A0">+3</text>`:''}`;
+      }).join('')}
+      <text x="130" y="130" text-anchor="middle" font-family="Fredoka One" font-size="13" fill="#888">razão r = 3 (constante)</text>
+    </svg>`,
+    visualCaption:"Em cada par de termos consecutivos, a diferença é sempre +3 (a razão r). Isso define a PA.",
+    summary:["aₙ = a₁ + (n−1)·r","r = aₙ - aₙ₋₁ (diferença constante entre termos)","Soma dos n primeiros termos: Sₙ = n·(a₁+aₙ)/2","PA é uma função afim com domínio nos naturais","r>0: crescente | r<0: decrescente | r=0: constante"]
+  },
+
+  // ── 2ª SÉRIE ──────────────────────────────────────────────
+  {
+    serie:"2",theme:"Funções",emoji:"🌊",term:"Logaritmo",bncc:"EM13MAT305",
+    simple:"O logaritmo é o 'expoente que falta'. Se bˣ = y, então log_b(y) = x. É a operação inversa da exponencial.",
+    explain:"O logaritmo responde à pergunta: <i>'A que potência devo elevar a base b para obter y?'</i>. Formalmente: <b>logb(y) = x ↔ bˣ = y</b>. O logaritmo decimal usa base 10 (log); o logaritmo natural usa base e ≈ 2,718 (ln). São usados quando o crescimento ou decaimento é exponencial mas queremos trabalhar com os expoentes.",
+    example:"Escala Richter: um terremoto de magnitude 6 é 10× mais forte que um de magnitude 5, porque log₁₀(10⁶) = 6. A escala comprime valores enormes em números pequenos.",
+    prereqs:[
+      {icon:"🌿",label:"Função Exponencial (1ª série)",desc:"Logaritmo é a operação inversa da exponencial. Sem entender aˣ, não faz sentido 'desfazer' essa operação."},
+      {icon:"🔢",label:"Potenciação (8º ano)",desc:"Precisa saber que 2³=8, 10²=100 etc. O logaritmo 'desfaz' a potência."},
+      {icon:"📈",label:"Conceito de Função Inversa",desc:"Log é a inversa da exponencial — entender o que é 'inversa' de uma função ajuda muito."},
+    ],
+    prereqAlert:"⚠️ Se você não sabe calcular 10³ rapidamente, ou confunde base com expoente, é necessário revisar potenciação antes do logaritmo.",
+    visual:`<svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" width="245">
+      <rect x="10" y="20" width="110" height="40" rx="10" fill="#1a0533" stroke="#E84393" stroke-width="2"/>
+      <text x="65" y="45" text-anchor="middle" font-family="Fredoka One" font-size="14" fill="#E84393">10³ = 1000</text>
+      <text x="130" y="45" text-anchor="middle" font-family="Fredoka One" font-size="22" fill="#06D6A0">⟺</text>
+      <rect x="148" y="20" width="100" height="40" rx="10" fill="#0a2a1a" stroke="#06D6A0" stroke-width="2"/>
+      <text x="198" y="45" text-anchor="middle" font-family="Fredoka One" font-size="14" fill="#06D6A0">log(1000)=3</text>
+      <text x="65" y="80" text-anchor="middle" font-family="Nunito" font-size="11" fill="#888" font-weight="700">potenciação</text>
+      <text x="198" y="80" text-anchor="middle" font-family="Nunito" font-size="11" fill="#888" font-weight="700">logaritmação</text>
+      <text x="130" y="115" text-anchor="middle" font-family="Fredoka One" font-size="13" fill="#a29bfe">log_b(y) = x  ↔  bˣ = y</text>
+      <text x="130" y="140" text-anchor="middle" font-family="Nunito" font-size="11" fill="#888" font-weight="700">log e potência são operações inversas</text>
+    </svg>`,
+    visualCaption:"Potenciação e logaritmação são operações inversas — como multiplicação e divisão. Se 10³=1000, então log(1000)=3.",
+    summary:["log_b(y) = x significa bˣ = y","log sem base indicada = log base 10 (decimal)","ln = logaritmo natural (base e ≈ 2,718)","Propriedades: log(a·b)=log a+log b ; log(aⁿ)=n·log a","Usada em: escala Richter, pH, decibéis, juros"]
+  },
+  {
+    serie:"2",theme:"Geometria",emoji:"📦",term:"Geometria Espacial",bncc:"EM13MAT309",
+    simple:"Estudo das figuras tridimensionais (3D): prismas, pirâmides, cilindros, cones e esferas — suas áreas e volumes.",
+    explain:"A geometria espacial estuda figuras no espaço tridimensional. As principais são: <b>prismas</b> (bases poligonais paralelas, faces laterais retangulares), <b>pirâmides</b> (base poligonal, faces laterais triangulares convergindo num vértice), <b>cilindros</b> (base circular), <b>cones</b> (base circular + vértice) e <b>esferas</b>. Para cada uma, estudamos área total e volume.",
+    example:"Caixa de leite (prisma retangular 10×6×20 cm): volume = 10×6×20 = 1.200cm³ = 1,2 litros. Área total = 2×(10×6 + 10×20 + 6×20) = 920cm².",
+    prereqs:[
+      {icon:"🟦",label:"Área de Figuras Planas (6º ao 8º ano)",desc:"Área de triângulos, retângulos e círculos é usada para calcular as faces dos sólidos."},
+      {icon:"🏛️",label:"Teorema de Pitágoras (8º ano)",desc:"Para calcular alturas, diagonais e arestas de sólidos, Pitágoras aparece com frequência."},
+      {icon:"⭕",label:"Circunferência e Círculo (8º ano)",desc:"Cilindros, cones e esferas têm base circular — precisa saber calcular área e perímetro do círculo."},
+      {icon:"📏",label:"Unidades de Medida",desc:"Volume é em cm³, m³ ou litros — precisar saber converter."},
+    ],
+    prereqAlert:"⚠️ Não lembra a fórmula da área do círculo (πr²)? Revise antes de entrar nos sólidos de revolução.",
+    visual:`<svg viewBox="0 0 260 175" xmlns="http://www.w3.org/2000/svg" width="245">
+      <rect x="15" y="70" width="50" height="60" fill="#001a2e" stroke="#00B4D8" stroke-width="2"/>
+      <parallelogram points="15,70 65,70 80,55 30,55" fill="#001a2e" stroke="#00B4D8" stroke-width="2"/>
+      <line x1="65" y1="70" x2="80" y2="55" stroke="#00B4D8" stroke-width="2"/>
+      <line x1="80" y1="55" x2="80" y2="115" stroke="#00B4D8" stroke-width="2"/>
+      <text x="40" y="150" text-anchor="middle" font-family="Fredoka One" font-size="11" fill="#00B4D8">Prisma</text>
+      <polygon points="130,45 100,130 160,130" fill="#0a2a1a" stroke="#06D6A0" stroke-width="2"/>
+      <text x="130" y="150" text-anchor="middle" font-family="Fredoka One" font-size="11" fill="#06D6A0">Pirâmide</text>
+      <ellipse cx="215" cy="115" rx="28" ry="8" fill="#1a0533" stroke="#E84393" stroke-width="2"/>
+      <line x1="187" y1="115" x2="187" y2="70" stroke="#E84393" stroke-width="2"/>
+      <line x1="243" y1="115" x2="243" y2="70" stroke="#E84393" stroke-width="2"/>
+      <ellipse cx="215" cy="70" rx="28" ry="8" fill="#1a0533" stroke="#E84393" stroke-width="2"/>
+      <text x="215" y="150" text-anchor="middle" font-family="Fredoka One" font-size="11" fill="#E84393">Cilindro</text>
+    </svg>`,
+    visualCaption:"Os três sólidos mais comuns: prisma (azul), pirâmide (verde) e cilindro (rosa). Cada um tem fórmulas de área e volume.",
+    summary:["Prisma: V = Área_base × altura","Pirâmide: V = (Área_base × altura) / 3","Cilindro: V = πr²·h | Área = 2πr²+2πrh","Cone: V = πr²h/3 | Esfera: V = 4πr³/3","Princípio de Cavalieri: mesma área e altura = mesmo volume"]
+  },
+  {
+    serie:"2",theme:"Geometria",emoji:"🧭",term:"Trigonometria no Triângulo Qualquer",bncc:"EM13MAT308",
+    simple:"Extensão da trigonometria para triângulos sem ângulo reto. Usa as Leis dos Senos e dos Cossenos.",
+    explain:"No 9º ano, a trigonometria era apenas para triângulos retângulos. No EM, ampliamos para <b>qualquer triângulo</b>. A <b>Lei dos Senos</b>: a/sen(A) = b/sen(B) = c/sen(C). A <b>Lei dos Cossenos</b>: a² = b²+c²−2bc·cos(A). Permitem calcular lados e ângulos em qualquer situação.",
+    example:"Para medir a distância entre dois pontos inacessíveis (como dois lados de um lago), triangulamos: medimos um lado acessível e dois ângulos, e aplicamos a Lei dos Senos.",
+    prereqs:[
+      {icon:"🌊",label:"Seno, Cosseno, Tangente (9º ano)",desc:"A trigonometria do triângulo retângulo é o ponto de partida. Sem esse fundamento, as Leis dos Senos e Cossenos não fazem sentido."},
+      {icon:"🔺",label:"Ângulos no Triângulo (7º ano)",desc:"Soma dos ângulos internos = 180°. Isso é usado o tempo todo nas resoluções."},
+      {icon:"🏛️",label:"Teorema de Pitágoras (8º ano)",desc:"A Lei dos Cossenos é uma generalização de Pitágoras — entendê-la ajuda a compreender a lei mais ampla."},
+    ],
+    prereqAlert:"⚠️ Não decorou SOH-CAH-TOA? Tudo bem, mas é preciso entender o que são seno e cosseno geometricamente antes de avançar.",
+    visual:`<svg viewBox="0 0 260 175" xmlns="http://www.w3.org/2000/svg" width="245">
+      <polygon points="50,155 200,155 140,40" fill="#001a2e" stroke="#00B4D8" stroke-width="2.5"/>
+      <text x="30" y="165" font-family="Fredoka One" font-size="13" fill="#E84393">A</text>
+      <text x="200" y="165" font-family="Fredoka One" font-size="13" fill="#E84393">B</text>
+      <text x="135" y="32" font-family="Fredoka One" font-size="13" fill="#E84393">C</text>
+      <text x="120" y="168" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#06D6A0">c</text>
+      <text x="85" y="96" font-family="Fredoka One" font-size="12" fill="#06D6A0">b</text>
+      <text x="176" y="96" font-family="Fredoka One" font-size="12" fill="#06D6A0">a</text>
+      <text x="130" y="210" text-anchor="middle" font-family="Fredoka One" font-size="11" fill="#888">a/senA = b/senB = c/senC</text>
+    </svg>`,
+    visualCaption:"Em qualquer triângulo, a Lei dos Senos relaciona cada lado com o seno do ângulo oposto.",
+    summary:["Lei dos Senos: a/sen(A) = b/sen(B) = c/sen(C)","Lei dos Cossenos: a²=b²+c²−2bc·cos(A)","Use Lei dos Senos: quando tem ALA ou AAL","Use Lei dos Cossenos: quando tem LLL ou LAL","Quando há ângulo de 90°: use trigonometria do triângulo retângulo (mais simples)"]
+  },
+  {
+    serie:"2",theme:"Álgebra",emoji:"🔄",term:"Progressão Geométrica (PG)",bncc:"EM13MAT508",
+    simple:"Sequência onde a razão entre termos consecutivos é sempre a mesma (constante). Forma: aₙ = a₁ · qⁿ⁻¹.",
+    explain:"Na PG, cada termo é obtido multiplicando o anterior pela <b>razão q</b>. A fórmula do termo geral é <b>aₙ = a₁ · qⁿ⁻¹</b>. A PG está intimamente ligada à função exponencial — o índice n faz o papel do expoente. Crescimento de bactérias, juros compostos e radioatividade são modelados por PG.",
+    example:"Capital de R$1.000 com juros compostos de 10% ao mês forma uma PG: a₁=1000, q=1,1. Após 3 meses: 1000 × 1,1³ = R$1.331.",
+    prereqs:[
+      {icon:"🌿",label:"Função Exponencial (1ª série)",desc:"A PG é a versão discreta da função exponencial. São a mesma ideia — uma para índices inteiros, outra para todos os reais."},
+      {icon:"🔢",label:"Potenciação (8º ano)",desc:"A fórmula aₙ = a₁·qⁿ⁻¹ usa potência. Precisa dominar leis de expoentes."},
+      {icon:"📐",label:"Progressão Aritmética (1ª série)",desc:"Entender a PA facilita ver o contraste: PA soma, PG multiplica."},
+    ],
+    prereqAlert:"⚠️ Confunde PG com PA? Lembre: PA tem diferença constante (soma), PG tem razão constante (multiplica).",
+    visual:`<svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg" width="245">
+      ${[2,6,18,54,162].map((n,i)=>{
+        const x=20+i*48;
+        return `<circle cx="${x}" cy="60" r="22" fill="#1a0533" stroke="#06D6A0" stroke-width="2"/>
+        <text x="${x}" y="65" text-anchor="middle" font-family="Fredoka One" font-size="${n>99?10:13}" fill="#06D6A0">${n}</text>
+        <text x="${x}" y="100" text-anchor="middle" font-family="Fredoka One" font-size="11" fill="#888">a${i+1}</text>
+        ${i<4?`<text x="${x+24}" y="55" text-anchor="middle" font-family="Fredoka One" font-size="13" fill="#E84393">×3</text>`:''}`;
+      }).join('')}
+      <text x="130" y="130" text-anchor="middle" font-family="Fredoka One" font-size="13" fill="#888">razão q = 3 (multiplicação constante)</text>
+    </svg>`,
+    visualCaption:"Em cada par de termos, a razão é sempre ×3. Diferente da PA (que soma), a PG multiplica.",
+    summary:["aₙ = a₁ · qⁿ⁻¹","q = aₙ / aₙ₋₁ (razão: sempre divisão entre consecutivos)","q>1: crescente | 0<q<1: decrescente | q<0: alternada","Soma dos n primeiros: Sₙ = a₁·(qⁿ−1)/(q−1), q≠1","Usada em: juros compostos, crescimento de populações, PG infinita"]
+  },
+  {
+    serie:"2",theme:"Estatística",emoji:"📊",term:"Estatística — Medidas de Dispersão",bncc:"EM13MAT316",
+    simple:"Medidas que mostram o quanto os dados estão espalhados em torno da média. As principais: amplitude, variância e desvio padrão.",
+    explain:"A média diz onde está o centro dos dados, mas não diz o quanto eles variam. Para isso usamos: <b>Amplitude</b> (máximo−mínimo), <b>Variância</b> (média dos quadrados dos desvios) e <b>Desvio Padrão</b> (raiz da variância, na mesma unidade dos dados). Quanto maior o desvio padrão, mais espalhados estão os dados.",
+    example:"Turma A: notas 5,5,5,5. Turma B: notas 2,4,6,8. Ambas têm média 5 — mas a turma B tem desvio padrão maior: os alunos são mais heterogêneos.",
+    prereqs:[
+      {icon:"📊",label:"Média, Mediana e Moda (8º ao 9º ano)",desc:"As medidas de dispersão complementam as de tendência central. Sem saber o que é média, não faz sentido medir o quanto os dados se afastam dela."},
+      {icon:"🔢",label:"Operações com Números Reais",desc:"Variância envolve quadrados e raízes — precisa de fluência com operações."},
+      {icon:"√",label:"Raiz Quadrada (8º ano)",desc:"O desvio padrão é a raiz quadrada da variância."},
+    ],
+    prereqAlert:"⚠️ Se não sabe calcular média rapidamente, a variância e o desvio padrão ficarão confusos.",
+    visual:`<svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg" width="245">
+      ${[4,6,5,8,7].map((n,i)=>{const h=n*16,x=22+i*46,y=145-h;return`<rect x="${x}" y="${y}" width="36" height="${h}" rx="5" fill="#00B4D8" opacity="0.7"/><text x="${x+18}" y="${y-5}" text-anchor="middle" font-family="Fredoka One" font-size="13" fill="#eee">${n}</text>`;}).join('')}
+      <line x1="10" y1="81" x2="255" y2="81" stroke="#FF9F43" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="248" y="77" font-family="Fredoka One" font-size="11" fill="#FF9F43">x̄=6</text>
+      <text x="130" y="162" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#FF9F43">Desvio padrão mede o espalhamento</text>
+    </svg>`,
+    visualCaption:"A linha laranja é a média (6). Alguns valores estão perto, outros afastados. O desvio padrão mede esse espalhamento médio.",
+    summary:["Amplitude = máximo − mínimo","Variância = média dos (xᵢ − x̄)²","Desvio Padrão = √Variância","DP pequeno: dados concentrados | DP grande: dados espalhados","Usada em: controle de qualidade, análise de desempenho, pesquisas"]
+  },
+
+  // ── 3ª SÉRIE ──────────────────────────────────────────────
+  {
+    serie:"3",theme:"Geometria",emoji:"🗺️",term:"Geometria Analítica",bncc:"EM13MAT402",
+    simple:"Geometria usando o plano cartesiano: representa pontos, retas e curvas com equações algébricas.",
+    explain:"A geometria analítica une álgebra e geometria: cada figura geométrica tem uma equação. A <b>reta</b> tem equação ax+by+c=0 ou y=mx+n. A <b>circunferência</b> tem equação (x−a)²+(y−b)²=r². Estudamos distâncias entre pontos, distância de ponto a reta, e a equação geral da reta.",
+    example:"Para saber se o ponto P(3,4) pertence à reta y=x+1: substitua → 4=3+1=4 ✓. Pertence! Geometria analítica resolve isso algebricamente.",
+    prereqs:[
+      {icon:"📐",label:"Plano Cartesiano (7º ao 8º ano)",desc:"Toda a geometria analítica acontece no plano cartesiano. Localizar pontos (x,y) é o passo zero."},
+      {icon:"📈",label:"Função do 1º Grau (1ª série)",desc:"A equação da reta é a função afim. Quem entende f(x)=ax+b já conhece a reta analiticamente."},
+      {icon:"⭕",label:"Circunferência (8º ano)",desc:"A equação da circunferência no plano parte do conceito geométrico de circunferência."},
+      {icon:"🏛️",label:"Teorema de Pitágoras (8º ano)",desc:"A fórmula da distância entre dois pontos (√(Δx²+Δy²)) é Pitágoras aplicado."},
+    ],
+    prereqAlert:"⚠️ Dificuldade em encontrar a equação de uma reta? Comece pelo coeficiente angular (inclinação) e o ponto dado — é a forma ponto-inclinação.",
+    visual:`<svg viewBox="0 0 255 200" xmlns="http://www.w3.org/2000/svg" width="235">
+      <line x1="15" y1="175" x2="240" y2="175" stroke="#444" stroke-width="2"/>
+      <line x1="30" y1="10" x2="30" y2="185" stroke="#444" stroke-width="2"/>
+      <line x1="30" y1="155" x2="220" y2="55" stroke="#00B4D8" stroke-width="2.5"/>
+      <circle cx="110" cy="105" r="55" fill="none" stroke="#E84393" stroke-width="2.5"/>
+      <circle cx="110" cy="105" r="4" fill="#a29bfe"/>
+      <text x="118" y="102" font-family="Fredoka One" font-size="11" fill="#a29bfe">centro</text>
+      <text x="165" y="55" font-family="Fredoka One" font-size="11" fill="#00B4D8">reta: ax+by+c=0</text>
+      <text x="158" y="150" font-family="Fredoka One" font-size="10" fill="#E84393">(x−a)²+(y−b)²=r²</text>
+    </svg>`,
+    visualCaption:"No plano cartesiano, a reta (azul) e a circunferência (rosa) são representadas por equações algébricas.",
+    summary:["Distância entre pontos: d=√((x₂−x₁)²+(y₂−y₁)²)","Equação da reta: y=mx+n ou ax+by+c=0","Equação da circunferência: (x−a)²+(y−b)²=r²","Distância de ponto à reta: d=|ax₀+by₀+c|/√(a²+b²)","Retas paralelas: mesmo coeficiente angular m"]
+  },
+  {
+    serie:"3",theme:"Financeira",emoji:"💰",term:"Matemática Financeira",bncc:"EM13MAT303",
+    simple:"Aplicação da matemática a situações de dinheiro: juros simples, juros compostos, descontos e investimentos.",
+    explain:"A matemática financeira estuda como o dinheiro cresce ou é cobrado ao longo do tempo. No <b>juro simples</b>, os juros são calculados sempre sobre o capital inicial (crescimento linear). No <b>juro composto</b> ('juros sobre juros'), os juros do período são incorporados ao capital e rendem no próximo período (crescimento exponencial). A fórmula dos juros compostos é <b>M = C·(1+i)ⁿ</b>.",
+    example:"R$1.000 a 5% ao mês por 3 meses: Juro simples: M = 1000·(1+0,05·3) = R$1.150. Juro composto: M = 1000·(1,05)³ ≈ R$1.157,63.",
+    prereqs:[
+      {icon:"🌿",label:"Função Exponencial (1ª série)",desc:"Juros compostos seguem crescimento exponencial — M = C·(1+i)ⁿ é uma função exponencial em n."},
+      {icon:"💯",label:"Porcentagem (6º ano)",desc:"Taxa de juros é uma porcentagem. Sem dominar %, não se entende 'i' na fórmula."},
+      {icon:"🔄",label:"Progressão Geométrica (2ª série)",desc:"O montante em juros compostos forma uma PG de razão q=(1+i)."},
+    ],
+    prereqAlert:"⚠️ Confunde juro simples com composto? A diferença é clara: simples cresce em reta (PA), composto cresce em curva (PG).",
+    visual:`<svg viewBox="0 0 255 175" xmlns="http://www.w3.org/2000/svg" width="240">
+      <line x1="20" y1="155" x2="230" y2="155" stroke="#444" stroke-width="2"/>
+      <line x1="30" y1="10" x2="30" y2="165" stroke="#444" stroke-width="2"/>
+      <line x1="30" y1="140" x2="220" y2="55" stroke="#00B4D8" stroke-width="2.5"/>
+      <text x="190" y="50" font-family="Fredoka One" font-size="11" fill="#00B4D8">J. Simples (reta)</text>
+      <path d="M 30,140 C 80,130 130,110 180,75 C 200,62 215,50 225,40" fill="none" stroke="#E84393" stroke-width="2.5"/>
+      <text x="190" y="35" font-family="Fredoka One" font-size="11" fill="#E84393">J. Composto (curva)</text>
+      <text x="130" y="172" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#888">M = C·(1+i)ⁿ  vs  M = C·(1+i·n)</text>
+    </svg>`,
+    visualCaption:"Juro simples cresce linearmente (reta azul). Juro composto cresce exponencialmente (curva rosa) — sempre maior a longo prazo.",
+    summary:["Juro simples: M = C·(1+i·n) — crescimento linear","Juro composto: M = C·(1+i)ⁿ — crescimento exponencial","i = taxa de juros (mesma unidade de n!)","Para comparar: converta taxas para o mesmo período","Desconto comercial: D = N·d·n | Desconto racional: P = N/(1+d·n)"]
+  },
+  {
+    serie:"3",theme:"Álgebra",emoji:"🎲",term:"Análise Combinatória",bncc:"EM13MAT511",
+    simple:"Técnicas para contar possibilidades sem listar tudo. Envolve arranjos, permutações e combinações.",
+    explain:"A análise combinatória responde: <i>'De quantas maneiras posso organizar ou escolher elementos?'</i>. Os principais conceitos são: <b>Princípio Fundamental da Contagem</b> (multiplique as possibilidades de cada etapa), <b>Permutação</b> (ordem importa, todos os elementos), <b>Arranjo</b> (ordem importa, escolhe alguns) e <b>Combinação</b> (ordem NÃO importa, escolhe alguns).",
+    example:"Quantas senhas de 3 dígitos distintos (0-9) existem? É um arranjo: A(10,3) = 10×9×8 = 720 senhas possíveis.",
+    prereqs:[
+      {icon:"🎲",label:"Probabilidade (9º ano)",desc:"Combinatória é usada para calcular probabilidades quando há muitos casos — os dois conteúdos andam juntos."},
+      {icon:"🔢",label:"Fatorial",desc:"As fórmulas de permutação e combinação usam fatorial (n! = n×(n−1)×...×1). Precisa dominar esse conceito."},
+      {icon:"🔢",label:"Operações Básicas",desc:"Todos os cálculos de combinatória envolvem multiplicação e divisão de números grandes."},
+    ],
+    prereqAlert:"⚠️ A maior dificuldade é identificar quando a ordem importa (arranjo/permutação) ou não importa (combinação). Treine com exemplos variados!",
+    visual:`<svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg" width="245">
+      <rect x="10" y="20" width="230" height="35" rx="8" fill="#1a0533" stroke="#a29bfe" stroke-width="1.5"/>
+      <text x="125" y="42" text-anchor="middle" font-family="Fredoka One" font-size="13" fill="#a29bfe">Princípio Fundamental: multiplique</text>
+      <rect x="10" y="70" width="105" height="35" rx="8" fill="#0a2a1a" stroke="#06D6A0" stroke-width="1.5"/>
+      <text x="62" y="92" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#06D6A0">Permutação</text>
+      <rect x="125" y="70" width="115" height="35" rx="8" fill="#001a2e" stroke="#00B4D8" stroke-width="1.5"/>
+      <text x="182" y="92" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#00B4D8">Combinação</text>
+      <text x="62" y="125" text-anchor="middle" font-family="Nunito" font-size="11" fill="#888" font-weight="700">Ordem importa</text>
+      <text x="182" y="125" text-anchor="middle" font-family="Nunito" font-size="11" fill="#888" font-weight="700">Ordem NÃO importa</text>
+      <text x="62" y="145" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#06D6A0">Pₙ = n!</text>
+      <text x="182" y="145" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#00B4D8">C(n,k) = n!/k!(n−k)!</text>
+    </svg>`,
+    visualCaption:"O princípio fundamental é a base. Permutação = ordem importa. Combinação = ordem não importa.",
+    summary:["PFC: nº total = produto de possibilidades de cada etapa","Permutação: Pₙ = n! (todos os elementos, ordem importa)","Arranjo: A(n,k) = n!/(n−k)! (alguns, ordem importa)","Combinação: C(n,k) = n!/k!(n−k)! (alguns, ordem NÃO importa)","Chave: a ordem dos escolhidos importa? Sim→arranjo, Não→combinação"]
+  },
+];
+
+let activeSerie='all',activeTheme='all',searchQ='';
+
+function render(){
+  const grid=document.getElementById('glossary');
+  const ctr=document.getElementById('counter');
+  const filtered=terms.filter(t=>{
+    const s=activeSerie==='all'||t.serie===activeSerie;
+    const th=activeTheme==='all'||t.theme===activeTheme;
+    const sq=searchQ===''||t.term.toLowerCase().includes(searchQ)||t.simple.toLowerCase().includes(searchQ);
+    return s&&th&&sq;
+  });
+  ctr.textContent=filtered.length?`${filtered.length} termo${filtered.length>1?'s':''} encontrado${filtered.length>1?'s':''}` :'';
+  if(!filtered.length){grid.innerHTML=`<div class="no-results"><span>🔍</span>Nenhum termo encontrado.</div>`;return;}
+  grid.innerHTML=filtered.map(t=>{
+    const tc=THEME_COLORS[t.theme]||'#E84393';
+    const sc=SERIE_COLORS[t.serie]||'#E84393';
+    return`<div class="card" style="border-top-color:${tc}" onclick="openModal(${terms.indexOf(t)})">
+      <div class="card-top">
+        <span style="font-size:1.8rem">${t.emoji}</span>
+        <div class="card-badges">
+          <span class="bserie" style="background:${sc}">${t.serie}ª série</span>
+          <span class="btheme">${t.theme}</span>
+        </div>
+      </div>
+      <h3>${t.term}</h3>
+      <p class="simple">${t.simple}</p>
+      <div class="prereq-hint">🔑 <span>${t.prereqs.length} pré-requisitos</span></div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(idx){
+  const t=terms[idx];
+  const tc=THEME_COLORS[t.theme]||'#E84393';
+  document.getElementById('modalBand').style.background=`linear-gradient(135deg,${tc}33,${tc}11)`;
+  document.getElementById('modalBand').style.borderBottom=`2px solid ${tc}44`;
+  document.getElementById('mEmoji').textContent=t.emoji;
+  document.getElementById('mTitle').textContent=t.term;
+  document.getElementById('mTitle').style.color=tc;
+  document.getElementById('mSub').textContent=`${t.serie}ª série · ${t.theme}`;
+  document.getElementById('mBncc').textContent=`BNCC: ${t.bncc}`;
+
+  // Panel 0 – Explicação
+  document.getElementById('mp0').innerHTML=`
+    <div class="explain-box">${t.explain}</div>
+    <div class="example-box" style="border-color:${tc};background:${tc}12">
+      <div class="elabel" style="color:${tc}">💡 Exemplo prático</div>
+      <p>${t.example}</p>
+    </div>`;
+
+  // Panel 1 – Pré-requisitos
+  document.getElementById('mp1').innerHTML=`
+    <div class="prereq-section">
+      <div class="prereq-title">🔑 Para dominar <span style="color:#fff"> ${t.term}</span>, você precisa de:</div>
+      <ul class="prereq-list">
+        ${t.prereqs.map(p=>`
+          <li class="prereq-item">
+            <span class="picon">${p.icon}</span>
+            <span><b>${p.label}</b> — ${p.desc}</span>
+          </li>`).join('')}
+      </ul>
+      <div class="prereq-alert">${t.prereqAlert}</div>
+    </div>`;
+
+  // Panel 2 – Visual
+  document.getElementById('mp2').innerHTML=`
+    <div class="visual-wrap">${t.visual}</div>
+    <p class="visual-caption">${t.visualCaption}</p>`;
+
+  // Panel 3 – Resumão
+  document.getElementById('mp3').innerHTML=`
+    <ul class="summary-list">
+      ${t.summary.map(s=>`<li><span class="icon">✅</span><span>${s}</span></li>`).join('')}
+    </ul>`;
+
+  document.querySelectorAll('.mtab').forEach((b,i)=>b.classList.toggle('active',i===0));
+  document.querySelectorAll('.mpanel').forEach((p,i)=>p.classList.toggle('active',i===0));
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeModalDirect(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';}
+function closeModal(e){if(e.target===document.getElementById('overlay'))closeModalDirect();}
+function switchTab(idx,btn){
+  document.querySelectorAll('.mtab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.mpanel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(`mp${idx}`).classList.add('active');
+}
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    activeSerie=tab.dataset.serie;render();
+  });
+});
+document.querySelectorAll('.theme-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTheme=btn.dataset.theme;render();
+  });
+});
+document.getElementById('searchInput').addEventListener('input',e=>{searchQ=e.target.value.toLowerCase().trim();render();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModalDirect();});
+render();
+</script>
+</body>
+</html>
