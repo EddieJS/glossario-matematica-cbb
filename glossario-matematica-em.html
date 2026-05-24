@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossário de Matemática — Ensino Médio CBB</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--c1:#00D2FF;--c2:#FF6B9D;--c3:#FFD700;--bg:#0A0E1A;--card:#111827;--border:#1E2A3A;--text:#E2E8F0;--sub:#94A3B8;--radius:16px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{background:linear-gradient(135deg,#0A0E1A 0%,#1a1040 50%,#0A0E1A 100%);padding:50px 24px 70px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,210,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,210,255,.04) 1px,transparent 1px);background-size:40px 40px;}
+.glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.15) 0%,transparent 70%);top:-200px;left:50%;transform:translateX(-50%);}
+header h1{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,5vw,2.8rem);color:#fff;text-shadow:0 0 30px rgba(0,210,255,.5);position:relative;letter-spacing:2px;}
+header p{color:var(--sub);font-size:.95rem;margin-top:10px;font-weight:600;position:relative;}
+.accent{color:var(--c1);}
+.search-wrap{max-width:560px;margin:-28px auto 0;padding:0 20px;position:relative;z-index:10;}
+.search-wrap input{width:100%;padding:15px 22px 15px 50px;border-radius:50px;border:1px solid var(--border);background:#111827;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:600;color:var(--text);outline:none;box-shadow:0 8px 32px rgba(0,0,0,.4);}
+.search-wrap input:focus{border-color:var(--c1);box-shadow:0 0 0 3px rgba(0,210,255,.15);}
+.search-wrap::before{content:'⟩_';position:absolute;left:38px;top:50%;transform:translateY(-50%);font-size:.9rem;color:var(--c1);font-family:'Orbitron',monospace;}
+.tabs{display:flex;justify-content:center;gap:8px;padding:30px 20px 14px;flex-wrap:wrap;}
+.tab{padding:9px 20px;border-radius:50px;border:1px solid var(--border);font-family:'Orbitron',monospace;font-size:.72rem;cursor:pointer;transition:all .2s;background:var(--card);color:var(--sub);letter-spacing:1px;}
+.tab[data-year="all"]{border-color:#6C5CE7;}
+.tab[data-year="1"]{border-color:var(--c1);}
+.tab[data-year="2"]{border-color:var(--c2);}
+.tab[data-year="3"]{border-color:var(--c3);}
+.tab.active[data-year="all"]{background:#6C5CE7;color:#fff;}
+.tab.active[data-year="1"]{background:var(--c1);color:#000;}
+.tab.active[data-year="2"]{background:var(--c2);color:#fff;}
+.tab.active[data-year="3"]{background:var(--c3);color:#000;}
+.tab:hover{transform:translateY(-2px);}
+.theme-filter{display:flex;justify-content:center;gap:7px;padding:0 20px 22px;flex-wrap:wrap;}
+.theme-btn{padding:5px 14px;border-radius:50px;border:1px solid var(--border);background:transparent;font-family:'Inter',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;transition:all .2s;color:var(--sub);}
+.theme-btn.active,.theme-btn:hover{border-color:var(--c1);color:var(--c1);}
+.counter{text-align:center;padding:0 20px 14px;font-weight:700;color:var(--sub);font-size:.82rem;font-family:'Orbitron',monospace;letter-spacing:1px;}
+.glossary{max-width:1100px;margin:0 auto;padding:0 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.card{background:var(--card);border-radius:var(--radius);padding:18px 18px 14px;border:1px solid var(--border);border-top:3px solid;transition:transform .2s,box-shadow .2s,border-color .2s;cursor:pointer;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.02) 0%,transparent 60%);pointer-events:none;}
+.card:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.4);}
+.card[data-year="1"]{border-top-color:var(--c1);}
+.card[data-year="2"]{border-top-color:var(--c2);}
+.card[data-year="3"]{border-top-color:var(--c3);}
+.card[data-pu="true"]{border-top-color:#FF9F43;border-style:dashed;}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.card-badges{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+.by{font-family:'Orbitron',monospace;font-size:.62rem;padding:3px 9px;border-radius:50px;color:#000;letter-spacing:.5px;font-weight:700;}
+.by[data-year="1"]{background:var(--c1);}
+.by[data-year="2"]{background:var(--c2);color:#fff;}
+.by[data-year="3"]{background:var(--c3);}
+.by[data-year="PU"]{background:#FF9F43;}
+.bt{font-size:.65rem;padding:3px 9px;border-radius:50px;background:rgba(255,255,255,.07);color:var(--sub);font-weight:700;}
+.btri{font-size:.65rem;padding:3px 9px;border-radius:50px;background:rgba(0,210,255,.1);color:var(--c1);font-weight:700;}
+.card h3{font-family:'Orbitron',monospace;font-size:.95rem;margin-bottom:6px;letter-spacing:.5px;line-height:1.4;}
+.card .simple{font-size:.83rem;line-height:1.55;font-weight:600;color:var(--sub);}
+.card .hint{margin-top:10px;font-size:.7rem;color:rgba(255,255,255,.2);font-weight:700;}
+.no-results{text-align:center;padding:60px 20px;color:var(--sub);font-size:.95rem;font-weight:700;grid-column:1/-1;}
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s;}
+.overlay.open{opacity:1;pointer-events:all;}
+.modal{background:#0F1623;border:1px solid var(--border);border-radius:22px;width:100%;max-width:660px;max-height:92vh;overflow-y:auto;box-shadow:0 40px 100px rgba(0,0,0,.6);transform:translateY(30px) scale(.97);transition:transform .3s,opacity .3s;opacity:0;}
+.overlay.open .modal{transform:translateY(0) scale(1);opacity:1;}
+.modal-band{padding:24px 24px 16px;border-radius:22px 22px 0 0;position:relative;border-bottom:1px solid var(--border);}
+.modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--border);cursor:pointer;font-size:.9rem;color:var(--sub);display:flex;align-items:center;justify-content:center;font-weight:900;transition:all .2s;}
+.modal-close:hover{background:rgba(255,255,255,.15);color:#fff;}
+.modal-emoji{font-size:2.2rem;display:block;margin-bottom:6px;}
+.modal-title{font-family:'Orbitron',monospace;font-size:1.4rem;color:#fff;letter-spacing:1px;}
+.modal-sub{color:var(--sub);font-weight:700;font-size:.8rem;margin-top:5px;letter-spacing:.5px;}
+.modal-tabs{display:flex;border-bottom:1px solid var(--border);padding:0 20px;overflow-x:auto;gap:2px;}
+.mtab{padding:12px 14px;font-family:'Inter',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;border:none;background:none;color:var(--sub);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;}
+.mtab.active{color:var(--c1);border-bottom-color:var(--c1);}
+.modal-body{padding:20px 22px 28px;}
+.mpanel{display:none;animation:fadeIn .25s ease;}
+.mpanel.active{display:block;}
+.explain-box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px;line-height:1.7;font-size:.9rem;font-weight:600;color:var(--text);}
+.example-box{border-radius:12px;padding:14px 18px;border-left:3px solid;}
+.example-box .elabel{font-weight:800;font-size:.78rem;margin-bottom:5px;opacity:.8;letter-spacing:.5px;}
+.example-box p{font-size:.88rem;line-height:1.6;font-weight:600;color:var(--sub);}
+.visual-wrap{text-align:center;padding:8px 0 4px;}
+.visual-wrap svg{max-width:100%;height:auto;}
+.visual-caption{margin-top:10px;font-size:.82rem;color:var(--sub);font-weight:700;line-height:1.5;text-align:center;}
+.summary-list{list-style:none;}
+.summary-list li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:.88rem;font-weight:600;line-height:1.5;color:var(--text);}
+.summary-list li:last-child{border-bottom:none;}
+.summary-list .icon{font-size:1rem;flex-shrink:0;margin-top:2px;}
+/* DICIONÁRIO */
+.dict-list{list-style:none;}
+.dict-item{padding:12px 0;border-bottom:1px solid var(--border);}
+.dict-item:last-child{border-bottom:none;}
+.dict-term{font-family:'Orbitron',monospace;font-size:.82rem;margin-bottom:4px;letter-spacing:.5px;}
+.dict-def{font-size:.88rem;font-weight:600;color:var(--sub);line-height:1.55;margin-bottom:6px;}
+.dict-ex{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.4);background:rgba(255,255,255,.04);border-radius:8px;padding:5px 10px;display:inline-block;border:1px solid var(--border);}
+/* PRÉ-REQUISITOS */
+.prereq-intro{font-size:.85rem;font-weight:600;color:var(--sub);line-height:1.6;margin-bottom:14px;padding:12px 16px;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid var(--border);}
+.prereq-list{list-style:none;}
+.prereq-item{padding:11px 0;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start;}
+.prereq-item:last-child{border-bottom:none;}
+.prereq-badge{font-family:'Orbitron',monospace;font-size:.65rem;padding:3px 9px;border-radius:50px;font-weight:700;flex-shrink:0;margin-top:2px;}
+.prereq-content{}
+.prereq-title{font-family:'Orbitron',monospace;font-size:.82rem;margin-bottom:3px;}
+.prereq-desc{font-size:.83rem;font-weight:600;color:var(--sub);line-height:1.5;margin-bottom:4px;}
+.prereq-check{font-size:.75rem;font-weight:700;color:rgba(255,255,255,.35);font-style:italic;}
+.vestibular-box{background:rgba(255,159,67,.07);border:1px solid rgba(255,159,67,.25);border-radius:12px;padding:14px 16px;margin-top:14px;}
+.vestibular-box .vtitle{font-family:'Orbitron',monospace;font-size:.78rem;color:#FF9F43;margin-bottom:8px;letter-spacing:.5px;}
+.vestibular-box p{font-size:.85rem;font-weight:600;color:var(--sub);line-height:1.6;}
+/* COMO RESOLVER */
+.steps-intro{font-size:.85rem;font-weight:600;color:var(--sub);line-height:1.6;margin-bottom:16px;padding:10px 14px;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid var(--border);}
+.step-list{list-style:none;}
+.step-item{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);align-items:flex-start;}
+.step-item:last-child{border-bottom:none;}
+.step-num{font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;min-width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-body{}
+.step-action{font-family:'Orbitron',monospace;font-size:.8rem;margin-bottom:4px;}
+.step-detail{font-size:.85rem;font-weight:600;color:var(--sub);line-height:1.55;margin-bottom:5px;}
+.step-tip{font-size:.75rem;font-weight:700;font-style:italic;color:rgba(255,255,255,.3);}
+.step-warning{font-size:.75rem;font-weight:700;color:#FF9F43;background:rgba(255,159,67,.08);border-radius:6px;padding:4px 8px;display:inline-block;margin-top:4px;}
+.step-example{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.4);background:rgba(255,255,255,.04);border-radius:8px;padding:5px 10px;display:inline-block;border:1px solid var(--border);margin-top:4px;}
+/* PU panel */
+.pu-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,159,67,.12);border:1px solid rgba(255,159,67,.3);border-radius:8px;padding:6px 12px;margin-bottom:12px;font-size:.78rem;font-weight:800;color:#FF9F43;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+footer{text-align:center;padding:20px;color:rgba(255,255,255,.15);font-size:.75rem;font-weight:600;font-family:'Orbitron',monospace;letter-spacing:1px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+<header>
+  <div class="grid-bg"></div><div class="glow"></div>
+  <h1>∑ GLOSSÁRIO <span class="accent">ENSINO MÉDIO</span></h1>
+  <p>1ª · 2ª · 3ª série &nbsp;·&nbsp; Colégio Batista Brasileiro &nbsp;·&nbsp; 2026</p>
+</header>
+<div class="search-wrap">
+  <input type="text" id="searchInput" placeholder="buscar termo... ex: logaritmo, matriz, seno">
+</div>
+<div class="tabs">
+  <button class="tab active" data-year="all">TODOS</button>
+  <button class="tab" data-year="1">1ª SÉRIE</button>
+  <button class="tab" data-year="2">2ª SÉRIE</button>
+  <button class="tab" data-year="3">3ª SÉRIE / PU</button>
+</div>
+<div class="theme-filter">
+  <button class="theme-btn active" data-theme="all">Todos os temas</button>
+  <button class="theme-btn" data-theme="Álgebra">Álgebra</button>
+  <button class="theme-btn" data-theme="Funções">Funções</button>
+  <button class="theme-btn" data-theme="Geometria">Geometria</button>
+  <button class="theme-btn" data-theme="Trigonometria">Trigonometria</button>
+  <button class="theme-btn" data-theme="Combinatória">Combinatória</button>
+  <button class="theme-btn" data-theme="Estatística">Estatística</button>
+  <button class="theme-btn" data-theme="Pré-universitário">Pré-Univ.</button>
+</div>
+<div class="counter" id="counter"></div>
+<div class="glossary" id="glossary"></div>
+<div class="overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-band" id="modalBand">
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <span class="modal-emoji" id="mEmoji"></span>
+      <div class="modal-title" id="mTitle"></div>
+      <div class="modal-sub" id="mSub"></div>
+    </div>
+    <div class="modal-tabs">
+      <button class="mtab active" onclick="switchTab(0,this)">📖 Explicação</button>
+      <button class="mtab" onclick="switchTab(1,this)">📚 Dicionário</button>
+      <button class="mtab" onclick="switchTab(2,this)">🎨 Visual</button>
+      <button class="mtab" onclick="switchTab(3,this)">🔗 Pré-requisitos</button>
+      <button class="mtab" onclick="switchTab(4,this)">⚙️ Como Resolver</button>
+      <button class="mtab" onclick="switchTab(5,this)">✅ Resumão</button>
+    </div>
+    <div class="modal-body">
+      <div class="mpanel active" id="mp0"></div>
+      <div class="mpanel" id="mp1"></div>
+      <div class="mpanel" id="mp2"></div>
+      <div class="mpanel" id="mp3"></div>
+      <div class="mpanel" id="mp4"></div>
+      <div class="mpanel" id="mp5"></div>
+    </div>
+  </div>
+</div>
+<footer>COLÉGIO BATISTA BRASILEIRO · COORDENAÇÃO PEDAGÓGICA · ENSINO MÉDIO · 2026</footer>
+<script>
+const COLORS={'1':'#00D2FF','2':'#FF6B9D','3':'#FFD700','PU':'#FF9F43'};
+const terms=[
+
+// ══════════════════════════════════════════════════════
+// 1ª SÉRIE
+// ══════════════════════════════════════════════════════
+{year:"1",tri:"T1",theme:"Funções",pu:false,emoji:"📈",term:"Função Afim",
+ simple:"f(x) = ax + b. Gráfico sempre reto. Coeficiente angular a define inclinação; b, o ponto no eixo y.",
+ explain:"A função afim (ou do 1º grau) tem forma <b>f(x) = ax + b</b>. O <b>coeficiente angular a</b> controla a inclinação: a>0 → crescente, a<0 → decrescente. O <b>coeficiente linear b</b> é o valor de f(0) — onde a reta corta o eixo y. O <b>zero da função</b> é x = −b/a. A taxa de variação é constante: para cada unidade em x, y varia exatamente a unidades.",
+ example:"Táxi: R$4,50 de bandeirada + R$2,10/km → f(x) = 2,1x + 4,5. Em 10km: f(10) = 25,50. Zero: x = −4,5/2,1 ≈ −2,14 (sem sentido prático, mas matematicamente é o zero).",
+ dict:[
+   {term:"Coeficiente angular",def:"O valor a em f(x)=ax+b. Mede a inclinação da reta — quantas unidades y muda para cada 1 unidade de x.",ex:"f(x)=3x+1: a=3. Para cada 1 unidade em x, y sobe 3 unidades."},
+   {term:"Coeficiente linear",def:"O valor b em f(x)=ax+b. É o valor de y quando x=0 — onde a reta cruza o eixo y.",ex:"f(x)=2x+5: b=5. O gráfico cruza o eixo y no ponto (0,5)."},
+   {term:"Zero da função",def:"O valor de x que faz f(x)=0. Geometricamente, onde a reta cruza o eixo x.",ex:"f(x)=2x−6 → 2x=6 → x=3. O zero é 3."},
+   {term:"Taxa de variação",def:"Quanto y muda por cada unidade de x. Nas funções afins, é sempre constante e igual ao coeficiente angular.",ex:"f(x)=5x+2: taxa=5. Se x vai de 1 para 4, y muda 5×3=15 unidades."},
+   {term:"Inequação do 1º grau",def:"Comparação com < > ≤ ≥ em vez de =. A solução é um intervalo de valores, não um ponto.",ex:"2x+1>7 → 2x>6 → x>3. Solução: todos os x maiores que 3."}
+ ],
+ steps:{
+   intro:"Para resolver qualquer problema com função afim, siga este protocolo.",
+   items:[
+     {n:1,action:"Identifique a função",detail:"Leia o enunciado e extraia a lei de formação f(x)=ax+b. Se não estiver dada, construa a partir de dois pontos ou da taxa e valor inicial.",ex:"'Táxi cobra R$4,50 de bandeirada + R$2,10/km' → f(x) = 2,1x + 4,5"},
+     {n:2,action:"Identifique o que pede",detail:"O problema quer f(x) para um x dado? Ou quer o x para um f(x) dado (zero)? Ou quer comparar duas funções?",ex:"'Quanto custa 8km?' → calcular f(8). 'Quando custa R$25,50?' → resolver f(x)=25,50"},
+     {n:3,action:"Calcule",detail:"Se pede f(x): substitua x e calcule. Se pede x: isole x como numa equação do 1º grau.",ex:"f(8) = 2,1×8 + 4,5 = 16,8 + 4,5 = R$21,30"},
+     {n:4,action:"Verifique o contexto",detail:"O resultado faz sentido no problema real? Número negativo de km ou horas não faz sentido — revise.",ex:"x = −2,1 seria negativo → sem sentido para km percorridos"},
+     {n:5,action:"Interprete o coeficiente angular",detail:"Se o problema pedir 'qual a taxa de variação' ou 'quanto varia por unidade' — a resposta é sempre o coeficiente angular a.",ex:"'Quanto custa cada km a mais?' → é o coeficiente a = R$2,10/km",tip:"⚠️ O coeficiente linear b é o valor FIXO (quando x=0), não a taxa!"}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"9º ANO",color:"#5F27CD",title:"Equação do 1º Grau",desc:"Resolver ax+b=c é o mesmo que encontrar o zero da função afim.",check:"✓ Pronto se: resolve 3x−7=11 sem dificuldade."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Plano Cartesiano",desc:"O gráfico da função é plotado no plano. Você precisa saber marcar pontos (x,y).",check:"✓ Pronto se: marca os pontos (−2, 5) e (3, −1) sem hesitar."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Função (conceito)",desc:"Entender que f(x) é uma regra que associa cada x a um único y.",check:"✓ Pronto se: calcula f(3) quando f(x)=2x+1 corretamente."}
+   ],
+   vestibular:"No ENEM e vestibulares, a função afim aparece como modelagem de situações (custo fixo + custo variável, taxas de câmbio, velocidade constante). A leitura do coeficiente angular no contexto do problema é mais cobrada do que o cálculo puro."
+ },
+
+ visual:`<svg viewBox="0 0 260 210" xmlns="http://www.w3.org/2000/svg" width="240">
+   <line x1="20" y1="185" x2="240" y2="185" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="30" y1="10" x2="30" y2="195" stroke="#1E2A3A" stroke-width="2"/>
+   <polygon points="234,179 247,185 234,191" fill="#1E2A3A"/>
+   <polygon points="24,15 30,2 36,15" fill="#1E2A3A"/>
+   <line x1="30" y1="155" x2="220" y2="55" stroke="#00D2FF" stroke-width="3" stroke-linecap="round"/>
+   <circle cx="30" cy="155" r="5" fill="#FFD700"/>
+   <text x="5" y="158" font-family="Orbitron" font-size="11" fill="#FFD700">b</text>
+   <text x="128" y="92" font-family="Orbitron" font-size="11" fill="#00D2FF" transform="rotate(-28,128,92)">f(x) = ax + b</text>
+   <text x="195" y="63" font-family="Inter" font-size="10" fill="#94A3B8" font-weight="700">a&gt;0 ↑</text>
+ </svg>`,
+ visualCaption:"O ponto dourado (b) é onde a reta toca o eixo y. A inclinação (a) determina a direção da reta.",
+ summary:["f(x) = ax + b | Gráfico: reta","a > 0: crescente | a < 0: decrescente | a = 0: horizontal","b = ponto no eixo y (f(0))","Zero: x = −b/a","Inequação: solução é um intervalo"]},
+
+{year:"1",tri:"T1",theme:"Álgebra",pu:false,emoji:"🔢",term:"Progressão Aritmética (PA)",
+ simple:"Sequência onde cada termo é obtido somando uma constante (razão r) ao anterior. Ex: 2, 5, 8, 11... (r=3)",
+ explain:"Na PA, a diferença entre dois termos consecutivos é sempre a mesma — a <b>razão r</b>. Fórmula do termo geral: <b>aₙ = a₁ + (n−1)·r</b>. Soma dos n primeiros termos: <b>Sₙ = n·(a₁+aₙ)/2</b> (média do primeiro e último vezes a quantidade). Propriedade: o termo do meio de uma PA é a média aritmética dos vizinhos.",
+ example:"PA 3, 7, 11, 15... (r=4). 10º termo: a₁₀ = 3+(10−1)×4 = 3+36 = 39. Soma dos 10 primeiros: S₁₀ = 10×(3+39)/2 = 10×21 = 210.",
+ dict:[
+   {term:"Razão (r)",def:"A diferença constante entre termos consecutivos de uma PA. Se r>0: crescente. Se r<0: decrescente. Se r=0: constante.",ex:"PA 2,5,8,11: r=3. PA 10,7,4,1: r=−3. PA 5,5,5: r=0."},
+   {term:"Termo geral (aₙ)",def:"Fórmula que calcula qualquer termo da PA sem precisar listar todos: aₙ = a₁ + (n−1)r.",ex:"PA com a₁=4 e r=3: a₁₀ = 4+(10−1)×3 = 4+27 = 31."},
+   {term:"Interpolação aritmética",def:"Inserir termos entre dois valores para que formem uma PA. Com k meios, a razão é r=(aₙ−a₁)/(k+1).",ex:"Entre 2 e 17, inserir 4 meios: r=(17−2)/5=3. PA: 2,5,8,11,14,17."},
+   {term:"Soma dos termos (Sₙ)",def:"Soma dos n primeiros termos de uma PA: Sₙ = n×(a₁+aₙ)/2. Média do primeiro e último vezes n.",ex:"Soma de 1 a 100: S₁₀₀ = 100×(1+100)/2 = 5050. (Gauss!)"}
+ ],
+ steps:{
+   intro:"Problemas de PA geralmente pedem: encontrar um termo, a soma, ou identificar a razão.",
+   items:[
+     {n:1,action:"Identifique a₁ e r",detail:"Escreva os primeiros termos. Calcule a diferença entre termos consecutivos — essa é a razão r.",ex:"Sequência 5, 8, 11, 14... → a₁=5, r=8−5=3"},
+     {n:2,action:"Escolha a fórmula certa",detail:"Pede um termo específico? → aₙ = a₁+(n−1)r. Pede a soma? → Sₙ = n·(a₁+aₙ)/2",ex:"'Qual o 20º termo?' → usa aₙ. 'Soma dos 20 primeiros' → usa Sₙ"},
+     {n:3,action:"Substitua e calcule",detail:"Substitua os valores conhecidos e resolva. Se n é a incógnita, monte equação.",ex:"a₂₀ = 5+(20−1)×3 = 5+57 = 62"},
+     {n:4,action:"Verifique",detail:"O resultado é coerente? Se pediu o 10º termo e deu um número menor que a₁ com r>0, há erro.",tip:"⚠️ Atenção: n começa em 1, não em 0. O 1º termo é a₁ (n=1), não a₀."}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"9º ANO",color:"#5F27CD",title:"Função Afim",desc:"A PA é uma sequência que 'discretiza' a função afim — cada termo é um ponto da reta.",check:"✓ Pronto se: entende que PA com r=3 é como f(x)=3x."},
+     {badge:"6º ANO",color:"#FF6B6B",title:"Operações com inteiros",desc:"Calcular termos da PA exige somar e subtrair números positivos e negativos com agilidade.",check:"✓ Pronto se: calcula −7+(−3)×8 rapidamente."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Função Afim (conexão)",desc:"aₙ=a₁+(n−1)r é exatamente a forma f(n)=rn+(a₁−r), uma função afim em n.",check:"✓ Pronto se: reconhece a estrutura linear na fórmula do termo geral."}
+   ],
+   vestibular:"No ENEM, PA aparece em problemas de sequências lógicas, empilhamentos, distribuições regulares e no Binômio de Newton (coeficientes). A soma de Gauss (Sₙ) é uma ferramenta clássica em questões de contagem."
+ },
+
+ visual:`<svg viewBox="0 0 265 140" xmlns="http://www.w3.org/2000/svg" width="250">
+   <rect x="18" y="105" width="32" height="15" rx="4" fill="#00D2FF" opacity=".58"/>
+   <text x="34" y="100" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#00D2FF">3</text>
+   <rect x="60" y="85" width="32" height="35" rx="4" fill="#00D2FF" opacity=".66"/>
+   <text x="76" y="80" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#00D2FF">7</text>
+   <rect x="102" y="60" width="32" height="60" rx="4" fill="#00D2FF" opacity=".74"/>
+   <text x="118" y="55" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#00D2FF">11</text>
+   <rect x="144" y="35" width="32" height="85" rx="4" fill="#00D2FF" opacity=".82"/>
+   <text x="160" y="30" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#00D2FF">15</text>
+   <rect x="186" y="10" width="32" height="110" rx="4" fill="#00D2FF" opacity=".90"/>
+   <text x="202" y="5" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#00D2FF">19</text>
+   <line x1="18" y1="122" x2="260" y2="122" stroke="#1E2A3A" stroke-width="1.5"/>
+   <text x="132" y="138" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FFD700">r = +4 (cresce 4 a cada termo)</text>
+ </svg>`,
+ visualCaption:"Barras crescendo com incremento constante r=4. O crescimento é linear — daí a relação com a função afim.",
+ summary:["Razão r = diferença constante entre termos","aₙ = a₁ + (n−1)·r (termo geral)","Sₙ = n·(a₁+aₙ)/2 (soma dos n termos)","Termo do meio = média dos vizinhos","PA crescente: r>0 | decrescente: r<0 | constante: r=0"]},
+
+{year:"1",tri:"T2",theme:"Trigonometria",pu:false,emoji:"🌊",term:"Trigonometria no Triângulo",
+ simple:"Sen, cos e tg como razões entre lados do triângulo retângulo. Valores notáveis: 30°, 45°, 60°. Extensão para qualquer triângulo com Lei dos Senos e Cossenos.",
+ explain:"No triângulo retângulo: <b>sen(α)=op/hip</b>, <b>cos(α)=adj/hip</b>, <b>tg(α)=op/adj</b>. A <b>Lei dos Senos</b> permite resolver qualquer triângulo: a/sen(A) = b/sen(B) = c/sen(C). A <b>Lei dos Cossenos</b> generaliza Pitágoras: a² = b² + c² − 2bc·cos(A). Valores notáveis: sen30°=1/2, sen45°=√2/2, sen60°=√3/2.",
+ example:"Triângulo com lados b=8, c=6 e ângulo A=60°. Lei dos cossenos: a² = 64+36−2×8×6×cos60° = 100−48×0,5 = 76. Logo a = √76 ≈ 8,7.",
+ dict:[
+   {term:"Valores notáveis",def:"Os valores exatos de sen, cos e tg para 30°, 45° e 60°. Memorizados pois aparecem em qualquer prova.",ex:"sen30°=cos60°=1/2; sen45°=cos45°=√2/2≈0,71; sen60°=cos30°=√3/2≈0,87"},
+   {term:"Lei dos Senos",def:"Relação entre lados e ângulos opostos em qualquer triângulo: a/sen(A)=b/sen(B)=c/sen(C).",ex:"Se a=10 e A=30°, B=45°: b/sen45°=10/sen30° → b=10×(√2/2)/0,5=10√2≈14,1."},
+   {term:"Lei dos Cossenos",def:"Generalização do Teorema de Pitágoras para triângulos não retângulos: a²=b²+c²−2bc·cos(A).",ex:"Quando A=90°, cos90°=0, e a fórmula vira a²=b²+c² (Pitágoras!)."},
+   {term:"Ângulo notável",def:"Ângulo cujas razões trigonométricas têm valores exatos sem aproximação decimal.",ex:"30°, 45°, 60° e 90° são os ângulos notáveis do EM."},
+   {term:"Relação fundamental",def:"Identidade sempre válida: sen²(α)+cos²(α)=1. Deriva do Teorema de Pitágoras.",ex:"Se sen(α)=3/5, então cos²(α)=1−9/25=16/25, logo cos(α)=4/5."}
+ ],
+ steps:{
+   intro:"Para resolver triângulos com trigonometria, o protocolo muda conforme o que é dado.",
+   items:[
+     {n:1,action:"Classifique o triângulo",detail:"É retângulo? Use sen/cos/tg diretamente. Não é retângulo? Use Lei dos Senos ou Cossenos.",ex:"Tem ângulo de 90°? → SOH-CAH-TOA. Não tem? → Lei dos Senos/Cossenos"},
+     {n:2,action:"Identifique o que é dado e o que falta",detail:"Anote os lados e ângulos conhecidos. Dois ângulos e um lado → Lei dos Senos. Dois lados e ângulo entre eles → Lei dos Cossenos.",ex:"Dados: a=10, A=30°, B=45° → Lei dos Senos. Dados: b=8, c=6, A=60° → Lei dos Cossenos"},
+     {n:3,action:"Aplique a fórmula",detail:"Lei dos Senos: a/senA = b/senB. Lei dos Cossenos: a²=b²+c²−2bc·cosA. SOH-CAH-TOA para retângulo.",ex:"a/sen30°=10/sen30°... Lei dos Cossenos: a²=64+36−96×0,5=76"},
+     {n:4,action:"Calcule e interprete",detail:"Use os valores notáveis decorados. Deixe em forma de raiz quando possível.",ex:"a=√76=2√19≈8,7",tip:"⚠️ sen30°=1/2, sen45°=√2/2, sen60°=√3/2 — esses devem ser automáticos!"}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"9º ANO",color:"#5F27CD",title:"Trigonometria (sen/cos/tg)",desc:"Sen, cos e tg no triângulo retângulo são o ponto de partida. O EM amplia para qualquer triângulo.",check:"✓ Pronto se: calcula o lado oposto dado hipotenusa 10 e ângulo 30°."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Teorema de Pitágoras",desc:"A Lei dos Cossenos é uma generalização de Pitágoras. Precisa dominar o original.",check:"✓ Pronto se: calcula a hipotenusa de um triângulo 5-12-?."},
+     {badge:"8º ANO",color:"#54A0FF",title:"Radiciação e potenciação",desc:"Os cálculos envolvem raízes quadradas e potências nos valores de sen, cos e tg.",check:"✓ Pronto se: simplifica √3/2 e √2/2 sem calculadora."}
+   ],
+   vestibular:"Lei dos Senos e Cossenos são muito cobradas em vestibulares como FUVEST e UNICAMP em problemas de topografia, navegação e física (forças e vetores). No ENEM, a ênfase é em situações contextualizadas como altura de prédios e ângulos de elevação."
+ },
+
+ visual:`<svg viewBox="0 0 260 215" xmlns="http://www.w3.org/2000/svg" width="245">
+   <polygon points="38,180 38,58 195,180" fill="rgba(0,210,255,.07)" stroke="#00D2FF" stroke-width="2"/>
+   <rect x="38" y="160" width="20" height="20" fill="none" stroke="#00D2FF" stroke-width="1.5"/>
+   <text x="24" y="125" text-anchor="end" font-family="Orbitron" font-size="11" fill="#FF6B9D">op</text>
+   <text x="116" y="196" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#FFD700">adj</text>
+   <text x="128" y="115" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#00D2FF">hip</text>
+   <path d="M 60,180 A 22,22 0 0,0 38,160" fill="none" stroke="#FF9F43" stroke-width="2"/>
+   <text x="70" y="170" font-family="Orbitron" font-size="11" fill="#FF9F43">α</text>
+   <text x="116" y="210" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8" font-weight="700">sen=op/hip | cos=adj/hip | tg=op/adj</text>
+ </svg>`,
+ visualCaption:"SOH-CAH-TOA: Sen=Oposto/Hipotenusa, Cos=Adjacente/Hip, Tg=Oposto/Adjacente.",
+ summary:["sen(α)=op/hip | cos(α)=adj/hip | tg(α)=op/adj","Identidade fundamental: sen²+cos²=1","Lei dos Senos: a/senA = b/senB = c/senC","Lei dos Cossenos: a²=b²+c²−2bc·cosA","Valores: sen30°=0,5 | sen45°=√2/2 | sen60°=√3/2"]},
+
+{year:"1",tri:"T2",theme:"Funções",pu:false,emoji:"🏹",term:"Função Quadrática",
+ simple:"f(x) = ax²+bx+c. Gráfico é uma parábola. O vértice é o ponto de máximo ou mínimo. Raízes calculadas por Bhaskara.",
+ explain:"A função quadrática tem gráfico em forma de <b>parábola</b>. Com a>0: abre para cima (∪, mínimo). Com a<0: abre para baixo (∩, máximo). O <b>vértice</b> fica em xᵥ = −b/2a, yᵥ = −Δ/4a. As <b>raízes</b> (zeros) são calculadas com Bhaskara: x=(−b±√Δ)/2a. O <b>discriminante Δ=b²−4ac</b> diz quantas raízes existem.",
+ example:"f(x) = −x²+4x−3. a=−1 → abre para baixo. Vértice: xᵥ=2, f(2)=−4+8−3=1. Raízes: Δ=16−12=4 → x=(−4±2)/(−2) → x₁=1 e x₂=3.",
+ dict:[
+   {term:"Parábola",def:"O gráfico da função quadrática. Em forma de U (a>0) ou ∩ (a<0). Tem simetria em torno do eixo do vértice.",ex:"Trajetória de uma bola jogada forma uma parábola. A=−10 (gravidade)."},
+   {term:"Vértice",def:"O ponto de mínimo (a>0) ou máximo (a<0) da parábola. Coordenadas: xᵥ=−b/2a e yᵥ=−Δ/4a.",ex:"f(x)=x²−4x+3: xᵥ=2, yᵥ=−1. Ponto (2,−1) é o mínimo."},
+   {term:"Discriminante (Δ)",def:"Δ=b²−4ac. Determina o número de raízes reais antes de calcular.",ex:"Δ>0: 2 raízes. Δ=0: 1 raiz (parábola toca o eixo). Δ<0: sem raiz real."},
+   {term:"Valor máximo/mínimo",def:"O valor de yᵥ no vértice. É o maior (a<0) ou menor (a>0) valor que a função pode assumir.",ex:"Lucro máximo, altura máxima de projétil — sempre calculado no vértice."},
+   {term:"Forma fatorada",def:"Escrever a função como a(x−x₁)(x−x₂) usando as raízes. Facilita análise do sinal.",ex:"f(x)=x²−5x+6 = (x−2)(x−3). f(x)>0 quando x<2 ou x>3."}
+ ],
+ steps:{
+   intro:"O protocolo da função quadrática depende do que o problema pede: raízes, vértice ou sinal.",
+   items:[
+     {n:1,action:"Escreva na forma padrão",detail:"Garanta que está na forma ax²+bx+c=0 (para raízes) ou f(x)=ax²+bx+c (para gráfico/vértice).",ex:"x²=5x−6 → x²−5x+6=0. Identifique: a=1, b=−5, c=6"},
+     {n:2,action:"Analise o que pede",detail:"Pede raízes? → Bhaskara. Pede máximo/mínimo? → vértice. Pede quando f(x)>0? → estudo do sinal.",ex:"'Quando o lucro é máximo?' → vértice. 'Quando lucro é positivo?' → estudo do sinal"},
+     {n:3,action:"Calcule o Δ PRIMEIRO",detail:"Δ=b²−4ac. Isso diz quantas raízes existem ANTES de fazer contas desnecessárias.",ex:"Δ=25−24=1>0 → 2 raízes. Se Δ<0, pare — não há raízes reais"},
+     {n:4,action:"Aplique Bhaskara ou vértice",detail:"Raízes: x=(−b±√Δ)/2a. Vértice: xᵥ=−b/2a, depois calcule f(xᵥ).",ex:"x=(5±1)/2 → x₁=3 e x₂=2. Vértice: xᵥ=5/2=2,5"},
+     {n:5,action:"Verifique substituindo",detail:"Substitua cada raiz na equação. Deve dar zero. Para o vértice, verifique se é máx ou mín pelo sinal de a.",ex:"f(2)=4−10+6=0 ✓ e f(3)=9−15+6=0 ✓",tip:"⚠️ a<0 → parábola ∩ → vértice é MÁXIMO. a>0 → parábola ∪ → vértice é MÍNIMO"}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"9º ANO",color:"#5F27CD",title:"Equação do 2º Grau / Bhaskara",desc:"As raízes da função são as soluções da equação. Bhaskara é ferramenta diária aqui.",check:"✓ Pronto se: resolve x²−5x+6=0 e encontra x=2 e x=3."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Produtos Notáveis",desc:"Reconhecer (a+b)² e (a−b)² ajuda a fatorar e identificar vértice.",check:"✓ Pronto se: expande (x−3)² = x²−6x+9 rapidamente."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Função Afim (comparação)",desc:"Contrastar crescimento linear (afim) com crescimento quadrático consolida os dois conceitos.",check:"✓ Pronto se: distingue o gráfico de y=2x de y=2x² sem calcular."}
+   ],
+   vestibular:"A função quadrática é o tema mais cobrado nos vestibulares em problemas de máximo e mínimo: lucro máximo, área máxima, altura máxima de projéteis. No ENEM, aparece principalmente na leitura de parábolas e interpretação de vértice no contexto."
+ },
+
+ visual:`<svg viewBox="0 0 255 200" xmlns="http://www.w3.org/2000/svg" width="240">
+   <line x1="18" y1="165" x2="238" y2="165" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="128" y1="10" x2="128" y2="175" stroke="#1E2A3A" stroke-width="2"/>
+   <path d="M 28,158 Q 128,18 228,158" fill="none" stroke="#FF6B9D" stroke-width="3"/>
+   <circle cx="128" cy="28" r="5" fill="#FFD700"/>
+   <text x="142" y="28" font-family="Orbitron" font-size="10" fill="#FFD700">vértice</text>
+   <circle cx="55" cy="158" r="4" fill="#00D2FF"/><circle cx="201" cy="158" r="4" fill="#00D2FF"/>
+   <text x="42" y="178" font-family="Orbitron" font-size="10" fill="#00D2FF">x₁</text>
+   <text x="188" y="178" font-family="Orbitron" font-size="10" fill="#00D2FF">x₂</text>
+   <text x="128" y="196" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FF6B9D">f(x) = ax²+bx+c</text>
+ </svg>`,
+ visualCaption:"Parábola com a>0 (∪). Vértice = mínimo. Raízes x₁ e x₂ onde a curva cruza o eixo x.",
+ summary:["f(x)=ax²+bx+c | Gráfico: parábola","a>0: ∪ (mínimo) | a<0: ∩ (máximo)","Vértice: xᵥ=−b/2a | yᵥ=−Δ/4a","Δ=b²−4ac | Bhaskara: x=(−b±√Δ)/2a","Forma fatorada: a(x−x₁)(x−x₂)"]},
+
+{year:"1",tri:"T2",theme:"Trigonometria",pu:false,emoji:"🔄",term:"Ciclo Trigonométrico",
+ simple:"Círculo de raio 1 que permite definir sen e cos para qualquer ângulo — não só de triângulos. Divide o plano em 4 quadrantes.",
+ explain:"O ciclo trigonométrico é uma circunferência de raio 1 centrada na origem. Cada ponto do ciclo representa um ângulo α, com coordenadas (cos α, sen α). Isso generaliza as razões trigonométricas para <b>qualquer ângulo</b> (inclusive maiores que 90° ou negativos). Os <b>4 quadrantes</b> determinam os sinais de sen e cos: 1º(+,+), 2º(−,+), 3º(−,−), 4º(+,−). A <b>redução ao primeiro quadrante</b> permite calcular qualquer ângulo.",
+ example:"Sen(150°): 150°=180°−30° → está no 2º quadrante → sen>0. Sen(150°)=sen(30°)=1/2. Cos(150°)=−cos(30°)=−√3/2.",
+ dict:[
+   {term:"Quadrante",def:"Cada uma das 4 regiões do plano cartesiano separadas pelos eixos. Determina o sinal de sen e cos.",ex:"1º: sen>0, cos>0. 2º: sen>0, cos<0. 3º: sen<0, cos<0. 4º: sen<0, cos>0."},
+   {term:"Arco",def:"O comprimento do arco na circunferência de raio 1 correspondente a um ângulo. Medido em radianos ou graus.",ex:"Arco de 90° = π/2 radianos ≈ 1,57. Arco de 180° = π radianos."},
+   {term:"Redução ao 1º quadrante",def:"Técnica para calcular razões trigonométricas de qualquer ângulo usando os ângulos do 1º quadrante.",ex:"Sen(210°)=−sen(30°)=−1/2. O 210° está no 3º quadrante (sen negativo)."},
+   {term:"Ângulo negativo",def:"Ângulo medido no sentido horário no ciclo trigonométrico (sentido contrário ao padrão).",ex:"Sen(−30°)=−sen(30°)=−1/2. Cos(−60°)=cos(60°)=1/2."}
+ ],
+ steps:{
+   intro:"Para calcular sen/cos/tg de qualquer ângulo usando o ciclo, siga este protocolo.",
+   items:[
+     {n:1,action:"Localize o quadrante",detail:"Onde o ângulo cai? 0°-90°=1º, 90°-180°=2º, 180°-270°=3º, 270°-360°=4º. Ângulos acima de 360°: subtraia 360° até ficar no intervalo.",ex:"210° → entre 180° e 270° → 3º quadrante"},
+     {n:2,action:"Defina os sinais",detail:"1º: sen+, cos+. 2º: sen+, cos−. 3º: sen−, cos−. 4º: sen−, cos+. Memorize: 'Todos Sem Tudo Certo'",ex:"3º quadrante → sen negativo e cos negativo"},
+     {n:3,action:"Calcule o ângulo de referência",detail:"Reduza ao 1º quadrante: 2º→180°−α, 3º→α−180°, 4º→360°−α.",ex:"sen(210°): ângulo de referência = 210°−180° = 30°"},
+     {n:4,action:"Aplique o sinal correto",detail:"Use o valor do 1º quadrante com o sinal definido no passo 2.",ex:"sen(210°) = −sen(30°) = −1/2",tip:"⚠️ tg(α) = sen(α)/cos(α). Se cos=0, a tangente não existe (90° e 270°)"}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Trigonometria no triângulo",desc:"Sen, cos e tg no triângulo retângulo são redefinidos aqui para qualquer ângulo.",check:"✓ Pronto se: sabe os valores de sen e cos para 30°, 45° e 60°."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Circunferência",desc:"O ciclo é uma circunferência de raio 1. Conceitos de arco, raio e ponto são essenciais.",check:"✓ Pronto se: sabe que o comprimento de uma circunferência de raio r é 2πr."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Plano Cartesiano / Quadrantes",desc:"Os 4 quadrantes do plano determinam os sinais de seno e cosseno.",check:"✓ Pronto se: identifica em qual quadrante fica o ponto (−3, 2)."}
+   ],
+   vestibular:"O ciclo trigonométrico é pré-requisito para as funções trigonométricas (sen x, cos x) e equações trigonométricas, muito cobradas na FUVEST e UNICAMP. No ENEM, aparece em questões de fenômenos periódicos (marés, ondas sonoras, sazonalidade)."
+ },
+
+ visual:`<svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" width="200">
+   <circle cx="110" cy="110" r="88" fill="none" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="22" y1="110" x2="198" y2="110" stroke="#1E2A3A" stroke-width="1.5"/>
+   <line x1="110" y1="22" x2="110" y2="198" stroke="#1E2A3A" stroke-width="1.5"/>
+   <text x="158" y="58" font-family="Orbitron" font-size="10" fill="#00D2FF">1º (+,+)</text>
+   <text x="28" y="58" font-family="Orbitron" font-size="10" fill="#FF6B9D">2º (−,+)</text>
+   <text x="28" y="170" font-family="Orbitron" font-size="10" fill="#FF9F43">3º (−,−)</text>
+   <text x="158" y="170" font-family="Orbitron" font-size="10" fill="#FFD700">4º (+,−)</text>
+   <line x1="110" y1="110" x2="188" y2="64" stroke="#00D2FF" stroke-width="2"/>
+   <circle cx="188" cy="64" r="4" fill="#00D2FF"/>
+   <line x1="188" y1="64" x2="188" y2="110" stroke="#FF6B9D" stroke-width="1.5" stroke-dasharray="4,3"/>
+   <line x1="110" y1="110" x2="188" y2="110" stroke="#FFD700" stroke-width="1.5" stroke-dasharray="4,3"/>
+   <text x="196" y="92" font-family="Orbitron" font-size="9" fill="#FF6B9D">sen</text>
+   <text x="148" y="122" font-family="Orbitron" font-size="9" fill="#FFD700">cos</text>
+ </svg>`,
+ visualCaption:"Cada ponto do ciclo tem coordenadas (cos α, sen α). Os quadrantes determinam os sinais.",
+ summary:["Circunferência de raio 1 centrada na origem","Ponto do ciclo: (cos α, sen α)","1º: +,+ | 2º: −,+ | 3º: −,− | 4º: +,−","Qualquer ângulo pode ser reduzido ao 1º quadrante","sen²(α)+cos²(α)=1 sempre vale"]},
+
+{year:"1",tri:"T3",theme:"Álgebra",pu:false,emoji:"📐",term:"Progressão Geométrica (PG)",
+ simple:"Sequência onde cada termo é obtido multiplicando o anterior pela razão q. Ex: 2, 6, 18, 54... (q=3). Cresce exponencialmente.",
+ explain:"Na PG, o quociente entre termos consecutivos é sempre o mesmo — a <b>razão q</b>. Fórmula do termo geral: <b>aₙ = a₁·qⁿ⁻¹</b>. Soma dos n primeiros termos: <b>Sₙ = a₁·(qⁿ−1)/(q−1)</b> para q≠1. Soma de uma PG infinita com |q|<1: <b>S∞ = a₁/(1−q)</b>. PG é base dos juros compostos e do crescimento exponencial.",
+ example:"PG 2, 6, 18, 54... (q=3). 6º termo: a₆ = 2×3⁵ = 2×243 = 486. Soma dos 5 primeiros: S₅ = 2×(3⁵−1)/(3−1) = 2×242/2 = 242.",
+ dict:[
+   {term:"Razão (q)",def:"O fator pelo qual multiplicamos cada termo para obter o próximo. Constante em toda a PG.",ex:"PG 4,12,36,108: q=3. PG 100,10,1,0,1: q=0,1."},
+   {term:"Termo geral (aₙ)",def:"Fórmula que calcula qualquer termo da PG: aₙ = a₁·qⁿ⁻¹.",ex:"PG com a₁=5 e q=2: a₈ = 5×2⁷ = 5×128 = 640."},
+   {term:"Interpolação geométrica",def:"Inserir termos entre dois valores para que formem uma PG. Com k meios: q = ᵏ⁺¹√(aₙ/a₁).",ex:"Entre 2 e 54, inserir 2 meios: q = ³√(54/2) = ³√27 = 3. PG: 2, 6, 18, 54."},
+   {term:"PG infinita",def:"PG com infinitos termos. Se |q|<1, a soma converge para S∞ = a₁/(1−q).",ex:"1 + 1/2 + 1/4 + 1/8 + ... = 1/(1−0,5) = 2."}
+ ],
+ steps:{
+   intro:"Problemas de PG pedem: identificar o termo geral, calcular a soma, ou reconhecer a razão.",
+   items:[
+     {n:1,action:"Identifique a₁ e q",detail:"Calcule o quociente entre termos consecutivos: q = a₂/a₁ = a₃/a₂. Se for constante, é PG.",ex:"Sequência 3, 6, 12, 24... → q=6/3=2. Todos dão 2 → é PG"},
+     {n:2,action:"Escolha a fórmula",detail:"Termo geral: aₙ=a₁·qⁿ⁻¹. Soma dos n termos: Sₙ=a₁·(qⁿ−1)/(q−1).",ex:"'Qual o 6º termo?' → usa aₙ. 'Soma dos 6 primeiros' → usa Sₙ"},
+     {n:3,action:"Substitua e calcule",detail:"Substitua a₁, q e n. Simplifique as potências primeiro.",ex:"a₆=3·2⁵=3·32=96. S₆=3·(64−1)/(2−1)=3·63=189"},
+     {n:4,action:"Verifique",detail:"Para PG, cada termo deve ser exatamente q vezes o anterior. Confira com um ou dois termos.",tip:"⚠️ Não confunda PA (soma razão) com PG (multiplica razão). PA→ + r. PG→ × q."}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Progressão Aritmética",desc:"PA e PG são análogas: PA soma uma razão, PG multiplica. Entender a estrutura de uma ajuda na outra.",check:"✓ Pronto se: encontra o 10º termo de uma PA sem dificuldade."},
+     {badge:"8º ANO",color:"#54A0FF",title:"Potenciação e propriedades",desc:"O termo geral da PG é aₙ=a₁·qⁿ⁻¹ — essencialmente uma potência com base q.",check:"✓ Pronto se: calcula 2⁸ = 256 e simplifica 3⁵/3² = 3³."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Função Exponencial",desc:"PG com n termos é uma função exponencial nos inteiros. A razão q é a base da exponencial.",check:"✓ Pronto se: reconhece que a PG 2,4,8,16... corresponde a f(n)=2ⁿ."}
+   ],
+   vestibular:"PG aparece nos vestibulares associada a juros compostos, crescimento populacional e sequências de investimentos. A soma dos termos de uma PG infinita (convergente) é clássica na FUVEST. No ENEM, PG surge em contextos de crescimento exponencial."
+ },
+
+ visual:`<svg viewBox="0 0 265 140" xmlns="http://www.w3.org/2000/svg" width="250">
+   <rect x="18" y="122" width="38" height="4" rx="4" fill="#FFD700" opacity=".48"/>
+   <text x="37" y="117" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#FFD700">2</text>
+   <rect x="68" y="110" width="38" height="16" rx="4" fill="#FFD700" opacity=".61"/>
+   <text x="87" y="105" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#FFD700">6</text>
+   <rect x="118" y="88" width="38" height="38" rx="4" fill="#FFD700" opacity=".74"/>
+   <text x="137" y="83" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#FFD700">18</text>
+   <rect x="168" y="42" width="38" height="84" rx="4" fill="#FFD700" opacity=".87"/>
+   <text x="187" y="37" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#FFD700">54</text>
+   <line x1="18" y1="126" x2="265" y2="126" stroke="#1E2A3A" stroke-width="1.5"/>
+   <text x="132" y="140" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FF9F43">q = ×3 (cresce exponencialmente)</text>
+ </svg>`,
+ visualCaption:"Barras crescendo exponencialmente com q=3. Compare com a PA (crescimento linear) — a diferença é enorme!",
+ summary:["Razão q = quociente constante entre termos","aₙ = a₁·qⁿ⁻¹ (termo geral)","Sₙ = a₁·(qⁿ−1)/(q−1) para q≠1","PG infinita (|q|<1): S∞ = a₁/(1−q)","Base dos juros compostos e do crescimento exponencial"]},
+
+{year:"1",tri:"T3",theme:"Álgebra",pu:false,emoji:"💰",term:"Matemática Financeira",
+ simple:"Juros simples: J=Cin — juros sobre o capital inicial. Juros compostos: M=C(1+i)ⁿ — juros sobre juros. Compostos sempre rendem mais a longo prazo.",
+ explain:"<b>Juros simples</b>: J = C·i·n, M = C(1+in). O crescimento é linear — sempre calculado sobre o capital inicial. <b>Juros compostos</b>: M = C·(1+i)ⁿ. O crescimento é exponencial — cada período rende sobre o montante acumulado. O <b>fator de multiplicação</b> (1+i) é a base da PG formada pelos montantes.",
+ example:"R$2.000 a 5%/mês por 3 meses. Simples: M=2000×(1+0,05×3)=R$2.300. Compostos: M=2000×(1,05)³=2000×1,1576≈R$2.315,25.",
+ dict:[
+   {term:"Capital (C)",def:"Valor inicial investido ou emprestado — antes de qualquer acréscimo de juros.",ex:"Depósito inicial de R$5.000 numa poupança: capital = R$5.000."},
+   {term:"Taxa de juros (i)",def:"Percentual de rendimento por período. Deve estar na mesma unidade de tempo que n.",ex:"12% ao ano = 1% ao mês. Se n está em meses, usar i=0,01."},
+   {term:"Montante (M)",def:"Valor total ao final do período: capital + juros acumulados. M = C + J.",ex:"C=R$1.000, juros=R$150: M = R$1.150."},
+   {term:"Juros compostos",def:"Juros calculados sobre o montante acumulado do período anterior. 'Juros sobre juros'. Crescimento exponencial.",ex:"R$1.000 a 10%/mês: após 2 meses = 1000×(1,1)² = R$1.210 (não R$1.200 como em simples)."}
+ ],
+ steps:{
+   intro:"Para qualquer problema de juros, o primeiro passo é sempre identificar o regime (simples ou composto).",
+   items:[
+     {n:1,action:"Identifique o regime",detail:"O problema diz 'juros simples'? Use M=C(1+in). Diz 'juros compostos' ou não especifica (mercado)? Use M=C(1+i)ⁿ.",ex:"'Banco cobra 2% ao mês compostos' → M=C·(1,02)ⁿ"},
+     {n:2,action:"Unifique as unidades de tempo",detail:"i e n DEVEM estar na mesma unidade. Taxa anual com n em meses → converta a taxa para mensal (ou n para anos).",ex:"Taxa 12% a.a. por 6 meses → use i=1% a.m. e n=6 meses"},
+     {n:3,action:"Substitua na fórmula",detail:"Calcule o montante M. Para encontrar os juros J: J=M−C.",ex:"C=R$2.000, i=0,02, n=3. M=2000·(1,02)³=2000·1,0612≈R$2.122,40"},
+     {n:4,action:"Responda ao que foi perguntado",detail:"O problema quer M (montante), J (juros), C (capital) ou n (tempo)? Cada um requer isolamento diferente.",ex:"'Quanto rende?' → J=M−C=R$122,40. 'Qual o capital inicial?' → C=M/(1+i)ⁿ",tip:"⚠️ 2% ao mês ≠ 24% ao ano em juros compostos. 2% a.m. = (1,02)¹²−1≈26,8% a.a."}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"7º ANO",color:"#FF9F43",title:"Porcentagem básica",desc:"Juros simples e compostos são aplicações diretas de porcentagem. Sem isso, nada funciona.",check:"✓ Pronto se: calcula 15% de R$340 sem calculadora."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Progressão Geométrica",desc:"Os montantes em juros compostos formam uma PG de razão (1+i). São a mesma coisa.",check:"✓ Pronto se: reconhece que R$1000 → R$1100 → R$1210 a 10%/mês é uma PG."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Função Exponencial",desc:"M=C·(1+i)ⁿ é uma função exponencial em n (número de períodos).",check:"✓ Pronto se: entende por que o gráfico de juros compostos é uma curva, não uma reta."}
+   ],
+   vestibular:"Matemática Financeira é obrigatória no ENEM — aparece em situações de financiamento, comparação de preços, desconto à vista vs. parcelado. FUVEST e UNICAMP pedem cálculos mais técnicos de juros compostos com logaritmos."
+ },
+
+ visual:`<svg viewBox="0 0 260 165" xmlns="http://www.w3.org/2000/svg" width="245">
+   <line x1="22" y1="150" x2="238" y2="150" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="32" y1="10" x2="32" y2="160" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="32" y1="130" x2="220" y2="58" stroke="#00D2FF" stroke-width="2.5"/>
+   <text x="185" y="53" font-family="Orbitron" font-size="10" fill="#00D2FF">Simples</text>
+   <path d="M 32,130 C 80,120 130,100 175,68 C 200,55 215,44 225,36" fill="none" stroke="#FFD700" stroke-width="2.5"/>
+   <text x="188" y="33" font-family="Orbitron" font-size="10" fill="#FFD700">Composto</text>
+   <text x="130" y="164" text-anchor="middle" font-family="Inter" font-size="10" fill="#94A3B8" font-weight="700">Simples: M=C(1+in) | Composto: M=C(1+i)ⁿ</text>
+ </svg>`,
+ visualCaption:"A longo prazo, juros compostos (ouro) crescem muito mais que simples (azul). A diferença aumenta com o tempo.",
+ summary:["Simples: M=C(1+i·n) | crescimento linear","Compostos: M=C·(1+i)ⁿ | crescimento exponencial","i e n devem estar na mesma unidade de tempo","Compostos sempre rendem mais a longo prazo","Montante = Capital + Juros"]},
+
+// ══════════════════════════════════════════════════════
+// 2ª SÉRIE
+// ══════════════════════════════════════════════════════
+{year:"2",tri:"T1",theme:"Funções",pu:false,emoji:"📡",term:"Função Exponencial",
+ simple:"f(x) = aˣ. A variável está no expoente. Crescimento ou decrescimento rápido. Base da = logaritmo.",
+ explain:"A função exponencial tem a forma <b>f(x) = aˣ</b>, com a>0 e a≠1. Se a>1: <b>crescente</b> (crescimento exponencial). Se 0<a<1: <b>decrescente</b> (decaimento). O domínio é todos os reais; a imagem são os positivos. Propriedade chave: o gráfico nunca cruza o eixo x (assíntota horizontal y=0). A base mais usada é e≈2,718 (número de Euler).",
+ example:"Crescimento bacteriano: N(t) = 100·2ᵗ (dobra a cada hora). Após 5h: N=100×32=3.200 bactérias. Decaimento radioativo: N(t)=N₀·(1/2)ᵗ/τ.",
+ dict:[
+   {term:"Base (a)",def:"O número que é elevado à potência x. Determina se a função é crescente (a>1) ou decrescente (0<a<1).",ex:"f(x)=2ˣ: base 2>1 → crescente. f(x)=(1/2)ˣ: base<1 → decrescente."},
+   {term:"Assíntota",def:"Reta que o gráfico se aproxima mas nunca toca. Na exponencial, a assíntota horizontal é y=0.",ex:"f(x)=2ˣ: por menor que x seja, 2ˣ nunca é zero ou negativo."},
+   {term:"Crescimento exponencial",def:"Crescimento onde a quantidade multiplica por um fator fixo em cada unidade de tempo.",ex:"COVID-19 no início: casos dobravam a cada semana ≈ crescimento exponencial."},
+   {term:"Número de Euler (e)",def:"Constante matemática e≈2,718. Base da função exponencial natural. Surge em juros contínuos e crescimento natural.",ex:"f(x)=eˣ é a função exponencial 'natural', muito usada em ciências."}
+ ],
+ steps:{
+   intro:"Equações exponenciais seguem um protocolo claro: isolar a potência e igualar as bases.",
+   items:[
+     {n:1,action:"Isole a expressão exponencial",detail:"Deixe a potência sozinha em um lado da equação. Se tiver dois termos exponenciais, coloque no mesmo lado.",ex:"3·2ˣ=48 → 2ˣ=16"},
+     {n:2,action:"Tente igualar as bases",detail:"Escreva ambos os lados como potências da mesma base. Se conseguir, iguale os expoentes.",ex:"2ˣ=16=2⁴ → x=4"},
+     {n:3,action:"Se não conseguir, use logaritmo",detail:"Se as bases não podem ser igualadas, aplique log dos dois lados: log(aˣ)=x·log(a).",ex:"3ˣ=20 → x·log3=log20 → x=log20/log3≈2,73"},
+     {n:4,action:"Verifique",detail:"Substitua o x encontrado na equação original. Se for raiz, deve satisfazer a igualdade.",ex:"2⁴=16=48/3 ✓",tip:"⚠️ A base da exponencial é sempre positiva. Se a equação der base negativa, sem solução real."}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Potenciação (revisão)",desc:"f(x)=aˣ é uma potência com expoente variável. Precisa dominar as propriedades de potências.",check:"✓ Pronto se: simplifica a³×a⁴=a⁷ e (a²)³=a⁶ automaticamente."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Progressão Geométrica",desc:"PG e função exponencial são a mesma ideia: uma discreta (inteiros), outra contínua (todos os reais).",check:"✓ Pronto se: reconhece que f(x)=3ˣ nos inteiros gera a PG 1,3,9,27..."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Função Afim (comparação)",desc:"Contrastar crescimento linear com exponencial é essencial para modelagem.",check:"✓ Pronto se: distingue y=2x (linear) de y=2ˣ (exponencial) em um gráfico."}
+   ],
+   vestibular:"Função exponencial aparece em vestibulares em problemas de crescimento populacional, decaimento radioativo, depreciação e juros compostos. No ENEM é muito cobrada em contextos de biologia e ciências da natureza (crescimento bacteriano, epidemias)."
+ },
+
+ visual:`<svg viewBox="0 0 255 185" xmlns="http://www.w3.org/2000/svg" width="240">
+   <line x1="18" y1="165" x2="238" y2="165" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="28" y1="10" x2="28" y2="175" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="18" y1="163" x2="238" y2="163" stroke="#FF6B9D" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
+   <path d="M 28,155 C 60,150 90,140 120,120 C 150,98 175,62 205,18" fill="none" stroke="#FF6B9D" stroke-width="3"/>
+   <text x="175" y="14" font-family="Orbitron" font-size="10" fill="#FF6B9D">aˣ (a&gt;1)</text>
+   <path d="M 28,18 C 60,62 90,98 120,120 C 150,140 180,150 210,156" fill="none" stroke="#00D2FF" stroke-width="2.5" stroke-dasharray="6,3"/>
+   <text x="175" y="168" font-family="Orbitron" font-size="9" fill="#00D2FF">aˣ (0&lt;a&lt;1)</text>
+   <text x="20" y="173" font-family="Orbitron" font-size="9" fill="#94A3B8">assíntota y=0</text>
+ </svg>`,
+ visualCaption:"Curva rosa: crescente (a>1). Curva azul tracejada: decrescente (0<a<1). Ambas nunca tocam y=0.",
+ summary:["f(x)=aˣ com a>0 e a≠1","a>1: crescente | 0<a<1: decrescente","Domínio: todos os reais | Imagem: (0,+∞)","Assíntota horizontal: y=0","Base do crescimento/decaimento exponencial"]},
+
+{year:"2",tri:"T1",theme:"Álgebra",pu:false,emoji:"🌲",term:"Logaritmos",
+ simple:"logₐ(b) = x significa aˣ = b. É a operação inversa da exponencial. Transforma multiplicações em adições.",
+ explain:"O <b>logaritmo</b> responde: a que potência devo elevar a base a para obter b? logₐ(b)=x ↔ aˣ=b. <b>Propriedades</b>: log(A·B)=log(A)+log(B); log(A/B)=log(A)−log(B); log(Aⁿ)=n·log(A); mudança de base: logₐ(b)=logc(b)/logc(a). O <b>logaritmo decimal</b> (base 10) e o <b>logaritmo natural</b> (base e) são os mais usados.",
+ example:"log₂(32) = 5 porque 2⁵=32. log(1000)=3 porque 10³=1000. Aplicação: escala Richter — cada ponto é 10× mais intenso, então log transforma essa escala em valores manejáveis.",
+ dict:[
+   {term:"Base do logaritmo",def:"O número a em logₐ(b). Deve ser positivo e diferente de 1.",ex:"log₂(8)=3 (base 2). log₁₀(100)=2 (base 10, chamado log decimal)."},
+   {term:"Logaritmando",def:"O número b em logₐ(b). Deve ser positivo (logaritmo de número negativo não existe nos reais).",ex:"log₅(25)=2. O logaritmando é 25. log(−4) não existe nos reais."},
+   {term:"Propriedades dos logaritmos",def:"Regras que permitem simplificar cálculos: produto→soma, quociente→subtração, potência→multiplicação.",ex:"log(2×5)=log2+log5. log(1000/10)=log1000−log10=3−1=2."},
+   {term:"Mudança de base",def:"Fórmula para calcular logaritmo em qualquer base usando log decimal ou natural: logₐ(b)=log(b)/log(a).",ex:"log₃(81)=log(81)/log(3)=log(3⁴)/log(3)=4·log3/log3=4."},
+   {term:"Equação logarítmica",def:"Equação em que a incógnita aparece no logaritmando ou na base. Resolve-se convertendo para forma exponencial.",ex:"log₂(x)=5 → x=2⁵=32. log(x+1)=2 → x+1=100 → x=99."}
+ ],
+ steps:{
+   intro:"Equações e cálculos com logaritmos seguem um protocolo de simplificação progressiva.",
+   items:[
+     {n:1,action:"Converta para forma exponencial",detail:"logₐ(b)=x ↔ aˣ=b. Se o log é simples, converta direto.",ex:"log₂(x)=5 → x=2⁵=32. log₃(81)=x → 3ˣ=81=3⁴ → x=4"},
+     {n:2,action:"Aplique as propriedades",detail:"Simplifique: log(A·B)=logA+logB, log(A/B)=logA−logB, log(Aⁿ)=n·logA.",ex:"log(8)=log(2³)=3·log2. log(50)=log(100/2)=2−log2≈2−0,301=1,699"},
+     {n:3,action:"Se necessário, mude a base",detail:"logₐ(b)=log(b)/log(a). Converta para base 10 ou base e para usar calculadora.",ex:"log₃(7)=log(7)/log(3)≈0,845/0,477≈1,77"},
+     {n:4,action:"Verifique o domínio",detail:"O logaritmando deve ser positivo. Soluções que tornam o logaritmando ≤0 são inválidas.",ex:"log(x−2): exige x−2>0 → x>2. Se solução der x=1 → descarte!",tip:"⚠️ log(−5) não existe nos reais. Sempre verifique o domínio ao final."}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Função Exponencial",desc:"logₐ(b)=x é a resposta para aˣ=b. Sem entender exponencial, logaritmo não faz sentido.",check:"✓ Pronto se: entende por que 2³=8 implica log₂(8)=3."},
+     {badge:"8º ANO",color:"#54A0FF",title:"Potenciação — propriedades",desc:"As propriedades dos logaritmos (produto, quociente, potência) espelham as da potenciação.",check:"✓ Pronto se: usa a²×a³=a⁵ e (aᵐ)ⁿ=aᵐⁿ sem dificuldade."},
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Função Inversa (conceito)",desc:"Log é a função inversa da exponencial — graficamente, são simétricas em y=x.",check:"✓ Pronto se: sabe que f e g são inversas quando f(g(x))=x."}
+   ],
+   vestibular:"Logaritmos são essenciais para resolver equações exponenciais. FUVEST e UNICAMP cobram extensamente: equações logarítmicas, mudança de base, e aplicações em pH, escala Richter, decibéis. No ENEM, aparecem em contextos de ciências e interpretação de escalas."
+ },
+
+ visual:`<svg viewBox="0 0 255 180" xmlns="http://www.w3.org/2000/svg" width="240">
+   <line x1="18" y1="155" x2="238" y2="155" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="28" y1="10" x2="28" y2="165" stroke="#1E2A3A" stroke-width="2"/>
+   <path d="M 28,155 C 60,145 95,130 125,112 C 155,94 180,70 200,38" fill="none" stroke="#FF6B9D" stroke-width="3"/>
+   <path d="M 38,150 C 70,100 110,55 160,20 C 195,0 220,-5 238,0" fill="none" stroke="#FFD700" stroke-width="2.5" stroke-dasharray="5,3"/>
+   <text x="152" y="38" font-family="Orbitron" font-size="9" fill="#FF6B9D">log(x)</text>
+   <text x="195" y="18" font-family="Orbitron" font-size="9" fill="#FFD700">eˣ</text>
+   <line x1="28" y1="10" x2="210" y2="155" stroke="rgba(255,255,255,.1)" stroke-width="1" stroke-dasharray="3,3"/>
+   <text x="90" y="175" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8" font-weight="700">Logaritmo e exponencial são funções inversas</text>
+ </svg>`,
+ visualCaption:"Log(x) em rosa e eˣ em ouro são simétricas em relação à reta y=x — são funções inversas uma da outra.",
+ summary:["logₐ(b)=x ↔ aˣ=b","log(A·B)=logA+logB | log(A/B)=logA−logB","log(Aⁿ)=n·logA","Mudança de base: logₐ(b)=log(b)/log(a)","Logaritmo é inverso da exponencial"]},
+
+{year:"2",tri:"T1",theme:"Combinatória",pu:false,emoji:"🎯",term:"Análise Combinatória",
+ simple:"Conta possibilidades de arranjar ou escolher elementos. Permutação (ordenado, todos), Arranjo (ordenado, alguns), Combinação (sem ordem).",
+ explain:"<b>Princípio Fundamental da Contagem</b>: se há m formas de fazer A e n formas de fazer B, há m×n formas de fazer A e B. <b>Permutação simples</b>: Pₙ = n! (arranjo de todos os elementos). <b>Arranjo</b>: Aₙ,ₖ = n!/(n−k)! (escolha ordenada de k entre n). <b>Combinação</b>: Cₙ,ₖ = n!/[k!(n−k)!] (escolha sem ordenação). Fatorial: n! = n×(n−1)×...×2×1.",
+ example:"10 atletas disputam 3 medalhas (ouro, prata, bronze): ORDEM importa → Arranjo A₁₀,₃ = 10!/7! = 720. Escolher 3 para uma comissão: Combinação C₁₀,₃ = 120.",
+ dict:[
+   {term:"Fatorial (n!)",def:"Produto de todos os inteiros positivos de 1 até n. Convenção: 0!=1.",ex:"5! = 5×4×3×2×1 = 120. 3! = 6. 0! = 1."},
+   {term:"Permutação",def:"Arranjo de TODOS os n elementos. A ordem importa. Pₙ = n!",ex:"Quantas senhas de 4 dígitos diferentes? P₄ = 4! = 24 senhas."},
+   {term:"Arranjo",def:"Escolha ORDENADA de k elementos entre n disponíveis. Aₙ,ₖ = n!/(n−k)!",ex:"A₅,₂ = 5!/3! = 20. (5 alunos, escolher presidente e vice: 20 formas.)"},
+   {term:"Combinação",def:"Escolha SEM ORDEM de k entre n. Cₙ,ₖ = n!/[k!(n−k)!]. Sempre menor que o arranjo.",ex:"C₅,₂ = 10. (5 alunos, escolher 2 para uma dupla: 10 formas — a ordem não importa.)"},
+   {term:"Princípio Fundamental da Contagem",def:"Para eventos independentes: multiplique as quantidades de opções de cada etapa.",ex:"3 camisas e 4 calças: 3×4=12 combinações de roupa."}
+ ],
+ steps:{
+   intro:"A chave da combinatória é fazer as perguntas certas antes de calcular.",
+   items:[
+     {n:1,action:"Leia o enunciado com atenção",detail:"Identifique: quantos elementos disponíveis (n)? Quantos serão escolhidos (k)? A ordem importa?",ex:"'10 alunos, formar grupo de 3' → n=10, k=3. Grupo=sem ordem."},
+     {n:2,action:"Decida a ferramenta",detail:"Ordem importa + todos → Permutação (n!). Ordem importa + escolhe k → Arranjo. Sem ordem → Combinação.",ex:"Comissão (sem cargo) → Combinação C₁₀,₃. Presidente+vice+sec → Arranjo A₁₀,₃"},
+     {n:3,action:"Verifique restrições",detail:"Há elementos que DEVEM ou NÃO PODEM estar juntos? Trate por casos ou complementar.",ex:"'Comissão com pelo menos 1 menina': total − (só meninos) = C total − C só meninos"},
+     {n:4,action:"Calcule",detail:"Perm: n!. Arranjo: n!/(n−k)!. Combinação: n!/[k!(n−k)!]. Simplifique antes de multiplicar.",ex:"C₁₀,₃=10!/(3!·7!)=(10·9·8)/(3·2·1)=720/6=120",tip:"⚠️ Nunca escreva fatoriais grandes por completo — cancele antes: 10!/7! = 10×9×8"}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"6º ANO",color:"#FF6B6B",title:"Operações fundamentais",desc:"Cálculo de fatoriais envolve multiplicações encadeadas. Precisa ser ágil com multiplicação.",check:"✓ Pronto se: calcula 5×4×3×2×1=120 mentalmente."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Probabilidade (introdução)",desc:"Combinatória é frequentemente usada para calcular o espaço amostral de problemas de probabilidade.",check:"✓ Pronto se: entende que P(evento) = favoráveis / total possível."},
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Raciocínio lógico",desc:"Identificar se a ordem importa ou não é a chave. Requer ler o enunciado com atenção analítica.",check:"✓ Pronto se: distingue 'formar uma chapa' (sem ordem) de 'eleger presidente e vice' (com ordem)."}
+   ],
+   vestibular:"Combinatória é cobrada diretamente em todos os vestibulares. FUVEST e UNICAMP pedem problemas de permutação com repetição, combinações com restrições e princípio multiplicativo encadeado. No ENEM, aparece em contextos de organização, senhas e escolhas."
+ },
+
+ visual:`<svg viewBox="0 0 265 155" xmlns="http://www.w3.org/2000/svg" width="250">
+   <rect x="10" y="15" width="245" height="36" rx="9" fill="#FF6B9D" opacity=".10" stroke="#FF6B9D" stroke-width="1.5"/>
+   <text x="20" y="38" font-family="Orbitron" font-size="13" fill="#FF6B9D">Perm.</text>
+   <text x="245" y="38" text-anchor="end" font-family="Inter" font-size="11" fill="#FF6B9D" font-weight="700">n!</text>
+   <rect x="10" y="59" width="245" height="36" rx="9" fill="#00D2FF" opacity=".10" stroke="#00D2FF" stroke-width="1.5"/>
+   <text x="20" y="82" font-family="Orbitron" font-size="13" fill="#00D2FF">Arranjo</text>
+   <text x="245" y="82" text-anchor="end" font-family="Inter" font-size="11" fill="#00D2FF" font-weight="700">n!/(n−k)!</text>
+   <rect x="10" y="103" width="245" height="36" rx="9" fill="#FFD700" opacity=".10" stroke="#FFD700" stroke-width="1.5"/>
+   <text x="20" y="126" font-family="Orbitron" font-size="13" fill="#FFD700">Comb.</text>
+   <text x="245" y="126" text-anchor="end" font-family="Inter" font-size="11" fill="#FFD700" font-weight="700">n!/[k!(n−k)!]</text>
+   <text x="132" y="150" text-anchor="middle" font-family="Inter" font-size="10" fill="#94A3B8" font-weight="700">Combinação ≤ Arranjo ≤ Permutação</text>
+ </svg>`,
+ visualCaption:"As três ferramentas da combinatória. A chave é identificar se a ordem importa e quantos elementos são escolhidos.",
+ summary:["Princípio: m×n para etapas independentes","Permutação: Pₙ=n! (todos, com ordem)","Arranjo: Aₙ,ₖ=n!/(n−k)! (k de n, com ordem)","Combinação: Cₙ,ₖ=n!/[k!(n−k)!] (sem ordem)","Ordem importa? → Arranjo/Perm. Não importa? → Combinação"]},
+
+{year:"2",tri:"T2",theme:"Geometria",pu:false,emoji:"🏛️",term:"Geometria Espacial",
+ simple:"Estudo de sólidos 3D: prismas, pirâmides, cilindros, cones e esferas. Calcula-se área total e volume.",
+ explain:"Os sólidos geométricos principais: <b>Prisma</b>: base poligonal, faces laterais retangulares. V=A_base×h. <b>Pirâmide</b>: base poligonal, faces laterais triangulares. V=A_base×h/3. <b>Cilindro</b>: base circular. V=πr²h. <b>Cone</b>: base circular, V=πr²h/3. <b>Esfera</b>: V=4πr³/3. A área total = soma das áreas de todas as faces.",
+ example:"Lata de refrigerante (cilindro): r=3cm, h=12cm. V=π×9×12≈339cm³. Área lateral=2πrh≈226cm². Área total=2πrh+2πr²≈283cm².",
+ dict:[
+   {term:"Poliedro",def:"Sólido geométrico com faces planas poligonais. Prismas e pirâmides são poliedros.",ex:"Cubo (6 faces quadradas), tetraedro (4 faces triangulares) são poliedros."},
+   {term:"Área total",def:"Soma das áreas de todas as faces de um sólido (lateral + bases).",ex:"Cilindro: At = 2πrh (lateral) + 2πr² (2 bases). Para r=5, h=10: At≈471cm²."},
+   {term:"Volume",def:"A medida do espaço interior de um sólido. Em cm³ ou m³.",ex:"Prisma: V=Abase×h. Pirâmide/cone: V=Abase×h/3 (1/3 do prisma equivalente)."},
+   {term:"Geratriz",def:"O segmento que, ao girar em torno do eixo, gera um sólido de revolução (cone ou cilindro).",ex:"No cone: a geratriz vai do vértice à borda da base. g²=r²+h²."},
+   {term:"Relação de Euler",def:"Para poliedros convexos: V−A+F=2, onde V=vértices, A=arestas, F=faces.",ex:"Cubo: V=8, A=12, F=6 → 8−12+6=2 ✓. Sempre vale para poliedros convexos."}
+ ],
+ steps:{
+   intro:"Para calcular volume e área de sólidos, o protocolo é sempre: identificar, escolher fórmula, calcular partes.",
+   items:[
+     {n:1,action:"Identifique o sólido",detail:"É prisma/cilindro (base × altura)? Pirâmide/cone (base × altura / 3)? Esfera (4πr³/3)?",ex:"Lata → cilindro. Caixa de sapato → prisma retangular. Bola → esfera"},
+     {n:2,action:"Calcule a área da base",detail:"A base pode ser triângulo, círculo, quadrado etc. Calcule a área da base primeiro.",ex:"Cilindro de r=5: Abase=πr²=25π cm²"},
+     {n:3,action:"Identifique a altura",detail:"A altura é sempre perpendicular à base. Em pirâmides, use Pitágoras para calcular se necessário.",ex:"Cone: g²=r²+h² → h=√(g²−r²). Se g=13 e r=5 → h=12"},
+     {n:4,action:"Aplique a fórmula de volume",detail:"V=Abase×h (prisma/cilindro) ou V=Abase×h/3 (pirâmide/cone) ou V=4πr³/3 (esfera).",ex:"V cilindro=25π×10=250π≈785 cm³"},
+     {n:5,action:"Área total (se pedido)",detail:"Área total = área lateral + área das bases. Lateral do cilindro=2πrh. Lateral do cone=πrg.",ex:"At cilindro=2πrh+2πr²=2π×5×10+2π×25=100π+50π=150π≈471 cm²",tip:"⚠️ 1m³=1.000L e 1L=1dm³. Converta unidades antes de calcular!"}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"6º ANO",color:"#FF6B6B",title:"Área de figuras planas",desc:"As bases dos sólidos são figuras planas. Calcular sua área é o primeiro passo do volume.",check:"✓ Pronto se: calcula a área de um triângulo e de um círculo sem consultar fórmula."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Teorema de Pitágoras",desc:"Calcular a altura de pirâmides, a geratriz do cone e diagonais de prismas usa Pitágoras.",check:"✓ Pronto se: encontra a altura de um cone com g=13 e r=5 (h=12)."},
+     {badge:"8º ANO",color:"#54A0FF",title:"Circunferência e círculo",desc:"Cilindros, cones e esferas têm base circular. Área=πr² e comprimento=2πr são frequentes.",check:"✓ Pronto se: calcula área e comprimento de círculo de raio 6."}
+   ],
+   vestibular:"Geometria Espacial é muito cobrada em FUVEST e UNICAMP com cálculos de volume, área total e inscrição/circunscrição de sólidos. No ENEM, foco em situações práticas: capacidade de caixas, dimensionamento de embalagens, leitura de plantas arquitetônicas."
+ },
+
+ visual:`<svg viewBox="0 0 265 155" xmlns="http://www.w3.org/2000/svg" width="250">
+   <ellipse cx="40" cy="110" rx="22" ry="8" fill="none" stroke="#00D2FF" stroke-width="1.5"/>
+   <ellipse cx="40" cy="65" rx="22" ry="8" fill="none" stroke="#00D2FF" stroke-width="1.5"/>
+   <line x1="18" y1="110" x2="18" y2="65" stroke="#00D2FF" stroke-width="1.5"/>
+   <line x1="62" y1="110" x2="62" y2="65" stroke="#00D2FF" stroke-width="1.5"/>
+   <text x="40" y="132" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#00D2FF">Cilindro</text>
+   <ellipse cx="120" cy="110" rx="22" ry="8" fill="none" stroke="#FF6B9D" stroke-width="1.5"/>
+   <line x1="98" y1="110" x2="120" y2="55" stroke="#FF6B9D" stroke-width="1.5"/>
+   <line x1="142" y1="110" x2="120" y2="55" stroke="#FF6B9D" stroke-width="1.5"/>
+   <text x="120" y="132" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#FF6B9D">Cone</text>
+   <circle cx="200" cy="87" r="30" fill="none" stroke="#FFD700" stroke-width="1.5"/>
+   <ellipse cx="200" cy="87" rx="30" ry="9" fill="none" stroke="#FFD700" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
+   <text x="200" y="132" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#FFD700">Esfera</text>
+   <text x="132" y="150" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8" font-weight="700">V: πr²h | πr²h/3 | 4πr³/3</text>
+ </svg>`,
+ visualCaption:"Cilindro, cone e esfera — os três sólidos de revolução. Note: cone = cilindro ÷ 3.",
+ summary:["Prisma/Cilindro: V = Abase × h","Pirâmide/Cone: V = Abase × h / 3","Esfera: V = 4πr³/3 | At = 4πr²","Geratriz do cone: g² = r² + h²","Euler: V − A + F = 2 (poliedros convexos)"]},
+
+{year:"2",tri:"T2",theme:"Combinatória",pu:false,emoji:"🎲",term:"Probabilidade",
+ simple:"P(evento) = casos favoráveis ÷ total possível. Entre 0 e 1. Probabilidade condicional: P(A|B) = P(A∩B)/P(B).",
+ explain:"A probabilidade mede a chance de um evento ocorrer. <b>Clássica</b>: P(A) = n(A)/n(Ω). Regras: P(A∪B) = P(A)+P(B)−P(A∩B). <b>Eventos independentes</b>: P(A∩B)=P(A)×P(B). <b>Probabilidade condicional</b>: P(A|B) = P(A∩B)/P(B) — probabilidade de A sabendo que B já ocorreu. Complementar: P(Aᶜ) = 1−P(A).",
+ example:"Urna com 3 vermelhas e 7 azuis. P(vermelha)=3/10. Sem reposição, P(vermelha e vermelha) = 3/10 × 2/9 = 6/90 = 1/15 ≈ 6,7%.",
+ dict:[
+   {term:"Espaço amostral (Ω)",def:"Conjunto de todos os resultados possíveis de um experimento aleatório.",ex:"Lançar um dado: Ω={1,2,3,4,5,6}. Lançar 2 moedas: Ω={CC,CK,KC,KK}."},
+   {term:"Evento",def:"Subconjunto do espaço amostral — os resultados que nos interessam.",ex:"'Sair número par' = {2,4,6} ⊂ {1,2,3,4,5,6}. P = 3/6 = 1/2."},
+   {term:"Probabilidade condicional",def:"P(A|B) = probabilidade de A acontecer dado que B já aconteceu. P(A|B)=P(A∩B)/P(B).",ex:"P(Ace|Espada) = P(Ace de espadas)/P(Espada) = (1/52)/(13/52) = 1/13."},
+   {term:"Eventos independentes",def:"A ocorrência de um não afeta a probabilidade do outro. P(A∩B)=P(A)×P(B).",ex:"Lançar dois dados: o resultado do 1º não afeta o 2º. P(6 e 6)=1/6×1/6=1/36."},
+   {term:"Complementar",def:"O evento oposto. P(Aᶜ) = 1 − P(A). Útil quando é mais fácil calcular o que não queremos.",ex:"P(pelo menos um 6 em 3 dados) = 1 − P(nenhum 6) = 1 − (5/6)³ ≈ 42%."}
+ ],
+ steps:{
+   intro:"O protocolo de probabilidade: definir o espaço amostral → identificar o evento → calcular.",
+   items:[
+     {n:1,action:"Defina o espaço amostral",detail:"Liste TODOS os resultados possíveis do experimento. Se for grande, use combinatória para contar.",ex:"Dois dados: Ω tem 6×6=36 resultados. Baralho: Ω tem 52 cartas"},
+     {n:2,action:"Identifique o evento",detail:"Quais resultados correspondem ao que o problema pede? Use linguagem de conjuntos.",ex:"Sair soma=7 nos dois dados: {(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)} → 6 casos favoráveis"},
+     {n:3,action:"Verifique independência",detail:"Com reposição? → eventos independentes, multiplique. Sem reposição? → espaço amostral muda a cada passo.",ex:"Urna sem reposição: P(2ª bola vermelha | 1ª vermelha) = (r−1)/(n−1)"},
+     {n:4,action:"Calcule P(evento)",detail:"P=favoráveis/total. Para eventos compostos: use regras de adição e multiplicação.",ex:"P(soma=7)=6/36=1/6≈16,7%"},
+     {n:5,action:"Considere usar o complementar",detail:"Se o evento pedido é complicado, calcule P(complementar) e subtraia de 1.",ex:"P(pelo menos um 6)=1−P(nenhum 6)=1−(5/6)²=11/36",tip:"⚠️ 'Pelo menos um' ou 'ao menos um' → quase sempre use complementar!"}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Análise Combinatória",desc:"Para contar casos favoráveis e total possível com eficiência, combinatória é indispensável.",check:"✓ Pronto se: calcula C₅,₂=10 sem escrever todas as possibilidades."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Probabilidade básica",desc:"P=favoráveis/total, espaço amostral, evento. São os fundamentos sobre os quais se constrói.",check:"✓ Pronto se: calcula P(sair par) ao lançar um dado = 3/6 = 1/2."},
+     {badge:"7º ANO",color:"#FF9F43",title:"Frações e porcentagem",desc:"Probabilidades são expressas como frações e convertidas em porcentagem para comunicar resultados.",check:"✓ Pronto se: converte 3/8 para 37,5% sem calculadora."}
+   ],
+   vestibular:"Probabilidade condicional e eventos dependentes são os temas mais cobrados em FUVEST e UNICAMP. No ENEM, o foco é em interpretação de resultados probabilísticos em contextos sociais (pesquisas, epidemiologia, jogos)."
+ },
+
+ visual:`<svg viewBox="0 0 260 148" xmlns="http://www.w3.org/2000/svg" width="245">
+   <defs><linearGradient id="pgr2" x1="0" x2="1"><stop offset="0%" stop-color="#FF6B9D"/><stop offset="100%" stop-color="#FF9F43"/></linearGradient></defs>
+   <rect x="8" y="50" width="245" height="28" rx="14" fill="rgba(255,255,255,.05)" stroke="#1E2A3A" stroke-width="1.5"/>
+   <rect x="8" y="50" width="122" height="28" rx="14" fill="url(#pgr2)"/>
+   <text x="8" y="43" font-family="Orbitron" font-size="9" fill="#94A3B8">0</text>
+   <text x="118" y="43" font-family="Orbitron" font-size="9" fill="#FF9F43">0,5</text>
+   <text x="240" y="43" font-family="Orbitron" font-size="9" fill="#94A3B8">1</text>
+   <text x="8" y="100" font-family="Inter" font-size="9" fill="#FF6B9D" font-weight="700">impossível</text>
+   <text x="93" y="100" font-family="Inter" font-size="9" fill="#FF9F43" font-weight="700">50/50</text>
+   <text x="207" y="100" font-family="Inter" font-size="9" fill="#00D2FF" font-weight="700">certeza</text>
+   <text x="130" y="130" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FFD700">P(A) = favoráveis / total</text>
+   <text x="130" y="146" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8" font-weight="700">P(A|B) = P(A∩B) / P(B)</text>
+ </svg>`,
+ visualCaption:"Escala de probabilidade. A metade direita da barra é a probabilidade do evento (50%).",
+ summary:["P(A) = favoráveis / total | 0 ≤ P ≤ 1","P(A∪B) = P(A)+P(B)−P(A∩B)","Independentes: P(A∩B) = P(A)×P(B)","Condicional: P(A|B) = P(A∩B)/P(B)","Complementar: P(Aᶜ) = 1−P(A)"]},
+
+{year:"2",tri:"T2",theme:"Estatística",pu:false,emoji:"📊",term:"Estatística e Dispersão",
+ simple:"Média, mediana, moda resumem dados. Variância e desvio padrão medem o espalhamento. Gráficos comunicam os dados.",
+ explain:"<b>Média aritmética</b>: x̄ = (Σxᵢ)/n. <b>Média ponderada</b>: x̄ = Σ(xᵢ·pᵢ)/Σpᵢ. <b>Variância</b>: s² = Σ(xᵢ−x̄)²/n. <b>Desvio padrão</b>: s = √variância. Tipos de gráfico: histograma (distribuição de frequências), polígono de frequências, setores (proporções), barras/colunas (comparações). A escolha do gráfico adequado é fundamental para comunicar dados corretamente.",
+ example:"Notas de uma turma: 5,6,7,7,7,8,9,10. Média=7,375. Mediana=7. Moda=7. Variância=2,23. DP=1,49 (notas variam, em média, 1,5 ponto da média).",
+ dict:[
+   {term:"Média ponderada",def:"Média em que cada valor tem um peso diferente. Usada em médias escolares com provas de pesos distintos.",ex:"Notas 6 (peso 2) e 8 (peso 3): média=(6×2+8×3)/(2+3)=36/5=7,2."},
+   {term:"Variância",def:"Média dos quadrados dos desvios em relação à média. Mede dispersão em unidade quadrada.",ex:"Dados 4,6,8: média=6. Desvios: −2,0,+2. Var=(4+0+4)/3≈2,67."},
+   {term:"Desvio padrão (DP)",def:"Raiz da variância. Na mesma unidade dos dados. DP pequeno = dados concentrados.",ex:"Var=9 → DP=3. Os dados variam, em média, 3 unidades da média."},
+   {term:"Histograma",def:"Gráfico de barras adjacentes que mostra a distribuição de frequências de dados agrupados em classes.",ex:"Distribuição de alturas da turma em classes: [1,60-1,65), [1,65-1,70), etc."},
+   {term:"Frequência relativa",def:"A proporção de cada valor no total. Frequência absoluta dividida pelo total de dados.",ex:"5 alunos entre 30 têm nota 10: freq. relativa = 5/30 ≈ 16,7%."}
+ ],
+ steps:{
+   intro:"Para calcular as medidas estatísticas, siga sempre a mesma sequência.",
+   items:[
+     {n:1,action:"Organize os dados",detail:"Ordene os dados em ordem crescente. Isso facilita encontrar mediana, moda e detectar outliers.",ex:"Dados: 7,3,9,3,8,5 → ordenados: 3,3,5,7,8,9"},
+     {n:2,action:"Calcule a média",detail:"Soma todos os valores ÷ quantidade. Para média ponderada, multiplique cada valor pelo seu peso antes de somar.",ex:"Média=(3+3+5+7+8+9)/6=35/6≈5,83"},
+     {n:3,action:"Encontre a mediana",detail:"Número ímpar de dados: valor central. Número par: média dos dois centrais.",ex:"6 dados (par): centrais são o 3º(5) e 4º(7) → mediana=(5+7)/2=6"},
+     {n:4,action:"Calcule o desvio padrão",detail:"1) Calcule a média. 2) Subtraia cada dado da média e eleve ao quadrado. 3) Calcule a média desses quadrados (variância). 4) Tire a raiz quadrada.",ex:"Desvios²: (3−5,83)²+(3−5,83)²+...→ some→divida por 6→raiz quadrada=DP"},
+     {n:5,action:"Interprete",detail:"DP pequeno → dados concentrados. DP grande → dados espalhados. Compare DPs de turmas diferentes para ver qual é mais homogênea.",tip:"⚠️ Não confunda variância (unidade²) com desvio padrão (mesma unidade dos dados)."}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"7º ANO",color:"#FF9F43",title:"Média, mediana e moda",desc:"As três medidas de tendência central são o ponto de partida. O EM aprofunda com variância e DP.",check:"✓ Pronto se: calcula média, mediana e moda de {3,5,7,7,8} corretamente."},
+     {badge:"8º ANO",color:"#54A0FF",title:"Raiz quadrada",desc:"O desvio padrão é a raiz da variância. Calcular raízes com precisão é necessário.",check:"✓ Pronto se: calcula √36=6 e estima √20≈4,5 sem calculadora."},
+     {badge:"7º ANO",color:"#FF9F43",title:"Frações e porcentagem",desc:"Frequências relativas e construção de gráficos usam proporções e porcentagens.",check:"✓ Pronto se: converte frequência absoluta 8/40 para 20% sem dificuldade."}
+   ],
+   vestibular:"Estatística e dispersão são cobradas no ENEM principalmente com leitura e interpretação de gráficos, comparação de grupos com desvios padrão diferentes, e análise crítica de pesquisas. FUVEST e UNICAMP pedem cálculos completos de variância e DP."
+ },
+
+ visual:`<svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" width="245">
+   <rect x="12" y="91" width="26" height="39" rx="3" fill="#FF6B9D" opacity=".46"/>
+   <rect x="42" y="47" width="26" height="83" rx="3" fill="#FF6B9D" opacity=".52"/>
+   <rect x="72" y="26" width="26" height="104" rx="3" fill="#FF6B9D" opacity=".58"/>
+   <rect x="102" y="17" width="26" height="113" rx="3" fill="#FF6B9D" opacity=".64"/>
+   <rect x="132" y="30" width="26" height="100" rx="3" fill="#FF6B9D" opacity=".70"/>
+   <rect x="162" y="56" width="26" height="74" rx="3" fill="#FF6B9D" opacity=".76"/>
+   <rect x="192" y="82" width="26" height="48" rx="3" fill="#FF6B9D" opacity=".82"/>
+   <rect x="222" y="104" width="26" height="26" rx="3" fill="#FF6B9D" opacity=".88"/>
+   <line x1="12" y1="131" x2="258" y2="131" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="12" y1="131" x2="12" y2="10" stroke="#1E2A3A" stroke-width="2"/>
+   <polyline points="25,111 55,88 85,67 115,62 145,80 175,93 205,106 235,117" fill="none" stroke="#00D2FF" stroke-width="2.5" stroke-dasharray="5,3"/>
+   <text x="130" y="152" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8" font-weight="700">Histograma + Polígono de frequências</text>
+ </svg>`,
+ visualCaption:"Barras = histograma (frequência por classe). Linha azul = polígono de frequências. Juntos mostram a distribuição.",
+ summary:["Média ponderada: Σ(xᵢ·pᵢ)/Σpᵢ","Variância: Σ(xᵢ−x̄)²/n","Desvio Padrão = √variância (mesma unidade)","Histograma: distribuição de frequências","Escolha o gráfico adequado ao tipo de dado"]},
+
+{year:"2",tri:"T3",theme:"Álgebra",pu:false,emoji:"⬜",term:"Matrizes",
+ simple:"Tabela retangular de números. Soma, subtração e multiplicação seguem regras específicas. Base dos sistemas lineares.",
+ explain:"Uma <b>matriz m×n</b> tem m linhas e n colunas. <b>Soma/subtração</b>: elemento a elemento (matrizes devem ter as mesmas dimensões). <b>Multiplicação</b>: A×B só é possível se nº de colunas de A = nº de linhas de B. O elemento cᵢⱼ de C=A×B é o produto interno da linha i de A com a coluna j de B. <b>Matriz inversa</b>: A⁻¹ tal que A×A⁻¹=I (matriz identidade).",
+ example:"A=[1,2;3,4] e B=[5;6]. A×B: linha 1 × coluna 1 = 1×5+2×6=17. Linha 2 × col 1 = 3×5+4×6=39. Resultado: [17;39].",
+ dict:[
+   {term:"Matriz quadrada",def:"Matriz com o mesmo número de linhas e colunas (n×n). Só essas podem ter determinante e inversa.",ex:"Matriz 2×2: [1,2;3,4]. Matriz 3×3 tem 9 elementos."},
+   {term:"Matriz identidade (I)",def:"Matriz quadrada com 1s na diagonal principal e 0s em todo o resto. É o 'neutro' da multiplicação.",ex:"I₂=[1,0;0,1]. A×I=I×A=A para qualquer A compatível."},
+   {term:"Transposta",def:"Matriz obtida trocando linhas por colunas. Se A é m×n, sua transposta Aᵀ é n×m.",ex:"A=[1,2,3;4,5,6] → Aᵀ=[1,4;2,5;3,6]."},
+   {term:"Matriz inversa",def:"A⁻¹ tal que A×A⁻¹=I. Existe apenas para matrizes quadradas com determinante≠0.",ex:"Se A=[2,1;1,1], então A⁻¹=[1,−1;−1,2]. Verificar: A×A⁻¹=I."},
+   {term:"Multiplicação de matrizes",def:"Cᵢⱼ = soma dos produtos dos elementos da linha i de A pela coluna j de B. Atenção: A×B ≠ B×A.",ex:"[1,2]×[3;4] = 1×3+2×4 = 11."}
+ ],
+ steps:{
+   intro:"Operações com matrizes seguem regras fixas — principalmente a multiplicação, que exige atenção à ordem.",
+   items:[
+     {n:1,action:"Verifique as dimensões",detail:"Para somar/subtrair: matrizes devem ter a MESMA dimensão. Para multiplicar A×B: colunas de A = linhas de B.",ex:"A(2×3) × B(3×2) → possível, resultado C(2×2). A(2×3)+B(3×2) → impossível"},
+     {n:2,action:"Soma/subtração: elemento a elemento",detail:"Cᵢⱼ = Aᵢⱼ ± Bᵢⱼ. Opere cada posição individualmente.",ex:"[1,2;3,4]+[5,6;7,8]=[1+5,2+6;3+7,4+8]=[6,8;10,12]"},
+     {n:3,action:"Multiplicação: linha × coluna",detail:"Cᵢⱼ = soma dos produtos da linha i de A pela coluna j de B. Faça um produto por vez.",ex:"C₁₁=1×5+2×7=5+14=19. C₁₂=1×6+2×8=6+16=22"},
+     {n:4,action:"Verifique as dimensões do resultado",detail:"A(m×n)×B(n×p)=C(m×p). O resultado tem as linhas de A e as colunas de B.",ex:"A(2×3)×B(3×4)=C(2×4)",tip:"⚠️ A×B ≠ B×A em geral! Matrizes não comutam na multiplicação."}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"6º ANO",color:"#FF6B6B",title:"Operações fundamentais",desc:"Soma, subtração e multiplicação de números (inclusive negativos) são as operações das matrizes.",check:"✓ Pronto se: calcula 3×(−2)+(−5)×4=−26 sem errar sinal."},
+     {badge:"7º ANO",color:"#FF9F43",title:"Sistemas de equações",desc:"O objetivo final das matrizes é resolver sistemas lineares — a conexão é direta.",check:"✓ Pronto se: resolve o sistema 2x+y=5 e x−y=1 por substituição."},
+     {badge:"8º ANO",color:"#54A0FF",title:"Expressões algébricas",desc:"Multiplicação de matrizes envolve produtos e somas de expressões com várias variáveis.",check:"✓ Pronto se: calcula o valor numérico de 2a+3b para a=4, b=−1."}
+   ],
+   vestibular:"Matrizes e determinantes são extensamente cobrados em FUVEST e UNICAMP — incluindo inversão de matrizes, propriedades de determinantes e solução de sistemas por Cramer. No ENEM, aparecem em questões de transformações e representações matriciais."
+ },
+
+ visual:`<svg viewBox="0 0 265 155" xmlns="http://www.w3.org/2000/svg" width="250">
+   <rect x="8" y="20" width="80" height="80" rx="6" fill="none" stroke="#00D2FF" stroke-width="2"/>
+   <text x="28" y="55" text-anchor="middle" font-family="Orbitron" font-size="16" fill="#00D2FF">1</text>
+   <text x="68" y="55" text-anchor="middle" font-family="Orbitron" font-size="16" fill="#00D2FF">2</text>
+   <text x="28" y="87" text-anchor="middle" font-family="Orbitron" font-size="16" fill="#00D2FF">3</text>
+   <text x="68" y="87" text-anchor="middle" font-family="Orbitron" font-size="16" fill="#00D2FF">4</text>
+   <text x="48" y="115" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#00D2FF">A (2×2)</text>
+   <text x="107" y="62" font-family="Orbitron" font-size="18" fill="#94A3B8">×</text>
+   <rect x="125" y="20" width="45" height="80" rx="6" fill="none" stroke="#FF6B9D" stroke-width="2"/>
+   <text x="147" y="55" text-anchor="middle" font-family="Orbitron" font-size="16" fill="#FF6B9D">5</text>
+   <text x="147" y="87" text-anchor="middle" font-family="Orbitron" font-size="16" fill="#FF6B9D">6</text>
+   <text x="147" y="115" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FF6B9D">B (2×1)</text>
+   <text x="185" y="62" font-family="Orbitron" font-size="18" fill="#94A3B8">=</text>
+   <rect x="200" y="20" width="55" height="80" rx="6" fill="none" stroke="#FFD700" stroke-width="2"/>
+   <text x="227" y="55" text-anchor="middle" font-family="Orbitron" font-size="14" fill="#FFD700">17</text>
+   <text x="227" y="87" text-anchor="middle" font-family="Orbitron" font-size="14" fill="#FFD700">39</text>
+   <text x="227" y="115" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FFD700">C (2×1)</text>
+   <text x="132" y="148" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8" font-weight="700">2×2 × 2×1 = 2×1 (colunas de A = linhas de B)</text>
+ </svg>`,
+ visualCaption:"A (2×2) × B (2×1) = C (2×1). O número de colunas de A deve igualar o número de linhas de B.",
+ summary:["Soma: elemento a elemento (mesma dimensão)","Multiplicação: A(m×n) × B(n×p) = C(m×p)","Cᵢⱼ = linha i de A · coluna j de B","A×B ≠ B×A em geral","Inversa A⁻¹ existe se det(A)≠0"]},
+
+{year:"2",tri:"T3",theme:"Álgebra",pu:false,emoji:"🔢",term:"Determinantes e Sistemas Lineares",
+ simple:"Determinante é um número associado a uma matriz quadrada. Indica se o sistema tem solução única. Sistemas lineares resolvidos por substituição, adição ou Cramer.",
+ explain:"O <b>determinante</b> de uma matriz 2×2: det[a,b;c,d]=ad−bc. Para 3×3, usa-se a <b>Regra de Sarrus</b>. Se det≠0: sistema tem solução única (determinado). Se det=0: impossível ou indeterminado. A <b>Regra de Cramer</b> usa determinantes para resolver sistemas: x=Dx/D, y=Dy/D.",
+ example:"Sistema: 2x+y=5 e x−y=1. Matriz: [2,1;1,−1]. Det=2×(−1)−1×1=−3. Dx=[5,1;1,−1]=−6. x=Dx/D=−6/(−3)=2. y=5−2×2=1.",
+ dict:[
+   {term:"Determinante",def:"Número associado a uma matriz quadrada. det[a,b;c,d]=ad−bc. Indica propriedades do sistema.",ex:"det[3,1;2,4]=3×4−1×2=12−2=10."},
+   {term:"Regra de Sarrus",def:"Método para calcular determinante de matrizes 3×3: repete as 2 primeiras colunas e soma/subtrai diagonais.",ex:"Para matriz 3×3, somam-se as 3 diagonais principais e subtraem-se as 3 secundárias."},
+   {term:"Sistema determinado",def:"Sistema com solução única. Ocorre quando det da matriz dos coeficientes ≠ 0.",ex:"2 equações, 2 incógnitas, det≠0 → 1 ponto de interseção → solução única."},
+   {term:"Sistema impossível",def:"Sistema sem nenhuma solução. Equações representam retas paralelas (no plano).",ex:"x+y=3 e x+y=5: det=0, mas os termos independentes são diferentes → impossível."},
+   {term:"Regra de Cramer",def:"Método de resolução usando determinantes: cada incógnita = Det(matriz com coluna substituída) / Det(original).",ex:"x=Dx/D, y=Dy/D. Funciona quando D≠0."}
+ ],
+ steps:{
+   intro:"Para resolver um sistema linear com determinantes (Regra de Cramer), siga este protocolo.",
+   items:[
+     {n:1,action:"Monte a matriz dos coeficientes",detail:"Organize os coeficientes das incógnitas numa matriz A. Os termos independentes formam a matriz coluna B.",ex:"2x+y=5 e x−y=1 → A=[2,1;1,−1] e B=[5;1]"},
+     {n:2,action:"Calcule det(A)",detail:"det[a,b;c,d]=ad−bc. Para 3×3, use Regra de Sarrus.",ex:"det(A)=2×(−1)−1×1=−2−1=−3"},
+     {n:3,action:"Analise o determinante",detail:"det≠0: sistema determinado (solução única). det=0: impossível ou indeterminado → analise os casos.",ex:"det(A)=−3≠0 → tem solução única → continue"},
+     {n:4,action:"Calcule Dₓ e Dᵧ (Cramer)",detail:"Substitua a coluna da incógnita pelos termos independentes. Calcule o determinante da nova matriz.",ex:"Dₓ=[5,1;1,−1]→det=−5−1=−6. Dᵧ=[2,5;1,1]→det=2−5=−3"},
+     {n:5,action:"Encontre as incógnitas",detail:"x=Dₓ/D e y=Dᵧ/D. Substitua e verifique nas equações originais.",ex:"x=−6/−3=2. y=−3/−3=1. Verificação: 2(2)+1=5✓ e 2−1=1✓",tip:"⚠️ Se det=0 mas as equações têm solução, são equivalentes (indeterminado). Se contradizem, impossível."}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Matrizes",desc:"O determinante é calculado a partir de uma matriz quadrada. Precisa saber o que é e como operar.",check:"✓ Pronto se: identifica os elementos a₁₁, a₁₂, a₂₁, a₂₂ de uma matriz 2×2."},
+     {badge:"7º ANO",color:"#FF9F43",title:"Sistemas de equações",desc:"O objetivo dos determinantes é resolver sistemas. Saber montar o sistema é o passo anterior.",check:"✓ Pronto se: transforma '3 maçãs e 2 laranjas custam R$11' em equação."},
+     {badge:"8º ANO",color:"#54A0FF",title:"Expressões algébricas",desc:"A regra de Sarrus envolve somas e subtrações de produtos de variáveis.",check:"✓ Pronto se: calcula ad−bc para a=3, b=1, c=2, d=4 rapidamente."}
+   ],
+   vestibular:"Sistemas lineares e determinantes são pilares do vestibular científico. FUVEST e UNICAMP cobram Regra de Cramer, sistemas com parâmetro, sistemas impossíveis e indeterminados. Álgebra Linear é base para Engenharia, Física e Ciência da Computação."
+ },
+
+ visual:`<svg viewBox="0 0 260 150" xmlns="http://www.w3.org/2000/svg" width="245">
+   <text x="130" y="30" text-anchor="middle" font-family="Orbitron" font-size="16" fill="#FFD700">det[a b; c d] = ad − bc</text>
+   <text x="52" y="80" text-anchor="middle" font-family="Orbitron" font-size="28" fill="#00D2FF">a</text>
+   <text x="90" y="80" text-anchor="middle" font-family="Orbitron" font-size="28" fill="#94A3B8">b</text>
+   <text x="52" y="112" text-anchor="middle" font-family="Orbitron" font-size="28" fill="#94A3B8">c</text>
+   <text x="90" y="112" text-anchor="middle" font-family="Orbitron" font-size="28" fill="#00D2FF">d</text>
+   <line x1="40" y1="58" x2="100" y2="120" stroke="#00D2FF" stroke-width="2" opacity=".6"/>
+   <text x="130" y="80" font-family="Orbitron" font-size="14" fill="#94A3B8">→</text>
+   <text x="165" y="80" font-family="Orbitron" font-size="16" fill="#00D2FF">ad</text>
+   <text x="195" y="80" font-family="Orbitron" font-size="16" fill="#FF6B9D">−bc</text>
+   <text x="130" y="140" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8" font-weight="700">det≠0: sistema único | det=0: impossível ou ∞ soluções</text>
+ </svg>`,
+ visualCaption:"O determinante 2×2 é a diferença entre os produtos das diagonais. É o número-chave do sistema.",
+ summary:["det[a,b;c,d] = ad−bc","3×3: Regra de Sarrus (diagonais)","det≠0: sistema determinado (1 solução)","det=0: impossível ou indeterminado","Cramer: x=Dx/D, y=Dy/D"]},
+
+{year:"2",tri:"T3",theme:"Geometria",pu:false,emoji:"📍",term:"Geometria Analítica",
+ simple:"Une álgebra e geometria: pontos são coordenadas, retas são equações. Distâncias e posições calculadas algebricamente.",
+ explain:"No plano cartesiano: <b>Distância entre pontos</b>: d = √[(x₂−x₁)²+(y₂−y₁)²]. <b>Ponto médio</b>: M = ((x₁+x₂)/2, (y₁+y₂)/2). <b>Equação da reta</b>: y = ax+b (forma reduzida) ou ax+by+c=0 (geral). <b>Retas paralelas</b>: mesmo coeficiente angular. <b>Retas perpendiculares</b>: produto dos coeficientes angulares = −1. <b>Circunferência</b>: (x−a)²+(y−b)²=r².",
+ example:"Pontos A(1,2) e B(5,5). Distância: d=√[16+9]=√25=5. Ponto médio: M=(3, 3,5). Reta AB: inclinação=(5−2)/(5−1)=3/4.",
+ dict:[
+   {term:"Plano cartesiano",def:"Sistema de coordenadas com dois eixos perpendiculares (x e y). Cada ponto é um par (x,y).",ex:"O ponto (3,−2) está 3 unidades à direita do eixo y e 2 abaixo do eixo x."},
+   {term:"Coeficiente angular",def:"A inclinação da reta — o tan do ângulo que faz com o eixo x. Igual a (y₂−y₁)/(x₂−x₁).",ex:"Reta passando por (0,0) e (3,6): a=(6−0)/(3−0)=2."},
+   {term:"Retas paralelas",def:"Têm o mesmo coeficiente angular e nunca se intersectam.",ex:"y=3x+1 e y=3x−5 são paralelas (a=3 nas duas)."},
+   {term:"Retas perpendiculares",def:"O produto dos coeficientes angulares é −1: a₁×a₂=−1.",ex:"y=2x+1 (a=2) ⊥ y=−x/2+3 (a=−1/2). 2×(−1/2)=−1 ✓."},
+   {term:"Equação da circunferência",def:"(x−a)²+(y−b)²=r², onde (a,b) é o centro e r o raio.",ex:"Centro (2,−3), raio 5: (x−2)²+(y+3)²=25."}
+ ],
+ prereq:{
+   intro:"Geometria Analítica une álgebra e geometria. Para dominá-la, é preciso ter base sólida nos dois campos.",
+   items:[
+     {badge:"9º ANO",color:"#5F27CD",title:"Plano Cartesiano",desc:"GA é a álgebra do plano cartesiano. Precisa se mover com confiança pelos 4 quadrantes.",check:"✓ Pronto se: plota pontos, lê coordenadas e calcula distância entre dois pontos."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Função Afim",desc:"A equação da reta y=ax+b é a função afim. São a mesma coisa vista por ângulos diferentes.",check:"✓ Pronto se: encontra a equação da reta que passa por (0,3) com inclinação 2."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Teorema de Pitágoras",desc:"A fórmula da distância entre dois pontos é Pitágoras com coordenadas.",check:"✓ Pronto se: calcula d=√[(5−1)²+(5−2)²]=5 sem dificuldade."}
+   ],
+   vestibular:"GA é base para Cálculo, Física e Engenharia. FUVEST e UNICAMP cobram equação de retas, circunferências, posições relativas, distância de ponto a reta e cônicas (elipse, hipérbole, parábola). No ENEM, foco em interpretação geométrica de sistemas."
+ },
+
+ visual:`<svg viewBox="0 0 255 210" xmlns="http://www.w3.org/2000/svg" width="240">
+   <line x1="10" y1="110" x2="245" y2="110" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="128" y1="10" x2="128" y2="200" stroke="#1E2A3A" stroke-width="2"/>
+   <circle cx="68" cy="75" r="3" fill="#00D2FF"/>
+   <circle cx="188" cy="145" r="3" fill="#00D2FF"/>
+   <line x1="68" y1="75" x2="188" y2="145" stroke="#00D2FF" stroke-width="2"/>
+   <text x="50" y="68" font-family="Orbitron" font-size="10" fill="#00D2FF">A</text>
+   <text x="192" y="155" font-family="Orbitron" font-size="10" fill="#00D2FF">B</text>
+   <line x1="68" y1="145" x2="188" y2="145" stroke="#1E2A3A" stroke-width="1.5" stroke-dasharray="4,3"/>
+   <line x1="68" y1="75" x2="68" y2="145" stroke="#1E2A3A" stroke-width="1.5" stroke-dasharray="4,3"/>
+   <text x="128" y="154" font-family="Orbitron" font-size="10" fill="#FF6B9D">Δx</text>
+   <text x="58" y="112" font-family="Orbitron" font-size="10" fill="#FFD700">Δy</text>
+   <text x="90" y="200" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8" font-weight="700">d = √(Δx²+Δy²) | a = Δy/Δx</text>
+ </svg>`,
+ visualCaption:"A distância entre dois pontos usa Pitágoras. O coeficiente angular a = Δy/Δx (variação vertical / horizontal).",
+ summary:["d(A,B) = √[(x₂−x₁)²+(y₂−y₁)²]","Ponto médio: M=((x₁+x₂)/2,(y₁+y₂)/2)","Paralelas: a₁=a₂ | Perpendiculares: a₁×a₂=−1","Circunferência: (x−a)²+(y−b)²=r²","Reta geral: ax+by+c=0"]},
+
+// ══════════════════════════════════════════════════════
+// 3ª SÉRIE / PRÉ-UNIVERSITÁRIO
+// ══════════════════════════════════════════════════════
+{year:"3",tri:"PU",theme:"Pré-universitário",pu:true,emoji:"📊",term:"Regra de Três e Proporcionalidade",
+ simple:"Grandezas diretamente proporcionais: A↑→B↑. Inversamente: A↑→B↓. Base de 14,8% das questões ENEM (maior tema).",
+ explain:"A <b>regra de três</b> resolve situações onde duas grandezas variam de forma proporcional. <b>Diretamente proporcionais</b>: a₁/b₁ = a₂/b₂. <b>Inversamente proporcionais</b>: a₁×b₁ = a₂×b₂. Identifique sempre o tipo antes de montar. A <b>escala</b> é uma aplicação clássica: escala 1:100.000 significa 1cm=1km.",
+ example:"ENEM 2023: se 3 operários fazem um muro em 8 dias, quantos dias 6 operários levam? Inversamente proporcional: 3×8=6×x → x=4 dias.",
+ dict:[
+   {term:"Grandezas proporcionais",def:"Duas grandezas cujos valores variam de forma relacionada (sempre juntas ou sempre opostas).",ex:"Velocidade e tempo (inversa): carro mais rápido → menos tempo. Preço e quantidade (direta): mais itens → mais custo."},
+   {term:"Constante de proporcionalidade",def:"O valor fixo da razão (direta) ou do produto (inversa) entre as grandezas.",ex:"Direta: y/x=k (sempre). Inversa: x×y=k (sempre)."},
+   {term:"Escala",def:"Razão entre medida no mapa e medida real. 1:n significa 1 unidade no mapa = n unidades na realidade.",ex:"Escala 1:50.000: 2cm no mapa = 1km na realidade."},
+   {term:"Regra de três composta",def:"Quando mais de duas grandezas estão envolvidas no problema.",ex:"Se 4 máquinas produzem 200 peças em 5 horas, quantas peças 6 máquinas produzem em 8 horas?"}
+ ],
+ steps:{
+   intro:"Estratégia de resolução para questões de regra de três no ENEM.",
+   items:[
+     {n:1,action:"Identifique as grandezas",detail:"Quais são as duas grandezas que variam? Nomeie-as claramente antes de montar a tabela.",ex:"Trabalhadores e dias. Velocidade e tempo. Preço e quantidade."},
+     {n:2,action:"Classifique: direta ou inversa",detail:"Pergunta-chave: se uma grandeza aumenta, a outra aumenta (direta) ou diminui (inversa)?",ex:"Mais trabalhadores → menos dias → INVERSA. Mais km → mais combustível → DIRETA"},
+     {n:3,action:"Monte a tabela",detail:"Coluna 1: valores da grandeza A. Coluna 2: valores da grandeza B (um deles é x).",ex:"[3 trabalhadores / 8 dias] e [6 trabalhadores / x dias]"},
+     {n:4,action:"Resolva",detail:"Direta: 3/6=x/8 → x=4. Inversa: inverta uma coluna antes de resolver. 3/x=6/8 → x=4.",ex:"Inversa: 3×8=6×x → x=4 dias",tip:"⚠️ Armadilha clássica: montar como direta quando é inversa. Sempre classifique antes!"}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"7º ANO",color:"#FF9F43",title:"Razão e Proporção",desc:"A regra de três é uma aplicação direta de proporção. Precisa entender a/b=c/d.",check:"✓ Pronto se: monta uma proporção e usa produto cruzado para encontrar x."},
+     {badge:"7º ANO",color:"#FF9F43",title:"Frações e operações",desc:"As proporções envolvem divisão e multiplicação de frações.",check:"✓ Pronto se: resolve 3/x=4/12 rapidamente."},
+     {badge:"8º ANO",color:"#54A0FF",title:"Grandezas proporcionais",desc:"Identificar se as grandezas são direta ou inversamente proporcionais é a chave.",check:"✓ Pronto se: identifica que velocidade e tempo são inversamente proporcionais."}
+   ],
+   vestibular:"ENEM: 14,8% das questões. Aparece em escalas cartográficas, receitas, velocidade média, densidade demográfica e conversão de unidades. A armadilha clássica é montar inversa como direta. Sempre pergunte: se uma cresce, a outra cresce ou diminui?"
+ },
+
+ visual:`<svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg" width="245">
+   <rect x="8" y="20" width="118" height="80" rx="10" fill="rgba(0,210,255,.07)" stroke="#00D2FF" stroke-width="1.5"/>
+   <text x="67" y="50" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#00D2FF">Direta</text>
+   <text x="67" y="70" text-anchor="middle" font-family="Inter" font-size="11" fill="#00D2FF" font-weight="700">A↑ → B↑</text>
+   <text x="67" y="88" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#94A3B8">a₁/b₁ = a₂/b₂</text>
+   <rect x="134" y="20" width="118" height="80" rx="10" fill="rgba(255,107,157,.07)" stroke="#FF6B9D" stroke-width="1.5"/>
+   <text x="193" y="50" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#FF6B9D">Inversa</text>
+   <text x="193" y="70" text-anchor="middle" font-family="Inter" font-size="11" fill="#FF6B9D" font-weight="700">A↑ → B↓</text>
+   <text x="193" y="88" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#94A3B8">a₁×b₁ = a₂×b₂</text>
+   <text x="130" y="125" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FF9F43">📊 14,8% das questões ENEM</text>
+ </svg>`,
+ visualCaption:"Direta: montar com a mesma proporção. Inversa: inverter um dos lados antes de resolver.",
+ summary:["Direta: a₁/b₁ = a₂/b₂ (A↑ → B↑)","Inversa: a₁×b₁ = a₂×b₂ (A↑ → B↓)","Identifique o tipo antes de resolver","Escala 1:n = 1 unidade → n unidades reais","📊 14,8% das questões de Matemática no ENEM"]},
+
+{year:"3",tri:"PU",theme:"Pré-universitário",pu:true,emoji:"💯",term:"Porcentagem Aplicada",
+ simple:"Variações percentuais, descontos, juros — sempre com fator de multiplicação. 14,8% do ENEM. A armadilha: +20% depois −20% ≠ zero.",
+ explain:"O <b>fator de multiplicação</b> é a forma mais eficiente: aumento de p% → multiplica por (1+p/100); desconto de p% → multiplica por (1−p/100). <b>Variações sucessivas</b>: multiplica os fatores. <b>Taxa percentual</b>: variação = (valor final − valor inicial)/valor inicial × 100%. O ENEM adora questões de variações sucessivas, taxas de câmbio e leitura de gráficos com porcentagem.",
+ example:"ENEM: produto com 30% de desconto e depois mais 10% de desconto. Fator total: 0,7×0,9=0,63 → desconto real de 37% (não 40%!).",
+ dict:[
+   {term:"Fator de multiplicação",def:"Número pelo qual se multiplica para aplicar uma porcentagem. Aumento de i% → (1+i/100). Desconto → (1−i/100).",ex:"+25%: fator=1,25. −15%: fator=0,85. R$200 com −15%: 200×0,85=R$170."},
+   {term:"Variação percentual",def:"(Valor final − Valor inicial) / Valor inicial × 100%. Pode ser positiva (aumento) ou negativa (queda).",ex:"De R$80 para R$100: (100−80)/80×100% = 25% de aumento."},
+   {term:"Variações sucessivas",def:"Aplicar dois ou mais fatores em sequência. Multiplica os fatores — NÃO soma as porcentagens.",ex:"+20% e depois −20%: 1,2×0,8=0,96 → redução de 4%. (NÃO zero!)"},
+   {term:"Porcentagem sobre porcentagem",def:"Erro clássico: somar porcentagens direto. A forma correta é multiplicar os fatores.",ex:"+10% e +10% = ×1,1×1,1=×1,21=21% (NÃO 20%)."}
+ ],
+ steps:{
+   intro:"Estratégia para questões de porcentagem — sempre use fator de multiplicação.",
+   items:[
+     {n:1,action:"Converta % em fator",detail:"Aumento de p% → fator=(1+p/100). Desconto de p% → fator=(1−p/100). Nunca some % direto.",ex:"+25% → ×1,25. −15% → ×0,85. −30% → ×0,70"},
+     {n:2,action:"Aplique na ordem certa",detail:"Se há variações sucessivas, multiplique os fatores em sequência.",ex:"Preço com +20% e depois −20%: valor×1,2×0,8=valor×0,96 (queda de 4%)"},
+     {n:3,action:"Para calcular a taxa de variação",detail:"Taxa=(valor final−valor inicial)/valor inicial × 100%.",ex:"De R$80 para R$100: (100−80)/80×100=25% de aumento"},
+     {n:4,action:"Para encontrar o valor original",detail:"Se o valor após o desconto/aumento é conhecido, divida pelo fator.",ex:"Após −30%, sobrou R$140: original=140/0,70=R$200",tip:"⚠️ +20% depois −20% ≠ zero! É 1,2×0,8=0,96 → queda de 4%. Nunca some porcentagens!"}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"6º ANO",color:"#FF6B6B",title:"Porcentagem básica",desc:"A definição de % como fração de 100 e a conversão decimal/fração/% são a base.",check:"✓ Pronto se: calcula 25% de 320 e converte 0,375 para % sem dificuldade."},
+     {badge:"8º ANO",color:"#54A0FF",title:"Fator de multiplicação",desc:"Usar ×0,85 para desconto de 15% em vez de calcular 15% e subtrair — mais rápido e seguro.",check:"✓ Pronto se: aplica −20% multiplicando por 0,8 diretamente."},
+     {badge:"7º ANO",color:"#FF9F43",title:"Razão e proporção",desc:"Calcular a taxa percentual de variação usa a estrutura de razão: (final−inicial)/inicial.",check:"✓ Pronto se: calcula a variação % de R$80 para R$100 = 25%."}
+   ],
+   vestibular:"ENEM 14,8%: variações sucessivas, preço à vista vs. parcelado, desconto comercial, inflação, câmbio. A questão clássica é o erro de somar porcentagens (+20%−20%=0 — ERRADO, é −4%). Sempre multiplique os fatores, nunca some os percentuais."
+ },
+
+ visual:`<svg viewBox="0 0 260 145" xmlns="http://www.w3.org/2000/svg" width="245">
+   <rect x="8" y="30" width="55" height="62" rx="6" fill="rgba(0,210,255,.15)" stroke="#00D2FF" stroke-width="1.5"/>
+   <text x="35" y="65" text-anchor="middle" font-family="Orbitron" font-size="12" fill="#00D2FF">R$100</text>
+   <text x="35" y="103" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8" font-weight="700">original</text>
+   <text x="90" y="63" text-anchor="middle" font-family="Orbitron" font-size="13" fill="#00D2FF">×1,2</text>
+   <rect x="118" y="20" width="55" height="82" rx="6" fill="rgba(0,210,255,.25)" stroke="#00D2FF" stroke-width="1.5"/>
+   <text x="145" y="63" text-anchor="middle" font-family="Orbitron" font-size="12" fill="#00D2FF">R$120</text>
+   <text x="145" y="113" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8" font-weight="700">+20%</text>
+   <text x="192" y="63" text-anchor="middle" font-family="Orbitron" font-size="13" fill="#FF6B9D">×0,8</text>
+   <rect x="218" y="35" width="35" height="52" rx="6" fill="rgba(255,107,157,.2)" stroke="#FF6B9D" stroke-width="1.5"/>
+   <text x="235" y="63" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FF6B9D">R$96</text>
+   <text x="235" y="97" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8" font-weight="700">−20%</text>
+   <text x="130" y="135" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#FF9F43">+20% e depois −20% ≠ zero! = −4%</text>
+ </svg>`,
+ visualCaption:"A armadilha clássica: +20% depois −20% dá −4%, não zero! Sempre multiplique os fatores (1,2×0,8=0,96).",
+ summary:["Fator: aumento p% → ×(1+p/100)","Fator: desconto p% → ×(1−p/100)","Sucessivos: multiplica fatores (NÃO soma %)","Variação: (final−inicial)/inicial × 100%","📊 14,8% das questões ENEM"]},
+
+{year:"3",tri:"PU",theme:"Pré-universitário",pu:true,emoji:"📉",term:"Estatística no ENEM",
+ simple:"Leitura de gráficos (12,6% ENEM), média, mediana, moda, desvio padrão. Saber interpretar dados de tabelas e gráficos é fundamental.",
+ explain:"O ENEM testa principalmente a <b>interpretação</b>, não o cálculo. Saiba: qual medida usar (média é sensível a extremos — use mediana quando houver outliers). <b>Desvio padrão</b> alto = dados espalhados. Tipos de gráfico: setores (proporções), barras (comparação), linhas (evolução temporal), histograma (distribuição). Atenção especial: <b>gráficos que induzem ao erro</b> com eixos truncados ou escalas distorcidas.",
+ example:"ENEM 2022: gráfico de barras com eixo y começando em 80 (não em 0). Uma barra parece o dobro da outra, mas a diferença real é pequena — atenção à escala!",
+ dict:[
+   {term:"Medida de tendência central",def:"Valor que representa o 'centro' dos dados. Média, mediana e moda são as três principais.",ex:"Para dados com outliers, a mediana representa melhor (salários, por exemplo)."},
+   {term:"Gráfico de setores",def:"Gráfico circular (pizza) que mostra proporções. A soma de todos os setores é 100%.",ex:"30% gastos com aluguel → setor de 108° (30% de 360°)."},
+   {term:"Eixo truncado",def:"Gráfico onde o eixo y não começa em zero. Pode fazer diferenças pequenas parecerem grandes.",ex:"Eixo de 80 a 100: variação de 85 para 95 parece enorme, mas é só 10 pontos."},
+   {term:"Histograma",def:"Gráfico de barras ADJACENTES para dados agrupados em classes. Área da barra = frequência.",ex:"Classes de renda [0,2), [2,4), [4,6): o histograma mostra a distribuição."}
+ ],
+ steps:{
+   intro:"Estratégia para questões de estatística no ENEM — foco em leitura crítica, não em cálculo.",
+   items:[
+     {n:1,action:"Leia os eixos antes dos dados",detail:"Identifique: o que está em cada eixo? Qual a unidade? O eixo y começa em zero ou está truncado?",ex:"Eixo y de 80 a 100: variações parecem enormes, mas são pequenas. Cuidado!"},
+     {n:2,action:"Identifique o tipo de gráfico",detail:"Barras/colunas: comparação. Linhas: evolução temporal. Setores: proporções (soma=100%). Histograma: distribuição.",ex:"Gráfico de pizza com fatia de 30%: representa 30/100 do total"},
+     {n:3,action:"Escolha a medida certa",detail:"Dados com outlier? Use mediana. Dados simétricos? Média serve. Qual valor é mais frequente? Moda.",ex:"Salários: R$1000,1000,1200,1500,50000 → mediana=R$1200 representa melhor"},
+     {n:4,action:"Responda ao que foi perguntado",detail:"Muitas questões de estatística do ENEM são de interpretação — a resposta está no gráfico, não nos cálculos.",tip:"⚠️ Eixo truncado: o gráfico mostra barras de tamanhos muito diferentes, mas a diferença real pode ser pequena."}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"7º ANO",color:"#FF9F43",title:"Média, mediana e moda",desc:"As três medidas de tendência central são o vocabulário mínimo para qualquer questão de estatística.",check:"✓ Pronto se: sabe quando usar mediana no lugar da média (quando há outliers)."},
+     {badge:"7º ANO",color:"#FF9F43",title:"Leitura de gráficos",desc:"Gráficos de barras, linhas e setores do Ensino Fundamental são o ponto de partida.",check:"✓ Pronto se: lê o valor de cada barra e calcula proporções entre elas."},
+     {badge:"6º ANO",color:"#FF6B6B",title:"Porcentagem",desc:"Frequências relativas, gráficos de setor e comparações são feitos em porcentagem.",check:"✓ Pronto se: converte 3/8 para 37,5% e sabe que setor de 25% tem 90°."}
+   ],
+   vestibular:"ENEM 12,6%: o foco é quase sempre na LEITURA de gráficos e tabelas, não no cálculo. Atenção aos gráficos com eixo truncado (não começa em zero — distorce a percepção). Saber escolher a medida certa (média vs. mediana) é questão de interpretação crítica."
+ },
+
+ visual:`<svg viewBox="0 0 260 145" xmlns="http://www.w3.org/2000/svg" width="245">
+   <rect x="35" y="77" width="16" height="48" rx="3" fill="#FF6B9D" opacity=".58"/>
+   <rect x="55" y="53" width="16" height="72" rx="3" fill="#FF6B9D" opacity=".64"/>
+   <rect x="75" y="65" width="16" height="60" rx="3" fill="#FF6B9D" opacity=".70"/>
+   <rect x="95" y="41" width="16" height="84" rx="3" fill="#FF6B9D" opacity=".76"/>
+   <rect x="115" y="29" width="16" height="96" rx="3" fill="#FF6B9D" opacity=".82"/>
+   <rect x="135" y="53" width="16" height="72" rx="3" fill="#FF6B9D" opacity=".88"/>
+   <line x1="30" y1="126" x2="250" y2="126" stroke="#1E2A3A" stroke-width="2"/>
+   <text x="130" y="140" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FF9F43">📊 12,6% das questões ENEM</text>
+ </svg>`,
+ visualCaption:"Leitura de gráficos vale 12,6% do ENEM. Foque na interpretação e nas armadilhas de escala.",
+ summary:["Média: sensível a extremos (outliers)","Mediana: melhor para dados assimétricos","Histograma: área das barras = frequência","Cuidado: eixo truncado distorce percepção","📊 12,6% das questões ENEM"]},
+
+{year:"3",tri:"PU",theme:"Pré-universitário",pu:true,emoji:"📐",term:"Geometria Plana — Áreas",
+ simple:"Áreas de triângulos, quadriláteros e círculos. 7,4% ENEM. Fórmulas-chave: triângulo=bh/2, círculo=πr², trapézio=(B+b)h/2.",
+ explain:"Fórmulas essenciais: <b>Triângulo</b>: A=bh/2. Fórmula de Heron: A=√[s(s−a)(s−b)(s−c)] onde s=(a+b+c)/2. <b>Retângulo</b>: A=b×h. <b>Losango</b>: A=D×d/2 (diagonais). <b>Trapézio</b>: A=(B+b)×h/2. <b>Círculo</b>: A=πr². <b>Setor circular</b>: A=πr²α/360°. O ENEM frequentemente pede áreas de figuras compostas ou sombreadas.",
+ example:"ENEM: quadrado de lado 10 com círculo inscrito (r=5). Área sombreada = Área quadrado − Área círculo = 100 − 25π ≈ 21,5 cm².",
+ dict:[
+   {term:"Área de figuras compostas",def:"Área de uma figura formada por outras menores. Soma ou subtrai as áreas das partes.",ex:"Área do anel circular (coroa): A=πR²−πr²=π(R²−r²)."},
+   {term:"Semelhança e áreas",def:"Se a razão de semelhança entre figuras é k, a razão das áreas é k².",ex:"Triângulos com razão 1:3: áreas na razão 1:9."},
+   {term:"Fórmula de Heron",def:"Calcula a área de triângulo conhecendo apenas os 3 lados: A=√[s(s−a)(s−b)(s−c)], s=(a+b+c)/2.",ex:"Lados 3,4,5: s=6. A=√[6×3×2×1]=√36=6 cm²."},
+   {term:"Setor circular",def:"Fatia de um disco — a 'fatia de pizza'. Área = πr²×(α/360°).",ex:"Setor de 90° em círculo de r=6: A=π×36×(90/360)=9π≈28,3 cm²."}
+ ],
+ steps:{
+   intro:"Estratégia para questões de área — especialmente figuras compostas e sombreadas.",
+   items:[
+     {n:1,action:"Identifique as figuras",detail:"Decomponha a figura em formas simples conhecidas: triângulos, retângulos, círculos, setores.",ex:"Figura sombreada = quadrado − círculo inscrito"},
+     {n:2,action:"Identifique o que é dado",detail:"Quais medidas estão no enunciado? Às vezes precisa calcular a altura com Pitágoras antes da área.",ex:"Triângulo equilátero de lado 6: altura=6×(√3/2)=3√3 → A=6×3√3/2=9√3"},
+     {n:3,action:"Aplique as fórmulas",detail:"Triângulo: bh/2. Retângulo: b×h. Círculo: πr². Trapézio: (B+b)h/2. Setor: πr²×α/360.",ex:"Setor de 90° com r=4: A=π×16×90/360=4π≈12,6 cm²"},
+     {n:4,action:"Figuras compostas",detail:"Área sombreada = Área maior − Área menor (ou soma, dependendo da figura).",ex:"Anel: A=πR²−πr²=π(R²−r²)",tip:"⚠️ Razão de semelhança k → razão de áreas k². Se lados dobram, área quadruplica!"}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"6º ANO",color:"#FF6B6B",title:"Perímetro e Área básica",desc:"Retângulo, triângulo e círculo são as figuras-base. Fórmulas decoradas liberam o raciocínio.",check:"✓ Pronto se: calcula área de triângulo (base 8, altura 5) = 20 automaticamente."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Teorema de Pitágoras",desc:"Calcular alturas em triângulos isósceles e diagonais usa Pitágoras.",check:"✓ Pronto se: acha a altura de um triângulo equilátero de lado 6 = 3√3."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Semelhança de figuras",desc:"A razão de semelhança k implica razão de áreas k². Muito cobrado no ENEM.",check:"✓ Pronto se: sabe que figuras semelhantes com razão 1:3 têm áreas na razão 1:9."}
+   ],
+   vestibular:"ENEM 7,4%: figuras compostas (área de região sombreada = diferença de áreas), setor circular, relação entre áreas de figuras semelhantes. FUVEST e UNICAMP cobram fórmula de Heron, áreas com trigonometria e polígonos regulares inscritos em circunferências."
+ },
+
+ visual:`<svg viewBox="0 0 260 145" xmlns="http://www.w3.org/2000/svg" width="245">
+   <polygon points="48,120 8,120 28,60" fill="rgba(0,210,255,.12)" stroke="#00D2FF" stroke-width="2"/>
+   <text x="28" y="138" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#00D2FF">bh/2</text>
+   <rect x="75" y="70" width="60" height="50" fill="rgba(255,107,157,.12)" stroke="#FF6B9D" stroke-width="2"/>
+   <text x="105" y="138" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#FF6B9D">b×h</text>
+   <circle cx="195" cy="95" r="35" fill="rgba(255,215,0,.1)" stroke="#FFD700" stroke-width="2"/>
+   <text x="195" y="138" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#FFD700">πr²</text>
+   <text x="130" y="150" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FF9F43">📊 7,4% das questões ENEM</text>
+ </svg>`,
+ visualCaption:"As três figuras mais cobradas. Atenção às figuras compostas — some ou subtraia as partes.",
+ summary:["Triângulo: A=bh/2 | Heron: √[s(s−a)(s−b)(s−c)]","Retângulo: A=b×h | Losango: A=D×d/2","Trapézio: A=(B+b)×h/2","Círculo: A=πr² | Setor: πr²α/360°","📊 7,4% das questões ENEM"]},
+
+{year:"3",tri:"PU",theme:"Pré-universitário",pu:true,emoji:"🎲",term:"Probabilidade — ENEM",
+ simple:"5,5% ENEM. Probabilidade condicional, eventos independentes, complementar. Foco em interpretação de situações reais.",
+ explain:"O ENEM foca em <b>interpretação</b> de situações probabilísticas, não só fórmulas. Pontos-chave: distinguir eventos dependentes de independentes; uso de complementar (1−P) quando é mais fácil calcular o que NÃO ocorre; probabilidade condicional P(A|B)=P(A∩B)/P(B). Cuidado com a <b>falácia do apostador</b>: eventos independentes não têm memória (cara 5 vezes seguidas não aumenta a chance de coroa).",
+ example:"ENEM 2019: numa pesquisa, 60% usam celular para redes sociais e 40% para notícias. P(ambos) = ? Precisa saber se são independentes ou não.",
+ dict:[
+   {term:"Probabilidade condicional",def:"P(A|B) = probabilidade de A dado que B já ocorreu. P(A|B) = P(A∩B)/P(B).",ex:"Numa turma: P(aprova dado que estudou) pode ser bem maior que P(aprova em geral)."},
+   {term:"Falácia do apostador",def:"Erro de achar que eventos passados afetam futuros eventos independentes.",ex:"Cara saiu 10 vezes: a probabilidade de coroa na próxima ainda é 50%!"},
+   {term:"Eventos mutuamente exclusivos",def:"Não podem ocorrer ao mesmo tempo. P(A∪B)=P(A)+P(B).",ex:"Sair 3 E sair 5 no mesmo lançamento de dado: exclusivos. P=1/6+1/6=1/3."},
+   {term:"Complementar",def:"P(evento não ocorrer)=1−P(ocorrer). Útil quando o complemento é mais simples.",ex:"P(pelo menos uma cara em 3 lançamentos)=1−P(nenhuma cara)=1−(1/2)³=7/8."}
+ ],
+ steps:{
+   intro:"Estratégia para probabilidade no ENEM — perguntas-chave antes de calcular.",
+   items:[
+     {n:1,action:"Os eventos são independentes?",detail:"Com reposição ou sem relação entre si → independentes. Sem reposição → dependentes (espaço amostral muda).",ex:"Dois dados → independentes. Tirar 2 cartas sem reposição → dependentes"},
+     {n:2,action:"O evento é simples ou composto?",detail:"Simples: P=favoráveis/total. Composto: use soma (AUB) ou produto (A∩B) conforme o caso.",ex:"P(A e B independentes)=P(A)×P(B). P(A ou B exclusivos)=P(A)+P(B)"},
+     {n:3,action:"Considere usar complementar",detail:"Se o enunciado tem 'pelo menos um' ou 'ao menos' → complementar é quase sempre mais rápido.",ex:"P(pelo menos 1 cara em 3 lançamentos)=1−P(nenhuma cara)=1−(1/2)³=7/8"},
+     {n:4,action:"Calcule e simplifique",detail:"Expresse como fração, simplifique e converta para % se pedido.",ex:"P=6/36=1/6≈16,7%",tip:"⚠️ Falácia do apostador: cara saiu 5 vezes seguidas — a P(coroa) ainda é 50%! O dado não tem memória."}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Probabilidade básica",desc:"Espaço amostral, evento, P=favoráveis/total. São o vocabulário mínimo.",check:"✓ Pronto se: calcula P(sair número primo) ao lançar dado = P({2,3,5}) = 3/6 = 1/2."},
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Análise Combinatória",desc:"Para contar espaços amostrais grandes com eficiência, combinatória é necessária.",check:"✓ Pronto se: usa C₅,₂=10 para contar duplas sem listar todas."},
+     {badge:"6º ANO",color:"#FF6B6B",title:"Frações e porcentagem",desc:"Probabilidades são expressas como frações (0 a 1) e convertidas em %.",check:"✓ Pronto se: converte P=1/4=0,25=25% com naturalidade."}
+   ],
+   vestibular:"ENEM 5,5%: probabilidade condicional em contextos reais (testes de diagnóstico, pesquisas), complementar (pelo menos um), eventos independentes. Armadilha clássica: a 'falácia do apostador' — cara saiu 10 vezes, a probabilidade de coroa ainda é 50%."
+ },
+
+ visual:`<svg viewBox="0 0 255 140" xmlns="http://www.w3.org/2000/svg" width="240">
+   <ellipse cx="90" cy="70" rx="75" ry="55" fill="rgba(0,210,255,.07)" stroke="#00D2FF" stroke-width="1.5"/>
+   <ellipse cx="165" cy="70" rx="75" ry="55" fill="rgba(255,107,157,.07)" stroke="#FF6B9D" stroke-width="1.5"/>
+   <text x="55" y="72" text-anchor="middle" font-family="Orbitron" font-size="12" fill="#00D2FF">A</text>
+   <text x="200" y="72" text-anchor="middle" font-family="Orbitron" font-size="12" fill="#FF6B9D">B</text>
+   <text x="128" y="72" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#FFD700">A∩B</text>
+   <text x="128" y="130" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FF9F43">📊 5,5% das questões ENEM</text>
+ </svg>`,
+ visualCaption:"Diagrama de Venn: A∩B é a interseção (ambos). P(A∪B)=P(A)+P(B)−P(A∩B).",
+ summary:["P(A|B) = P(A∩B)/P(B)","Complementar: P(Aᶜ)=1−P(A)","Independentes: P(A∩B)=P(A)×P(B)","Exclusivos: P(A∪B)=P(A)+P(B)","📊 5,5% das questões ENEM"]},
+
+{year:"3",tri:"PU",theme:"Pré-universitário",pu:true,emoji:"📈",term:"Funções — ENEM",
+ simple:"5,4% ENEM. Função afim, quadrática, exponencial e logarítmica. Foco em modelagem e interpretação de gráficos.",
+ explain:"O ENEM raramente pede cálculos isolados de funções — testa a <b>modelagem</b> (qual função descreve a situação?) e a <b>leitura de gráficos</b>. Pontos-chave: reconhecer o crescimento linear (afim), quadrático (parábola), exponencial e logarítmico em gráficos e tabelas. Interpretar o significado dos coeficientes no contexto do problema (taxa de crescimento, valor inicial, ponto de equilíbrio).",
+ example:"ENEM: gráfico de crescimento de uma população de bactérias — curva que acelera → exponencial. Se é uma linha reta → afim. Se tem um máximo → quadrática.",
+ dict:[
+   {term:"Modelagem matemática",def:"Usar uma função para descrever uma situação real. A escolha da função depende do padrão de crescimento.",ex:"Crescimento constante → afim. Crescimento que acelera → exponencial. Ponto de máximo → quadrática."},
+   {term:"Taxa de crescimento",def:"Quanto a variável dependente muda por unidade da independente. No contexto: velocidade, preço por km, etc.",ex:"f(x)=3x+2: taxa=3 (a cada unidade de x, y cresce 3)."},
+   {term:"Domínio restrito",def:"Em problemas reais, nem todo valor de x é possível. Ex: x≥0 para tempo, 0<x para tamanho.",ex:"Quantidade de produto: x∈ℕ (inteiros positivos). Temperatura: x pode ser negativo."},
+   {term:"Ponto de equilíbrio",def:"O valor de x onde duas funções se igualam. Resolve f(x)=g(x).",ex:"Custos: C₁=50+2x e C₂=20+5x. Equilíbrio: 50+2x=20+5x → x=10 unidades."}
+ ],
+ steps:{
+   intro:"Estratégia para questões de funções no ENEM — reconhecer antes de calcular.",
+   items:[
+     {n:1,action:"Identifique o tipo de função",detail:"Crescimento constante → afim (reta). Máximo/mínimo → quadrática (parábola). Cresce acelerando → exponencial. Cresce desacelerando → logarítmica.",ex:"Bactérias que dobram a cada hora → exponencial. Custo fixo+variável → afim"},
+     {n:2,action:"Extraia os parâmetros do contexto",detail:"Para afim: qual o valor inicial (b) e a taxa (a)? Para quadrática: quando ocorre o máximo/mínimo?",ex:"'Cobra R$5 fixos + R$2/km' → f(x)=2x+5. b=5 (fixo), a=2 (taxa)"},
+     {n:3,action:"Responda ao que foi perguntado",detail:"'Quando?' → encontre o x. 'Quanto?' → calcule f(x). 'Qual o máximo?' → calcule o vértice.",ex:"'Quantos km para gastar R$25?' → 2x+5=25 → x=10km"},
+     {n:4,action:"Confira no gráfico (se disponível)",detail:"O ponto calculado deve estar na curva desenhada. Use o gráfico como verificação visual.",tip:"⚠️ No ENEM, a interpretação dos coeficientes no contexto vale mais que a conta pura."}
+   ]
+ },
+ prereq:{
+   items:[
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Função Afim e Quadrática",desc:"As duas funções mais cobradas. Reconhecer reta (afim) e parábola (quadrática) em gráficos.",check:"✓ Pronto se: distingue f(x)=2x+1 de g(x)=x² e sabe como é o gráfico de cada uma."},
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Função Exponencial e Log",desc:"Reconhecer crescimento exponencial e logarítmico em gráficos e tabelas.",check:"✓ Pronto se: identifica que dobrar a cada período é crescimento exponencial."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Domínio e imagem",desc:"Saber o que cada eixo representa no problema é essencial para interpretar gráficos.",check:"✓ Pronto se: identifica o domínio como tempo e a imagem como distância em um problema de movimento."}
+   ],
+   vestibular:"ENEM 5,4%: modelagem (qual função descreve a situação?) e leitura de gráficos são os focos. Perguntas típicas: 'O gráfico mostra crescimento acelerado — qual função descreve?' ou 'Em que instante o custo é mínimo?' (vértice da quadrática)."
+ },
+
+ visual:`<svg viewBox="0 0 255 175" xmlns="http://www.w3.org/2000/svg" width="240">
+   <line x1="18" y1="155" x2="235" y2="155" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="28" y1="10" x2="28" y2="165" stroke="#1E2A3A" stroke-width="2"/>
+   <line x1="28" y1="135" x2="215" y2="48" stroke="#00D2FF" stroke-width="2"/>
+   <text x="170" y="43" font-family="Orbitron" font-size="9" fill="#00D2FF">afim</text>
+   <path d="M 28,155 Q 118,10 208,155" fill="none" stroke="#FF6B9D" stroke-width="2"/>
+   <text x="170" y="105" font-family="Orbitron" font-size="9" fill="#FF6B9D">quadrática</text>
+   <path d="M 28,145 C 70,135 110,110 150,72 C 180,45 200,28 215,18" fill="none" stroke="#FFD700" stroke-width="2"/>
+   <text x="170" y="16" font-family="Orbitron" font-size="9" fill="#FFD700">exponencial</text>
+   <text x="128" y="172" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#FF9F43">📊 5,4% das questões ENEM</text>
+ </svg>`,
+ visualCaption:"Os três padrões de crescimento. Reconhecer o tipo pelo gráfico é a habilidade mais testada no ENEM.",
+ summary:["Linear: reta → função afim","Parábola: máximo/mínimo → quadrática","Curva que acelera: → exponencial","Curva que desacelera: → logarítmica","📊 5,4% das questões ENEM"]},
+
+{year:"3",tri:"PU",theme:"Pré-universitário",pu:true,emoji:"📐",term:"Geometria Analítica — ENEM",
+ simple:"Distâncias, equações de retas e circunferências no plano. Interpretação geométrica de sistemas de equações.",
+ explain:"O ENEM testa GA com foco em <b>interpretação geométrica</b>: duas retas paralelas = sistema impossível; retas coincidentes = infinitas soluções; retas que se cruzam = solução única. Distância de ponto a reta: d = |ax₀+by₀+c|/√(a²+b²). Circunferência no plano cartesiano: identificar centro e raio a partir da equação. Posições relativas de reta e circunferência.",
+ example:"Dois ônibus saem de pontos diferentes com velocidades diferentes. Quando se encontram? → equação de retas que se intersectam. O x da solução é o tempo.",
+ dict:[
+   {term:"Equação reduzida da reta",def:"y=ax+b. a=coeficiente angular (inclinação), b=coeficiente linear (ponto no eixo y).",ex:"y=2x−3: reta com inclinação 2, que corta o eixo y em −3."},
+   {term:"Distância de ponto a reta",def:"d=|ax₀+by₀+c|/√(a²+b²), onde ax+by+c=0 é a equação da reta.",ex:"Reta 3x+4y−5=0, ponto P(1,1): d=|3+4−5|/√(9+16)=2/5=0,4."},
+   {term:"Posições relativas",def:"Duas retas: paralelas (sem interseção), concorrentes (um ponto) ou coincidentes (infinitos pontos).",ex:"y=2x+1 e y=2x+5: mesmo a, b diferente → paralelas. y=3x+1 e y=−x+5: se cruzam → concorrentes."},
+   {term:"Equação da circunferência",def:"(x−a)²+(y−b)²=r². Centro (a,b) e raio r.",ex:"(x−1)²+(y+2)²=16: centro (1,−2), raio 4."}
+ ],
+ steps:{
+   intro:"Problemas de GA seguem um protocolo que começa sempre pelos dados geométricos e termina na equação.",
+   items:[
+     {n:1,action:"Identifique o objeto geométrico",detail:"São dois pontos? → distância ou reta. É uma reta com ponto? → equação da reta. São duas retas? → posição relativa.",ex:"Dados A(1,2) e B(4,6): pedem reta AB, distância AB ou ponto médio?"},
+     {n:2,action:"Calcule o coeficiente angular",detail:"a=(y₂−y₁)/(x₂−x₁). Se a reta é vertical (x₁=x₂), não tem coeficiente angular.",ex:"a=(6−2)/(4−1)=4/3"},
+     {n:3,action:"Monte a equação da reta",detail:"y−y₁=a(x−x₁). Substitua um dos pontos para encontrar b. Simplifique.",ex:"y−2=(4/3)(x−1) → y=(4/3)x+2/3"},
+     {n:4,action:"Para posições relativas",detail:"Paralelas: mesmos coeficientes angulares, b diferentes. Perpendiculares: a₁×a₂=−1. Coincidentes: mesma equação.",ex:"y=2x+1 ⊥ y=−x/2+3? → 2×(−1/2)=−1 ✓ sim, são perpendiculares"},
+     {n:5,action:"Para circunferência",detail:"(x−a)²+(y−b)²=r². Identifique centro (a,b) e raio r. Para interseção com reta: resolva o sistema.",ex:"Centro (2,−3), r=5: (x−2)²+(y+3)²=25",tip:"⚠️ Distância de ponto P(x₀,y₀) à reta ax+by+c=0: d=|ax₀+by₀+c|/√(a²+b²)"}
+   ]
+ },
+ steps:{
+   intro:"Estratégia para GA no ENEM — sempre interprete geometricamente antes de calcular.",
+   items:[
+     {n:1,action:"Identifique os objetos",detail:"São pontos, retas ou circunferências? Leia e marque no plano se possível.",ex:"Duas empresas com custos lineares → duas retas. Quando empatam? → interseção"},
+     {n:2,action:"Para retas: calcule a inclinação",detail:"a=(y₂−y₁)/(x₂−x₁). Paralelas: a₁=a₂. Perpendiculares: a₁×a₂=−1.",ex:"Reta por (0,3) e (2,7): a=(7−3)/2=2 → y=2x+3"},
+     {n:3,action:"Para interseção de retas",detail:"Monte sistema com as duas equações. O ponto (x,y) da solução é onde se cruzam.",ex:"y=2x+3 e y=−x+9 → 2x+3=−x+9 → x=2, y=7"},
+     {n:4,action:"Para circunferência",detail:"Identifique (a,b)=centro e r=raio em (x−a)²+(y−b)²=r². Para interseção com reta, substitua.",tip:"⚠️ Distância entre pontos: d=√[(Δx)²+(Δy)²]. É Pitágoras com coordenadas."}
+   ]
+ },
+ prereq:{
+   intro:"GA no ENEM tem foco em interpretação geométrica de equações. Pré-requisitos: plano cartesiano e equações lineares.",
+   items:[
+     {badge:"9º ANO",color:"#5F27CD",title:"Plano Cartesiano e pontos",desc:"Marcar pontos, calcular distâncias e encontrar ponto médio são as operações básicas.",check:"✓ Pronto se: calcula a distância entre (1,2) e (5,5) = 5."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Função Afim",desc:"y=ax+b é a equação da reta — função afim e GA são duas faces da mesma moeda.",check:"✓ Pronto se: encontra a equação de reta dado um ponto e a inclinação."},
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Sistemas de Equações",desc:"A interseção de retas é a solução do sistema formado pelas duas equações.",check:"✓ Pronto se: resolve 2x+y=5 e x+y=3 e interpreta o resultado geometricamente."}
+   ],
+   vestibular:"ENEM: posições relativas de retas e circunferências, equações da reta e da circunferência. FUVEST e UNICAMP cobram cônicas (elipse, hipérbole, parábola), distância de ponto a reta e problemas de otimização geométrica. GA é base de Cálculo e Álgebra Linear."
+ },
+
+ visual:`<svg viewBox="0 0 255 175" xmlns="http://www.w3.org/2000/svg" width="240">
+   <line x1="10" y1="100" x2="245" y2="100" stroke="#1E2A3A" stroke-width="1.5"/>
+   <line x1="128" y1="10" x2="128" y2="165" stroke="#1E2A3A" stroke-width="1.5"/>
+   <line x1="28" y1="148" x2="188" y2="28" stroke="#00D2FF" stroke-width="2"/>
+   <line x1="28" y1="168" x2="228" y2="48" stroke="#00D2FF" stroke-width="2" stroke-dasharray="5,3" opacity=".5"/>
+   <text x="192" y="25" font-family="Orbitron" font-size="9" fill="#00D2FF">paralelas</text>
+   <circle cx="175" cy="110" r="40" fill="none" stroke="#FFD700" stroke-width="2"/>
+   <line x1="28" y1="160" x2="228" y2="80" stroke="#FF6B9D" stroke-width="2"/>
+   <text x="192" y="165" font-family="Orbitron" font-size="9" fill="#FF6B9D">secante</text>
+ </svg>`,
+ visualCaption:"Retas paralelas (azul) nunca se encontram. A linha rosa é secante à circunferência (intersecta em 2 pontos).",
+ summary:["Paralelas: a₁=a₂, b₁≠b₂ (sistema impossível)","Coincidentes: a₁=a₂, b₁=b₂ (infinitas soluções)","Concorrentes: a₁≠a₂ (solução única)","Circunferência: (x−a)²+(y−b)²=r²","Distância ponto-reta: |ax₀+by₀+c|/√(a²+b²)"]},
+
+{year:"3",tri:"PU",theme:"Pré-universitário",pu:true,emoji:"🔢",term:"Análise Combinatória — ENEM",
+ steps:{
+   intro:"Estratégia para combinatória no ENEM — a decisão mais importante é ANTES de calcular.",
+   items:[
+     {n:1,action:"Leia com atenção e identifique n e k",detail:"Quantos elementos disponíveis (n)? Quantos serão escolhidos (k)?",ex:"10 candidatos, escolher 3 para comissão: n=10, k=3"},
+     {n:2,action:"A ordem importa?",detail:"Cargo diferente (presidente ≠ vice) → ordem importa → Arranjo. Grupo sem distinção → Combinação.",ex:"Presidente e vice entre 10: Arranjo A₁₀,₂=90. Dupla entre 10: Combinação C₁₀,₂=45"},
+     {n:3,action:"Calcule simplificando",detail:"Nunca expanda fatoriais grandes. Cancele antes: C₁₀,₃=10×9×8/(3×2×1)=120",ex:"A₁₀,₂=10×9=90. C₁₀,₂=10×9/2=45"},
+     {n:4,action:"Verifique com um caso pequeno",detail:"Se n=4 e k=2, você consegue listar? Confira se o número calculado bate com a listagem.",tip:"⚠️ Comissão=sem ordem (C). Pódio/cargo=com ordem (A). Senha com dígitos distintos=Arranjo."}
+   ]
+ },
+ simple:"3,7% ENEM. Contagem de possibilidades: quando a ordem importa (arranjo), quando não importa (combinação).",
+ explain:"O ENEM testa principalmente a <b>identificação do tipo correto</b>: Quando a ordem importa e usamos todos → Permutação (n!). Quando a ordem importa e escolhemos k de n → Arranjo Aₙ,ₖ=n!/(n−k)!. Quando a ordem NÃO importa → Combinação Cₙ,ₖ=n!/[k!(n−k)!]. Problemas frequentes: senhas, grupos, comissões, equipes, escolhas.",
+ example:"ENEM: quantas comissões de 3 pessoas podemos formar com 8 pessoas? Comissão = ordem não importa → C₈,₃ = 8!/(3!×5!) = 56.",
+ dict:[
+   {term:"Princípio multiplicativo",def:"Se temos m escolhas na 1ª etapa e n na 2ª, temos m×n combinações totais.",ex:"4 sabores de sorvete e 3 coberturas: 4×3=12 combinações."},
+   {term:"Permutação",def:"Arranjo de TODOS os n elementos, com ordem. Pₙ=n!",ex:"Anagramas de CASA: 4!/2!=12 (A se repete 2 vezes)."},
+   {term:"Combinação",def:"Escolha de k entre n elementos, SEM ordem. Cₙ,ₖ=n!/[k!(n−k)!].",ex:"Chapa de 2 candidatos entre 5 professores: C₅,₂=10 chapas."},
+   {term:"Permutação com repetição",def:"Quando há elementos repetidos: Pₙ=n!/(n₁!×n₂!×...), dividindo pelos repetidos.",ex:"Anagramas de ARARA: 5!/(3!×2!)=10 anagramas."}
+ ],
+ prereq:{
+   intro:"Combinatória no ENEM exige raciocínio lógico e clareza sobre quando a ordem importa ou não.",
+   items:[
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Análise Combinatória",desc:"Permutação, arranjo e combinação são as ferramentas. Precisa saber quando usar cada uma.",check:"✓ Pronto se: distingue 'escolher 3 membros de uma comissão' (combinação) de 'eleger presidente, vice e secretário' (arranjo)."},
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Fatorial",desc:"Todos os cálculos de combinatória passam pelo fatorial. Agilidade aqui economiza tempo.",check:"✓ Pronto se: calcula 8!/6! = 8×7 = 56 sem expandir tudo."},
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Princípio Fundamental da Contagem",desc:"Para problemas em etapas, multiplica-se as opções de cada etapa.",check:"✓ Pronto se: resolve 'de quantas formas se pode montar um cardápio com 3 entradas e 4 pratos' imediatamente."}
+   ],
+   vestibular:"ENEM 3,7%: problemas de senhas, organização de objetos, escolha de grupos. FUVEST e UNICAMP pedem permutação com repetição, combinações com restrições e o Princípio Multiplicativo em situações encadeadas. Ler o enunciado com atenção é 50% da solução."
+ },
+
+ visual:`<svg viewBox="0 0 260 148" xmlns="http://www.w3.org/2000/svg" width="245">
+   <text x="130" y="22" text-anchor="middle" font-family="Orbitron" font-size="12" fill="#FF9F43">Ordem importa?</text>
+   <line x1="130" y1="28" x2="75" y2="58" stroke="#1E2A3A" stroke-width="1.5"/>
+   <line x1="130" y1="28" x2="185" y2="58" stroke="#1E2A3A" stroke-width="1.5"/>
+   <text x="48" y="52" font-family="Orbitron" font-size="10" fill="#00D2FF">SIM</text>
+   <text x="174" y="52" font-family="Orbitron" font-size="10" fill="#FF6B9D">NÃO</text>
+   <rect x="18" y="65" width="110" height="45" rx="8" fill="rgba(0,210,255,.1)" stroke="#00D2FF" stroke-width="1.5"/>
+   <text x="73" y="88" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#00D2FF">Arranjo/Perm.</text>
+   <text x="73" y="102" text-anchor="middle" font-family="Inter" font-size="9" fill="#00D2FF" font-weight="700">n!/(n−k)! ou n!</text>
+   <rect x="132" y="65" width="110" height="45" rx="8" fill="rgba(255,107,157,.1)" stroke="#FF6B9D" stroke-width="1.5"/>
+   <text x="187" y="88" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FF6B9D">Combinação</text>
+   <text x="187" y="102" text-anchor="middle" font-family="Inter" font-size="9" fill="#FF6B9D" font-weight="700">n!/[k!(n−k)!]</text>
+   <text x="130" y="135" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FF9F43">📊 3,7% das questões ENEM</text>
+ </svg>`,
+ visualCaption:"O fluxograma de decisão: a ordem importa? Sim → Arranjo/Permutação. Não → Combinação.",
+ summary:["Ordem importa? SIM → Arranjo | NÃO → Combinação","Perm. simples: n! | Com repetição: n!/(n₁!×n₂!×...)","Arranjo: Aₙ,ₖ=n!/(n−k)!","Combinação: Cₙ,ₖ=n!/[k!(n−k)!]","📊 3,7% das questões ENEM"]},
+
+{year:"3",tri:"PU",theme:"Pré-universitário",pu:true,emoji:"💰",term:"Matemática Financeira — ENEM",
+ steps:{
+   intro:"Estratégia para matemática financeira no ENEM — sempre compare o custo total real.",
+   items:[
+     {n:1,action:"Identifique o regime",detail:"Simples: cresce linearmente (J=Cin). Composto: cresce exponencialmente (M=C(1+i)ⁿ). Mercado usa composto.",ex:"'Banco cobra 2% ao mês' → composto. 'Juros de R$10 por mês fixos' → simples"},
+     {n:2,action:"Unifique unidades de tempo",detail:"i e n na mesma unidade. Taxa anual com n em meses → converta.",ex:"12% a.a. por 6 meses → i=1% a.m., n=6 meses. M=C×(1,01)⁶"},
+     {n:3,action:"Calcule o custo total",detail:"Para comparar opções: some todas as parcelas ou calcule o montante. Compare os totais.",ex:"À vista R$1.000 vs 3×R$380=R$1.140. Diferença=R$140=14% de juros embutido"},
+     {n:4,action:"Interprete no contexto",detail:"ENEM frequentemente pede a taxa de juros embutida numa compra parcelada ou o custo real de um financiamento.",tip:"⚠️ 2% ao mês ≠ 24% ao ano em juros compostos. 2% a.m. = (1,02)¹²−1≈26,8% a.a.!"}
+   ]
+ },
+ simple:"Juros simples e compostos, descontos, parcelamentos. Capacidade de calcular e comparar opções financeiras.",
+ explain:"O ENEM testa situações reais: comparar financiamentos, calcular dívidas, interpretar taxas. <b>Juros simples</b>: M=C(1+in) — raro na prática financeira. <b>Juros compostos</b>: M=C(1+i)ⁿ — o padrão do mercado (cartões, empréstimos, investimentos). <b>Desconto comercial</b>: D=N×d×t (desconto sobre o valor nominal). A relação entre PG e juros compostos é explícita: o montante em cada período forma uma PG de razão (1+i).",
+ example:"ENEM 2021: produto à vista R$1.200 ou em 3 parcelas de R$450. No parcelado: 3×450=R$1.350. Diferença de R$150 = taxa de juros embutida. Qual a taxa mensal?",
+ dict:[
+   {term:"Juros compostos",def:"Juros calculados sobre o montante acumulado. M=C×(1+i)ⁿ. O padrão do sistema financeiro.",ex:"R$1.000 a 2%/mês por 12 meses: M=1000×(1,02)¹²≈R$1.268,24."},
+   {term:"Taxa equivalente",def:"Taxas que produzem o mesmo montante em períodos diferentes. (1+i_anual)=(1+i_mensal)¹².",ex:"Taxa anual de 26,82% ≈ taxa mensal de 2%. (1,02)¹²≈1,2682."},
+   {term:"Desconto simples",def:"Redução no valor de um título antes do vencimento. D=N×d×t.",ex:"Título de R$1.000 com desconto de 5% em 2 meses: D=1000×0,05×2=R$100."},
+   {term:"Montante",def:"Valor total ao final: capital + juros acumulados. O que se paga ou recebe no vencimento.",ex:"Capital R$2.000, taxa 10%a.a., 3 anos compostos: M=2000×(1,1)³≈R$2.662."}
+ ],
+ prereq:{
+   intro:"Matemática Financeira no ENEM exige porcentagem sólida e noção de juros compostos.",
+   items:[
+     {badge:"6º ANO",color:"#FF6B6B",title:"Porcentagem",desc:"Toda matemática financeira é porcentagem aplicada. Sem esse fundamento, nada funciona.",check:"✓ Pronto se: calcula 8% de R$1.500 e aplica taxa de 12% a.a. em R$2.000."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Juros simples e compostos",desc:"A distinção entre linear (simples) e exponencial (composto) é a base da análise financeira.",check:"✓ Pronto se: calcula montante de R$1.000 a 5%/mês por 3 meses nos dois regimes."},
+     {badge:"1ª SÉRIE",color:"#00D2FF",title:"Progressão Geométrica",desc:"Montantes em juros compostos formam uma PG. Reconhecer isso facilita cálculos.",check:"✓ Pronto se: identifica que R$1000, R$1100, R$1210 a 10%/mês é uma PG de razão 1,1."}
+   ],
+   vestibular:"ENEM: comparar opções de compra (à vista vs. parcelado), calcular juros embutidos, interpretar extratos e financiamentos. FUVEST e UNICAMP pedem cálculos com logaritmos para encontrar o prazo n dado capital, taxa e montante: n=log(M/C)/log(1+i)."
+ },
+
+ visual:`<svg viewBox="0 0 260 145" xmlns="http://www.w3.org/2000/svg" width="245">
+   <rect x="12" y="104" width="34" height="12" rx="4" fill="#FFD700" opacity=".50"/>
+   <text x="29" y="99" text-anchor="middle" font-family="Orbitron" font-size="8" fill="#FFD700">1000</text>
+   <rect x="54" y="98" width="34" height="18" rx="4" fill="#FFD700" opacity=".60"/>
+   <text x="71" y="93" text-anchor="middle" font-family="Orbitron" font-size="8" fill="#FFD700">1020</text>
+   <rect x="96" y="90" width="34" height="26" rx="4" fill="#FFD700" opacity=".70"/>
+   <text x="113" y="85" text-anchor="middle" font-family="Orbitron" font-size="8" fill="#FFD700">1040</text>
+   <rect x="138" y="80" width="34" height="36" rx="4" fill="#FFD700" opacity=".80"/>
+   <text x="155" y="75" text-anchor="middle" font-family="Orbitron" font-size="8" fill="#FFD700">1061</text>
+   <rect x="180" y="67" width="34" height="49" rx="4" fill="#FFD700" opacity=".90"/>
+   <text x="197" y="62" text-anchor="middle" font-family="Orbitron" font-size="8" fill="#FFD700">1082</text>
+   <line x1="12" y1="116" x2="260" y2="116" stroke="#1E2A3A" stroke-width="2"/>
+   <text x="130" y="132" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#FF9F43">R$1000 a 2%/mês → crescimento de PG</text>
+ </svg>`,
+ visualCaption:"Cada mês o montante cresce ×1,02 — formando uma PG. Por isso juros compostos e PG são a mesma coisa.",
+ summary:["Simples: M=C(1+in) | Compostos: M=C(1+i)ⁿ","Juros compostos = montantes formam uma PG","Taxa equivalente: (1+i_a)=(1+i_m)¹²","Desconto simples: D=N×d×t","Compare sempre o custo total, não só a parcela"]},
+
+{year:"3",tri:"PU",theme:"Pré-universitário",pu:true,emoji:"📊",term:"Geometria Espacial — Volumes",
+ steps:{
+   intro:"Estratégia para volumes no ENEM — identificar o sólido é o passo mais importante.",
+   items:[
+     {n:1,action:"Identifique o sólido",detail:"Lata/cano → cilindro. Caixa → prisma. Bola → esfera. Cume de montanha/chapéu → cone ou pirâmide.",ex:"'Caixa d'água cilíndrica com r=2m e h=3m' → cilindro: V=πr²h"},
+     {n:2,action:"Selecione a fórmula",detail:"Cilindro: V=πr²h. Cone: V=πr²h/3. Esfera: V=4πr³/3. Prisma: V=Abase×h.",ex:"Cone r=5, h=12: V=π×25×12/3=100π≈314 cm³"},
+     {n:3,action:"Converta unidades se necessário",detail:"1m³=1.000L. 1L=1dm³=1.000cm³. Sempre converta antes de calcular se as unidades são mistas.",ex:"V=37,7m³=37.700L. A 200L/dia: 37.700/200=188,5 dias"},
+     {n:4,action:"Para sólidos compostos",detail:"Separe em partes simples. Some ou subtraia os volumes conforme a figura.",ex:"Silo = cilindro + cone no topo. V total = V cilindro + V cone",tip:"⚠️ Cone=Cilindro/3. Pirâmide=Prisma/3. Sempre!"}
+   ]
+ },
+ simple:"3,7% ENEM. Prismas, cilindros, cones, pirâmides e esferas. Fórmulas de volume e área. Problemas de capacidade e enchimento.",
+ explain:"O ENEM testa <b>situações práticas</b>: capacidade de caixas e caixotes, comparação de embalagens, economia de material. Fórmulas-chave: Cilindro V=πr²h. Cone=Cilindro/3. Esfera=4πr³/3. Pirâmide=Prisma/3. Relação importante: cone e cilindro de mesma base e altura → cone = 1/3 do cilindro. Conversão de unidades: 1m³=1000L e 1L=1dm³.",
+ example:"ENEM: caixa d'água cilíndrica com r=2m, h=3m. V=π×4×3=12π≈37,7m³=37.700 litros. A 200L/dia, dura 37.700/200≈188 dias.",
+ dict:[
+   {term:"Volume",def:"Medida do espaço ocupado por um sólido. Unidade: m³, cm³, L (1L=1dm³).",ex:"Caixa 2m×3m×1,5m: V=9m³=9.000L."},
+   {term:"Planificação",def:"Abrir um sólido 3D em uma figura plana. Útil para calcular a área total (soma das faces).",ex:"Planificação de cilindro: 2 círculos (bases) + 1 retângulo (lateral, largura=2πr)."},
+   {term:"Sólidos semelhantes",def:"Se a razão entre dimensões lineares é k, a razão dos volumes é k³.",ex:"Latas semelhantes com razão 1:2: volumes na razão 1:8."},
+   {term:"Cone e cilindro",def:"Com mesma base e altura: V_cone = V_cilindro/3. Regra válida também para pirâmide e prisma.",ex:"Cone r=5, h=12: V=πr²h/3=π×25×12/3=100π≈314cm³."}
+ ],
+ prereq:{
+   intro:"Geometria Espacial no ENEM exige saber as fórmulas de volume e conectar com situações do cotidiano.",
+   items:[
+     {badge:"6º ANO",color:"#FF6B6B",title:"Área de figuras planas",desc:"As bases dos sólidos são figuras planas. A área da base entra direto na fórmula do volume.",check:"✓ Pronto se: calcula área do círculo (πr²) e do triângulo (bh/2) com agilidade."},
+     {badge:"9º ANO",color:"#5F27CD",title:"Teorema de Pitágoras",desc:"Calcular alturas de pirâmides e geratriz do cone usa Pitágoras internamente.",check:"✓ Pronto se: encontra a altura de cone com g=10 e r=6: h=√(100−36)=8."},
+     {badge:"2ª SÉRIE",color:"#FF6B9D",title:"Geometria Espacial (base)",desc:"Cone=Cilindro/3 e Pirâmide=Prisma/3 são as relações-chave. Precisam estar automáticas.",check:"✓ Pronto se: calcula volume de cone com r=3 e h=4: V=πr²h/3=12π≈37,7 cm³."}
+   ],
+   vestibular:"ENEM 3,7%: capacidade de recipientes, comparação de embalagens, volume de sólidos compostos. Conversão de unidades é essencial: 1m³=1000L e 1L=1dm³. FUVEST e UNICAMP pedem sólidos inscritos/circunscritos, troncos de cone e pirâmide, e planificações."
+ },
+
+ visual:`<svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg" width="245">
+   <ellipse cx="55" cy="95" rx="28" ry="8" fill="none" stroke="#00D2FF" stroke-width="1.5"/>
+   <ellipse cx="55" cy="55" rx="28" ry="8" fill="none" stroke="#00D2FF" stroke-width="1.5"/>
+   <line x1="27" y1="95" x2="27" y2="55" stroke="#00D2FF" stroke-width="1.5"/>
+   <line x1="83" y1="95" x2="83" y2="55" stroke="#00D2FF" stroke-width="1.5"/>
+   <text x="55" y="122" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#00D2FF">πr²h</text>
+   <ellipse cx="148" cy="95" rx="28" ry="8" fill="none" stroke="#FF6B9D" stroke-width="1.5"/>
+   <line x1="120" y1="95" x2="148" y2="45" stroke="#FF6B9D" stroke-width="1.5"/>
+   <line x1="176" y1="95" x2="148" y2="45" stroke="#FF6B9D" stroke-width="1.5"/>
+   <text x="148" y="122" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#FF6B9D">πr²h/3</text>
+   <circle cx="225" cy="75" r="35" fill="none" stroke="#FFD700" stroke-width="1.5"/>
+   <text x="225" y="122" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#FFD700">4πr³/3</text>
+   <text x="130" y="138" text-anchor="middle" font-family="Orbitron" font-size="10" fill="#FF9F43">📊 3,7% das questões ENEM</text>
+ </svg>`,
+ visualCaption:"Cone = Cilindro ÷ 3. Pirâmide = Prisma ÷ 3. Esfera = 4πr³/3. Essas três relações valem qualquer prova.",
+ summary:["Cilindro: V=πr²h | Cone: V=πr²h/3","Esfera: V=4πr³/3","Pirâmide: V=Abase×h/3","Cone=Cilindro/3 | Pirâmide=Prisma/3","1m³=1000L | 1L=1dm³ | 📊 3,7% ENEM"]}
+];
+
+let activeYear='all',activeTheme='all',searchQ='';
+
+function render(){
+  const grid=document.getElementById('glossary');
+  const ctr=document.getElementById('counter');
+  const filtered=terms.filter(t=>{
+    const yearMatch = activeYear==='all' ||
+      (activeYear==='3' && (t.year==='3' || t.pu)) ||
+      (activeYear!=='3' && t.year===activeYear && !t.pu);
+    const th=activeTheme==='all'||t.theme===activeTheme;
+    const s=searchQ===''||t.term.toLowerCase().includes(searchQ)||t.simple.toLowerCase().includes(searchQ);
+    return yearMatch&&th&&s;
+  });
+  ctr.textContent=filtered.length?`${filtered.length} TERMO${filtered.length>1?'S':''} ENCONTRADO${filtered.length>1?'S':''}` :'';
+  if(!filtered.length){grid.innerHTML=`<div class="no-results"><span style="font-size:3rem;display:block;margin-bottom:12px">∅</span>Nenhum termo encontrado.</div>`;return;}
+  grid.innerHTML=filtered.map(t=>{
+    const yr=t.pu?'PU':t.year;
+    return`<div class="card" data-year="${t.year}" data-pu="${t.pu}" onclick="openModal(${terms.indexOf(t)})">
+      <div class="card-top">
+        <span style="font-size:1.7rem">${t.emoji}</span>
+        <div class="card-badges">
+          <span class="by" data-year="${yr}">${t.pu?'PRÉ-UNIV':t.year+'ª SÉR'}</span>
+          <span class="btri">${t.tri}</span>
+          <span class="bt">${t.theme}</span>
+        </div>
+      </div>
+      <h3>${t.term}</h3>
+      <p class="simple">${t.simple}</p>
+      <p class="hint">◈ clique para explorar</p>
+    </div>`;
+  }).join('');
+}
+
+function openModal(idx){
+  const t=terms[idx];
+  const yr=t.pu?'PU':t.year;
+  const tc=COLORS[yr]||'#6C5CE7';
+  document.getElementById('modalBand').style.background=`linear-gradient(135deg,#0F1623,${tc}22)`;
+  document.getElementById('modalBand').style.borderBottom=`1px solid ${tc}44`;
+  document.getElementById('mEmoji').textContent=t.emoji;
+  document.getElementById('mTitle').style.color=tc;
+  document.getElementById('mTitle').textContent=t.term;
+  document.getElementById('mSub').textContent=`${t.pu?'Pré-universitário':t.year+'ª série'} · ${t.tri} · ${t.theme}`;
+  document.getElementById('mp0').innerHTML=`
+    ${t.pu?`<div class="pu-badge">📊 Pré-universitário — tema com alta incidência no ENEM</div>`:''}
+    <div class="explain-box">${t.explain}</div>
+    <div class="example-box" style="border-color:${tc};background:${tc}0D">
+      <div class="elabel" style="color:${tc}">◈ EXEMPLO PRÁTICO</div>
+      <p>${t.example}</p>
+    </div>`;
+  document.getElementById('mp1').innerHTML=`
+    <ul class="dict-list">
+      ${(t.dict||[]).map(d=>`
+        <li class="dict-item">
+          <div class="dict-term" style="color:${tc}">${d.term}</div>
+          <div class="dict-def">${d.def}</div>
+          <span class="dict-ex">📌 ${d.ex}</span>
+        </li>`).join('')}
+    </ul>`;
+  document.getElementById('mp2').innerHTML=`
+    <div class="visual-wrap">${t.visual}</div>
+    <p class="visual-caption">${t.visualCaption}</p>`;
+  const pr=t.prereq||{};
+  document.getElementById('mp3').innerHTML=`
+    ${pr.intro?`<p class="prereq-intro">${pr.intro}</p>`:''}
+    <ul class="prereq-list">
+      ${(pr.items||[]).map(p=>`
+        <li class="prereq-item">
+          <span class="prereq-badge" style="background:${p.color}22;color:${p.color};border:1px solid ${p.color}44">${p.badge}</span>
+          <div class="prereq-content">
+            <div class="prereq-title" style="color:${tc}">${p.title}</div>
+            <div class="prereq-desc">${p.desc}</div>
+            <div class="prereq-check">${p.check}</div>
+          </div>
+        </li>`).join('')}
+    </ul>
+    ${pr.vestibular?`<div class="vestibular-box"><div class="vtitle">🎯 O QUE COBRE NO VESTIBULAR</div><p>${pr.vestibular}</p></div>`:''}`;
+  const st=t.steps||{};
+  document.getElementById('mp4').innerHTML=`
+    ${st.intro?`<p class="steps-intro">${st.intro}</p>`:''}
+    <ul class="step-list">
+      ${(st.items||[]).map((s,i)=>`
+        <li class="step-item">
+          <div class="step-num" style="background:${tc}22;color:${tc};border:1px solid ${tc}44">${s.n}</div>
+          <div class="step-body">
+            <div class="step-action" style="color:${tc}">${s.action}</div>
+            <div class="step-detail">${s.detail}</div>
+            ${s.ex?`<span class="step-example">📌 ${s.ex}</span>`:''}
+            ${s.tip?`<div class="step-warning">${s.tip}</div>`:''}
+          </div>
+        </li>`).join('')}
+    </ul>`;
+  document.getElementById('mp5').innerHTML=`
+    <ul class="summary-list">
+      ${t.summary.map(s=>`<li><span class="icon">◈</span><span>${s}</span></li>`).join('')}
+    </ul>`;
+  document.querySelectorAll('.mtab').forEach((b,i)=>b.classList.toggle('active',i===0));
+  document.querySelectorAll('.mpanel').forEach((p,i)=>p.classList.toggle('active',i===0));
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModalDirect(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';}
+function closeModal(e){if(e.target===document.getElementById('overlay'))closeModalDirect();}
+function switchTab(idx,btn){
+  document.querySelectorAll('.mtab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.mpanel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(`mp${idx}`).classList.add('active');
+}
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    activeYear=tab.dataset.year;render();
+  });
+});
+document.querySelectorAll('.theme-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTheme=btn.dataset.theme;render();
+  });
+});
+document.getElementById('searchInput').addEventListener('input',e=>{searchQ=e.target.value.toLowerCase().trim();render();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModalDirect();});
+render();
+</script>
+</body>
+</html>
