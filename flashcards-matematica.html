@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcards de Matemática — CBB</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F0F4FF;--white:#fff;--purple:#6C5CE7;--pink:#E84393;
+  --teal:#00B4A6;--orange:#FF7043;--green:#43A047;--yellow:#F59E0B;
+  --text:#1A1A2E;--sub:#6B7280;--border:#E5E7EB;
+  --shadow:0 8px 32px rgba(108,92,231,.12);--radius:24px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 600px 400px at 10% 20%,rgba(108,92,231,.07) 0%,transparent 70%),radial-gradient(ellipse 500px 500px at 90% 80%,rgba(0,180,166,.06) 0%,transparent 70%);pointer-events:none;z-index:0;}
+
+/* HEADER */
+header{text-align:center;padding:36px 20px 16px;position:relative;z-index:1;}
+.logo{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,5vw,2.4rem);color:var(--purple);display:flex;align-items:center;justify-content:center;gap:12px;}
+.logo-icon{width:46px;height:46px;background:var(--purple);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(108,92,231,.4);animation:bob 3s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.subtitle{color:var(--sub);font-size:.88rem;font-weight:700;margin-top:5px;}
+.back-btn{position:absolute;left:20px;top:40px;background:white;border:2px solid var(--border);border-radius:50px;padding:7px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.8rem;cursor:pointer;color:var(--sub);transition:all .2s;text-decoration:none;display:flex;align-items:center;gap:5px;}
+.back-btn:hover{border-color:var(--purple);color:var(--purple);}
+
+/* SETUP */
+.filters{max-width:860px;margin:0 auto;padding:14px 20px 6px;position:relative;z-index:1;}
+.filter-row{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:10px;}
+.filter-label{font-size:.72rem;font-weight:900;color:var(--sub);letter-spacing:1px;text-transform:uppercase;width:100%;}
+.pill{padding:7px 17px;border-radius:50px;border:2px solid var(--border);background:white;font-family:'Nunito',sans-serif;font-weight:800;font-size:.8rem;cursor:pointer;transition:all .2s;color:var(--sub);}
+.pill:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.pill.active{color:white;border-color:transparent;}
+.pill[data-val="all"].active,.pill[data-theme="all"].active{background:var(--purple);}
+.pill[data-val="6"].active{background:#FF5252;}
+.pill[data-val="7"].active{background:var(--orange);}
+.pill[data-val="8"].active{background:#29B6F6;}
+.pill[data-val="9"].active{background:var(--purple);}
+.pill[data-theme="Números"].active{background:#FF5252;}
+.pill[data-theme="Álgebra"].active{background:var(--purple);}
+.pill[data-theme="Geometria"].active{background:var(--teal);}
+.pill[data-theme="Estatística"].active{background:var(--orange);}
+.pill[data-theme="Grandezas"].active{background:var(--yellow);color:#333!important;}
+
+.config-panel{max-width:860px;margin:0 auto 16px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:1;}
+.count-badge{background:var(--purple);color:white;border-radius:50px;padding:6px 16px;font-weight:900;font-size:.82rem;font-family:'Fredoka One',cursive;letter-spacing:.5px;}
+.start-btn{background:linear-gradient(135deg,var(--purple),#A855F7);color:white;border:none;border-radius:50px;padding:12px 30px;font-family:'Fredoka One',cursive;font-size:1rem;cursor:pointer;letter-spacing:.5px;box-shadow:0 6px 20px rgba(108,92,231,.4);transition:all .2s;display:flex;align-items:center;gap:8px;}
+.start-btn:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(108,92,231,.5);}
+.start-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* GAME */
+#game{display:none;position:relative;z-index:1;}
+.progress-bar-wrap{max-width:700px;margin:0 auto 16px;padding:0 20px;}
+.progress-meta{display:flex;justify-content:space-between;font-weight:800;font-size:.82rem;color:var(--sub);margin-bottom:8px;}
+.progress-bar-bg{height:10px;border-radius:50px;background:var(--border);overflow:hidden;}
+.progress-bar-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--purple),#A855F7);transition:width .4s cubic-bezier(.4,0,.2,1);}
+.scoreboard{max-width:700px;margin:0 auto 14px;padding:0 20px;display:flex;gap:10px;justify-content:center;}
+.score-chip{display:flex;align-items:center;gap:6px;background:white;border-radius:50px;padding:7px 16px;font-weight:900;font-size:.85rem;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.score-chip .dot{width:10px;height:10px;border-radius:50%;}
+.chip-correct .dot{background:var(--green);}
+.chip-wrong .dot{background:var(--pink);}
+.chip-skip .dot{background:var(--yellow);}
+
+/* CARD */
+.card-meta{max-width:680px;margin:0 auto 6px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;}
+.nav-counter{font-family:'Fredoka One',cursive;font-size:.95rem;color:var(--sub);letter-spacing:.5px;}
+.flip-hint{font-size:.75rem;font-weight:700;color:var(--sub);opacity:.5;}
+
+.flashcard-wrap{perspective:1200px;max-width:680px;margin:0 auto;padding:0 20px 14px;}
+.flashcard{position:relative;width:100%;height:360px;cursor:pointer;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);}
+.flashcard.flipped{transform:rotateY(180deg);}
+.card-face{position:absolute;inset:0;border-radius:var(--radius);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 36px;box-shadow:var(--shadow);text-align:center;}
+
+/* FRENTE */
+.card-front{background:white;border:3px solid var(--border);}
+.card-front::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;border-radius:var(--radius) var(--radius) 0 0;background:linear-gradient(90deg,var(--purple),#A855F7,var(--pink));}
+.card-year-badge{font-family:'Fredoka One',cursive;font-size:.68rem;letter-spacing:.5px;padding:3px 10px;border-radius:50px;position:absolute;top:16px;right:16px;}
+.card-topic-tag{font-family:'Fredoka One',cursive;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);background:rgba(108,92,231,.08);padding:4px 14px;border-radius:50px;margin-bottom:18px;}
+.card-question{font-family:'Fredoka One',cursive;font-size:clamp(1.05rem,3.5vw,1.5rem);line-height:1.4;color:var(--text);margin-bottom:0;}
+.card-context{margin-top:14px;font-size:.82rem;font-weight:700;color:var(--sub);background:rgba(108,92,231,.05);border-radius:10px;padding:8px 14px;line-height:1.5;}
+.flip-cue{position:absolute;bottom:18px;font-size:.78rem;font-weight:700;color:var(--sub);opacity:.45;display:flex;align-items:center;gap:5px;}
+.flip-cue::before{content:'↻';font-size:1rem;}
+
+/* VERSO */
+.card-back{background:linear-gradient(135deg,#1A1A2E,#2D2B55);transform:rotateY(180deg);border:3px solid rgba(108,92,231,.3);}
+.card-back::after{content:'';position:absolute;inset:0;border-radius:calc(var(--radius) - 3px);background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%236C5CE7' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none;}
+.answer-tag{font-family:'Fredoka One',cursive;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:#A855F7;background:rgba(168,85,247,.12);padding:4px 14px;border-radius:50px;margin-bottom:14px;position:relative;z-index:1;}
+.card-answer{font-size:clamp(.9rem,3vw,1.1rem);font-weight:700;color:#F0F4FF;line-height:1.65;position:relative;z-index:1;max-width:500px;}
+.card-answer-example{margin-top:14px;font-size:.8rem;font-weight:600;color:rgba(240,244,255,.45);font-style:italic;position:relative;z-index:1;max-width:480px;}
+
+/* BOTÕES */
+.action-btns{max-width:680px;margin:0 auto;padding:0 20px 10px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.action-btn{border:none;border-radius:50px;padding:12px 26px;font-family:'Fredoka One',cursive;font-size:.95rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:7px;letter-spacing:.5px;}
+.action-btn:hover{transform:translateY(-3px);}
+.action-btn:active{transform:translateY(0);}
+.btn-correct{background:var(--green);color:white;box-shadow:0 4px 16px rgba(67,160,71,.35);}
+.btn-wrong{background:var(--pink);color:white;box-shadow:0 4px 16px rgba(232,67,147,.35);}
+.btn-skip{background:white;color:var(--sub);border:2px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.keyboard-hint{text-align:center;padding:6px 0 14px;font-size:.73rem;font-weight:700;color:var(--sub);opacity:.4;position:relative;z-index:1;}
+kbd{background:#E5E7EB;border-radius:5px;padding:2px 6px;font-size:.7rem;font-family:monospace;}
+
+/* RESULTADO */
+#result{display:none;position:relative;z-index:1;}
+.result-wrap{max-width:580px;margin:0 auto;padding:20px 20px 60px;text-align:center;}
+.result-emoji{font-size:4rem;margin-bottom:8px;display:block;animation:pop .4s cubic-bezier(.4,0,.2,1);}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+.result-title{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,5vw,2.1rem);color:var(--purple);margin-bottom:6px;}
+.result-sub{font-size:.92rem;font-weight:700;color:var(--sub);margin-bottom:22px;}
+.result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
+.stat-card{background:white;border-radius:18px;padding:18px 10px;box-shadow:0 4px 16px rgba(0,0,0,.06);}
+.stat-number{font-family:'Fredoka One',cursive;font-size:2rem;display:block;margin-bottom:3px;}
+.stat-label{font-size:.75rem;font-weight:800;color:var(--sub);text-transform:uppercase;letter-spacing:.5px;}
+.stat-correct .stat-number{color:var(--green);}
+.stat-wrong .stat-number{color:var(--pink);}
+.stat-skip .stat-number{color:var(--yellow);}
+.acc-wrap{margin-bottom:22px;}
+.acc-label{font-weight:900;font-size:.83rem;color:var(--sub);margin-bottom:7px;display:flex;justify-content:space-between;}
+.acc-label span:last-child{font-family:'Fredoka One',cursive;font-size:.95rem;color:var(--purple);}
+.acc-bg{height:13px;border-radius:50px;background:var(--border);overflow:hidden;}
+.acc-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--green),#66BB6A);transition:width .8s cubic-bezier(.4,0,.2,1) .2s;}
+.review-section{text-align:left;margin-bottom:22px;}
+.review-title{font-family:'Fredoka One',cursive;font-size:1.05rem;color:var(--pink);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.review-item{background:white;border-radius:12px;padding:12px 16px;margin-bottom:7px;border-left:4px solid var(--pink);box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.review-q{font-weight:900;font-size:.85rem;margin-bottom:3px;}
+.review-a{font-size:.8rem;font-weight:600;color:var(--sub);}
+.result-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;}
+.result-btn{border:none;border-radius:50px;cursor:pointer;font-family:'Fredoka One',cursive;font-size:.93rem;padding:12px 26px;transition:all .2s;display:flex;align-items:center;gap:7px;letter-spacing:.5px;}
+.result-btn:hover{transform:translateY(-3px);}
+.btn-retry{background:var(--purple);color:white;box-shadow:0 4px 16px rgba(108,92,231,.4);}
+.btn-retry-wrong{background:var(--pink);color:white;box-shadow:0 4px 16px rgba(232,67,147,.35);}
+.btn-new{background:white;color:var(--sub);border:2px solid var(--border);}
+
+@media(max-width:520px){
+  .flashcard{height:300px;}
+  .card-face{padding:22px 20px;}
+  .action-btns{gap:7px;}
+  .action-btn{padding:10px 18px;font-size:.87rem;}
+  .back-btn{display:none;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="glossario-matematica.html">← Glossário</a>
+  <div class="logo"><div class="logo-icon">🃏</div>Flashcards de Matemática</div>
+  <p class="subtitle">Colégio Batista Brasileiro · Anos Finais · 6º ao 9º ano</p>
+</header>
+
+<div id="setup">
+  <div class="filters">
+    <div class="filter-row">
+      <span class="filter-label">Ano</span>
+      <button class="pill active" data-filter="year" data-val="all">Todos</button>
+      <button class="pill" data-filter="year" data-val="6">6º ano</button>
+      <button class="pill" data-filter="year" data-val="7">7º ano</button>
+      <button class="pill" data-filter="year" data-val="8">8º ano</button>
+      <button class="pill" data-filter="year" data-val="9">9º ano</button>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Tema</span>
+      <button class="pill active" data-filter="theme" data-theme="all">Todos os temas</button>
+      <button class="pill" data-filter="theme" data-theme="Números">Números</button>
+      <button class="pill" data-filter="theme" data-theme="Álgebra">Álgebra</button>
+      <button class="pill" data-filter="theme" data-theme="Geometria">Geometria</button>
+      <button class="pill" data-filter="theme" data-theme="Estatística">Estatística</button>
+      <button class="pill" data-filter="theme" data-theme="Grandezas">Grandezas</button>
+    </div>
+  </div>
+  <div class="config-panel">
+    <div id="countBadge" class="count-badge">30 cards disponíveis</div>
+    <button class="start-btn" onclick="startGame()" id="startBtn">▶ Começar</button>
+  </div>
+</div>
+
+<div id="game">
+  <div class="progress-bar-wrap">
+    <div class="progress-meta"><span id="progressLabel">Card 1 de 30</span><span id="progressPct">0%</span></div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+  <div class="scoreboard">
+    <div class="score-chip chip-correct"><div class="dot"></div><span id="sc">0</span> Acertei</div>
+    <div class="score-chip chip-wrong"><div class="dot"></div><span id="sw">0</span> Errei</div>
+    <div class="score-chip chip-skip"><div class="dot"></div><span id="ss">0</span> Pulei</div>
+  </div>
+  <div class="card-meta">
+    <span class="nav-counter" id="navCtr">1 / 30</span>
+    <span class="flip-hint">clique no card para revelar ↻</span>
+  </div>
+  <div class="flashcard-wrap">
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="card-face card-front">
+        <span class="card-year-badge" id="frontBadge"></span>
+        <div class="card-topic-tag" id="cardTopic"></div>
+        <div class="card-question" id="cardQuestion"></div>
+        <div class="card-context" id="cardContext" style="display:none"></div>
+        <span class="flip-cue">clique para ver a resposta</span>
+      </div>
+      <div class="card-face card-back">
+        <div class="answer-tag">RESPOSTA</div>
+        <div class="card-answer" id="cardAnswer"></div>
+        <div class="card-answer-example" id="cardAnswerEx"></div>
+      </div>
+    </div>
+  </div>
+  <div class="action-btns" id="actionBtns" style="visibility:hidden">
+    <button class="action-btn btn-wrong" onclick="mark('wrong')">✗ Errei</button>
+    <button class="action-btn btn-skip" onclick="mark('skip')">→ Pular</button>
+    <button class="action-btn btn-correct" onclick="mark('correct')">✓ Acertei</button>
+  </div>
+  <div class="keyboard-hint"><kbd>Espaço</kbd> revelar &nbsp;<kbd>←</kbd> errei &nbsp;<kbd>→</kbd> acertei &nbsp;<kbd>↑</kbd> pular</div>
+</div>
+
+<div id="result">
+  <div class="result-wrap">
+    <span class="result-emoji" id="rEmoji">🎉</span>
+    <div class="result-title" id="rTitle"></div>
+    <div class="result-sub" id="rSub"></div>
+    <div class="result-stats">
+      <div class="stat-card stat-correct"><span class="stat-number" id="fC">0</span><span class="stat-label">Acertei</span></div>
+      <div class="stat-card stat-wrong"><span class="stat-number" id="fW">0</span><span class="stat-label">Errei</span></div>
+      <div class="stat-card stat-skip"><span class="stat-number" id="fS">0</span><span class="stat-label">Pulei</span></div>
+    </div>
+    <div class="acc-wrap">
+      <div class="acc-label"><span>Taxa de acerto</span><span id="accPct">0%</span></div>
+      <div class="acc-bg"><div class="acc-fill" id="accFill" style="width:0%"></div></div>
+    </div>
+    <div class="review-section" id="reviewSection"></div>
+    <div class="result-actions">
+      <button class="result-btn btn-retry" onclick="retryAll()">↺ Repetir tudo</button>
+      <button class="result-btn btn-retry-wrong" onclick="retryWrong()" id="retryWrongBtn">✗ Só os erros</button>
+      <button class="result-btn btn-new" onclick="backToSetup()">← Novo deck</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// BANCO DE CARDS
+// Cada card tem: year, theme, pergunta, contexto (opcional),
+// resposta e exemplo para o verso
+// ═══════════════════════════════════════════════════
+const CARDS = [
+
+// ─── 6º ANO ─────────────────────────────────────
+{year:"6",theme:"Números",
+ q:"O que são números naturais?",
+ ctx:"",
+ a:"Números usados para contar: 0, 1, 2, 3, 4, 5... São sempre inteiros e nunca negativos.",
+ ex:"32 alunos, 7 faltaram. Quantos vieram? 32−7=25. O resultado (25) é um número natural."},
+
+{year:"6",theme:"Números",
+ q:"Em Números Romanos, quando um símbolo menor aparece ANTES de um maior, o que acontece?",
+ ctx:"Ex: IV, IX, XL, XC, CD, CM",
+ a:"Subtrai-se o símbolo menor do maior. IV = 5−1 = 4. IX = 10−1 = 9. XL = 50−10 = 40.",
+ ex:"MCMLIV: M(1000)+CM(900)+L(50)+IV(4) = 1954"},
+
+{year:"6",theme:"Números",
+ q:"Qual é a ORDEM CORRETA das operações em uma expressão numérica?",
+ ctx:"Ex: [2 + (3×4)] − 1 = ?",
+ a:"1º Parênteses ( ) → 2º Colchetes [ ] → 3º Potências e raízes → 4º × e ÷ → 5º + e −",
+ ex:"[2+(3×4)]−1: resolve 3×4=12 → 2+12=14 → 14−1=13"},
+
+{year:"6",theme:"Números",
+ q:"O que significa 2 elevado à 5ª potência (2⁵)? Como calcula?",
+ ctx:"Potenciação: base elevada ao expoente",
+ a:"Base 2 multiplicada por ela mesma 5 vezes: 2×2×2×2×2 = 32. Expoente indica quantas vezes multiplica.",
+ ex:"Atenção: (−2)² = +4, mas −2² = −4. O parêntese muda tudo!"},
+
+{year:"6",theme:"Números",
+ q:"O que é a raiz quadrada de um número? Como calcular √144?",
+ ctx:"Operação inversa da potenciação",
+ a:"√a = b quando b² = a. Pergunte: qual número elevado ao quadrado dá o radicando? √144=12 pois 12²=144.",
+ ex:"√50 = √(25×2) = 5√2. Atenção: √(a+b) ≠ √a + √b — não distribua a raiz sobre somas!"},
+
+{year:"6",theme:"Números",
+ q:"Como verificar se um número é divisível por 3 sem fazer a divisão?",
+ ctx:"Critério de divisibilidade por 3",
+ a:"Some todos os dígitos do número. Se a soma for divisível por 3, o número também é.",
+ ex:"252: 2+5+2=9. Como 9÷3=3 (exato), então 252 é divisível por 3. ✓"},
+
+{year:"6",theme:"Números",
+ q:"Qual a diferença entre MMC e MDC? Para que serve cada um?",
+ ctx:"Mínimo Múltiplo Comum vs Máximo Divisor Comum",
+ a:"MMC: menor número divisível por todos. Usa maior expoente de cada fator. MDC: maior divisor comum. Usa menor expoente dos fatores comuns.",
+ ex:"MMC(12,18)=36 (usado para somar frações). MDC(12,18)=6 (para simplificar frações). MMC×MDC=12×18=216 ✓"},
+
+{year:"6",theme:"Números",
+ q:"Como somar frações com denominadores diferentes? Ex: 1/4 + 1/6 = ?",
+ ctx:"Operações com frações",
+ a:"Encontre o MMC dos denominadores. Converta as frações. Some os numeradores. MMC(4,6)=12.",
+ ex:"1/4+1/6 = 3/12+2/12 = 5/12. Para dividir, inverta e multiplique: 3/4÷2/5 = 3/4×5/2 = 15/8"},
+
+// ─── 7º ANO ─────────────────────────────────────
+{year:"7",theme:"Geometria",
+ q:"Dois ângulos são chamados de SUPLEMENTARES quando somam quanto? E COMPLEMENTARES?",
+ ctx:"Relações entre ângulos",
+ a:"Suplementares somam 180°. Complementares somam 90°. Opostos pelo vértice são sempre iguais.",
+ ex:"Se x e 130° são suplementares: x+130°=180° → x=50°. Verificação: 50°+130°=180° ✓"},
+
+{year:"7",theme:"Geometria",
+ q:"Qual a diferença entre PERÍMETRO e ÁREA? Como calcular os dois para um retângulo?",
+ ctx:"Retângulo com base b e altura h",
+ a:"Perímetro = contorno (soma dos lados): P=2(b+h). Área = superfície: A=b×h. Unidades diferentes: P em m, A em m².",
+ ex:"Jardim 6m×4m: P=2(6+4)=20m (quanto de cerca). A=6×4=24m² (quanto de grama)"},
+
+{year:"7",theme:"Grandezas",
+ q:"Qual é o FATOR DE MULTIPLICAÇÃO para aplicar um desconto de 15%?",
+ ctx:"Use fator em vez de calcular em dois passos",
+ a:"Fator = (1−15/100) = 0,85. Multiplique direto pelo valor. Para aumento de 20%: fator = 1,20.",
+ ex:"Produto R$200 com 15% de desconto: 200×0,85=R$170. Muito mais rápido que calcular 15% e subtrair!"},
+
+{year:"7",theme:"Números",
+ q:"Qual é a regra dos sinais para multiplicação e divisão com números inteiros?",
+ ctx:"Sinais iguais e sinais diferentes",
+ a:"Sinais IGUAIS → resultado POSITIVO. Sinais DIFERENTES → resultado NEGATIVO.",
+ ex:"(+3)×(−4)=−12. (−3)×(−4)=+12. (−12)÷(+3)=−4. Atenção: (−2)²=+4 pois (−)(−)=+"},
+
+{year:"7",theme:"Geometria",
+ q:"Qual a fórmula do comprimento de uma circunferência? E da área do círculo?",
+ ctx:"Circunferência = linha. Círculo = interior.",
+ a:"Comprimento: C = 2πr (ou πd). Área do círculo: A = πr². Use π≈3,14.",
+ ex:"Roda com r=30cm: C=2×3,14×30=188,4cm por volta. A=π×900≈2.827cm²"},
+
+{year:"7",theme:"Números",
+ q:"Uma dízima periódica como 0,333... é um número racional ou irracional? Por quê?",
+ ctx:"Classificação dos números racionais",
+ a:"É racional! Qualquer dízima PERIÓDICA pode ser escrita como fração. 0,333...=1/3. Só é irracional se não tiver padrão.",
+ ex:"0,142857142857... = 1/7 (racional). √2=1,41421356... (irracional — sem padrão que se repete)"},
+
+{year:"7",theme:"Álgebra",
+ q:"Como resolver a equação 3x + 5 = 20? Quais os passos?",
+ ctx:"Equação do 1º grau — isole o x",
+ a:"1. Passe o número para o outro lado (muda o sinal): 3x = 20−5 = 15. 2. Divida pelo coeficiente: x = 15÷3 = 5.",
+ ex:"Verificação obrigatória: 3(5)+5=20 ✓. O que passa de lado, muda de sinal (operação inversa)."},
+
+{year:"7",theme:"Grandezas",
+ q:"Em uma proporção a/b = c/d, o que é o PRODUTO CRUZADO e como usar?",
+ ctx:"Regra: extremos × meios",
+ a:"Extremos (a e d) multiplicados = meios (b e c) multiplicados: a×d = b×c. Isola a incógnita após o produto.",
+ ex:"3/6=5/x → 3×x=6×5 → 3x=30 → x=10. Verif: 3/6=5/10=0,5 ✓"},
+
+{year:"7",theme:"Grandezas",
+ q:"Qual é a DIFERENÇA entre regra de três DIRETA e INVERSA? Como identificar?",
+ ctx:"Pense: se uma grandeza cresce, a outra...?",
+ a:"DIRETA: uma cresce → outra cresce (a₁/b₁=a₂/b₂). INVERSA: uma cresce → outra diminui (a₁×b₁=a₂×b₂).",
+ ex:"3 operários em 8 dias: mais operários = menos dias → INVERSA. 3×8=6×x → x=4 dias."},
+
+{year:"7",theme:"Estatística",
+ q:"Qual medida usar quando os dados têm um valor MUITO diferente dos outros (outlier)?",
+ ctx:"Ex: salários 1000, 1000, 1200, 1500, 50000",
+ a:"Use a MEDIANA (valor central após ordenar) — ela não é afetada por outliers. A média seria puxada pelo valor extremo.",
+ ex:"Salários: mediana=R$1200. Média=(1000+1000+1200+1500+50000)/5=R$10.740 ← enganosa!"},
+
+// ─── 8º ANO ─────────────────────────────────────
+{year:"8",theme:"Números",
+ q:"Como simplificar √72? Qual é a estratégia?",
+ ctx:"Números reais e raízes — decomposição",
+ a:"Decomponha o radicando em fatores: √72=√(36×2)=√36×√2=6√2. Retire o maior quadrado perfeito possível.",
+ ex:"√50=√(25×2)=5√2. √200=√(100×2)=10√2. Regra: tire pares de fatores pra fora da raiz."},
+
+{year:"8",theme:"Números",
+ q:"Como escrever 150.000.000 em notação científica? E 0,000032?",
+ ctx:"Notação científica: a×10ⁿ onde 1≤a<10",
+ a:"Mova a vírgula até 1≤a<10. Para a esquerda: expoente positivo. Para a direita: expoente negativo.",
+ ex:"150.000.000 = 1,5×10⁸ (virgula andou 8 casas p/ esquerda). 0,000032 = 3,2×10⁻⁵ (5 casas p/ direita)"},
+
+{year:"8",theme:"Grandezas",
+ q:"+20% seguido de −20%: o resultado final é zero? Qual é o resultado correto?",
+ ctx:"Armadilha clássica de variações sucessivas",
+ a:"NÃO é zero! Multiplique os fatores: 1,20×0,80=0,96. O resultado é uma QUEDA de 4% em relação ao original.",
+ ex:"R$100 +20% = R$120. R$120 −20% = R$96. (Não R$100!) Nunca some porcentagens: use fatores."},
+
+{year:"8",theme:"Álgebra",
+ q:"Quais monômios são SEMELHANTES e podem ser somados diretamente?",
+ ctx:"Expressões algébricas",
+ a:"Monômios com a MESMA parte literal (mesmas letras e expoentes). Some/subtraia só os coeficientes.",
+ ex:"5x² e −3x² são semelhantes: 5x²−3x²=2x². Mas 5x² e 3x NÃO são semelhantes (x²≠x)!"},
+
+{year:"8",theme:"Álgebra",
+ q:"Qual é a fórmula do produto notável (a+b)(a−b)? Como usar para fatorar?",
+ ctx:"Produto da soma pela diferença",
+ a:"(a+b)(a−b) = a²−b². Inverso: a²−b² = (a+b)(a−b). Reconheça quadrado perfeito menos quadrado perfeito.",
+ ex:"x²−9 = x²−3² = (x+3)(x−3). x²−25 = (x+5)(x−5). Sempre procure fator comum primeiro!"},
+
+{year:"8",theme:"Geometria",
+ q:"Qual é a CONDIÇÃO DE EXISTÊNCIA de um triângulo com lados a, b e c?",
+ ctx:"Triângulos — classificação",
+ a:"Cada lado deve ser MENOR que a soma dos outros dois. Se qualquer lado for maior ou igual à soma dos outros, o triângulo não existe.",
+ ex:"Lados 3,4,8: 3+4=7 < 8 → NÃO existe. Lados 3,4,6: 3+4=7 > 6 → existe ✓"},
+
+{year:"8",theme:"Álgebra",
+ q:"Para usar Bhaskara, o primeiro passo é calcular o Δ. O que o Δ revela ANTES de calcular as raízes?",
+ ctx:"Δ = b²−4ac na equação ax²+bx+c=0",
+ a:"Δ>0: 2 raízes reais diferentes. Δ=0: 1 raiz real (dupla). Δ<0: sem raízes reais — pare aqui.",
+ ex:"x²−5x+6=0: Δ=25−24=1>0 → 2 raízes. x=(5±1)/2 → x₁=3 e x₂=2. Verificação: 3+2=5=b/a ✓"},
+
+{year:"8",theme:"Geometria",
+ q:"Como calcular a área de um SETOR CIRCULAR (fatia de pizza) com ângulo α e raio r?",
+ ctx:"Circunferência e círculo — aprofundado",
+ a:"Área do setor = πr²×(α/360°). É a fração α/360 da área total do círculo.",
+ ex:"Setor de 90° com r=6: A=π×36×(90/360)=9π≈28,3cm². 90° é 1/4 do círculo, então é 1/4 de πr²."},
+
+// ─── 9º ANO ─────────────────────────────────────
+{year:"9",theme:"Geometria",
+ q:"Um telhado tem vigas de 5m que partem do topo e pousam 3m da parede. Qual a altura da parede?",
+ ctx:"Aplique o Teorema de Pitágoras: c²=a²+b²",
+ a:"Hipotenusa=5m (viga), cateto=3m (base). Altura²=5²−3²=25−9=16. Altura=4m.",
+ ex:"Ternas pitagóricas memorize: 3-4-5, 5-12-13, 6-8-10. Se reconhecer a terna, não precisa calcular!"},
+
+{year:"9",theme:"Geometria",
+ q:"Se um bastão de 2m projeta sombra de 3m, e uma árvore projeta sombra de 12m, qual a altura da árvore?",
+ ctx:"Semelhança de triângulos e Tales — mesmo horário = ângulos iguais",
+ a:"Triângulos são semelhantes: árvore/bastão = sombra árvore/sombra bastão. h/2 = 12/3 → h=8m.",
+ ex:"Razão de semelhança k=4. Se lados têm razão 1:4, ÁREAS têm razão 1:16 (k²). Muito cobrado!"},
+
+{year:"9",theme:"Grandezas",
+ q:"R$1.000 a 5% ao mês por 2 meses: qual a diferença entre juros SIMPLES e COMPOSTOS?",
+ ctx:"Juros simples: M=C(1+in). Compostos: M=C(1+i)ⁿ",
+ a:"Simples: M=1000×(1+0,05×2)=R$1.100 (linear). Compostos: M=1000×(1,05)²=R$1.102,50 (exponencial).",
+ ex:"A diferença parece pequena, mas em longo prazo é enorme. Banco usa SEMPRE compostos."},
+
+{year:"9",theme:"Grandezas",
+ q:"O que o DESVIO PADRÃO (DP) indica sobre um conjunto de dados?",
+ ctx:"Medidas de dispersão — DP = √variância",
+ a:"Mede o quanto os dados se afastam da média. DP pequeno: dados concentrados. DP grande: dados espalhados.",
+ ex:"Dados 4,6,8,10: média=7. Desvios:−3,−1,+1,+3. Variância=20/4=5. DP=√5≈2,24. Dados na mesma unidade da média."},
+
+{year:"9",theme:"Álgebra",
+ q:"Sem calcular as raízes, como saber a SOMA e o PRODUTO das raízes de x²−5x+6=0?",
+ ctx:"Relações de Girard — a=1, b=−5, c=6",
+ a:"Soma das raízes = −b/a = 5/1 = 5. Produto das raízes = c/a = 6/1 = 6. Use para verificar sem substituir.",
+ ex:"x₁=3 e x₂=2: soma=3+2=5 ✓, produto=3×2=6 ✓. Muito útil para verificar rapidamente."},
+];
+
+// ═══════════════════════════════════════════════════
+// ESTADO
+// ═══════════════════════════════════════════════════
+const S={deck:[],cur:0,flipped:false,correct:0,wrong:0,skip:0,wrongCards:[],activeYear:'all',activeTheme:'all'};
+const yColors={'6':{bg:'#FF5252',light:'#FFEBEE'},'7':{bg:'#FF7043',light:'#FBE9E7'},'8':{bg:'#29B6F6',light:'#E1F5FE'},'9':{bg:'#6C5CE7',light:'#EDE7F6'}};
+
+// ═══════════════════════════════════════════════════
+// FILTROS
+// ═══════════════════════════════════════════════════
+document.querySelectorAll('.pill[data-filter="year"]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.pill[data-filter="year"]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); S.activeYear=b.dataset.val; updateCount();
+  });
+});
+document.querySelectorAll('.pill[data-filter="theme"]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.pill[data-filter="theme"]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); S.activeTheme=b.dataset.theme; updateCount();
+  });
+});
+
+function filtered(){
+  return CARDS.filter(c=>{
+    return (S.activeYear==='all'||c.year===S.activeYear)&&(S.activeTheme==='all'||c.theme===S.activeTheme);
+  });
+}
+function updateCount(){
+  const n=filtered().length;
+  document.getElementById('countBadge').textContent=n+' card'+(n!==1?'s':'')+' disponíve'+(n!==1?'is':'l');
+  document.getElementById('startBtn').disabled=n===0;
+}
+updateCount();
+
+// ═══════════════════════════════════════════════════
+// EMBARALHAR
+// ═══════════════════════════════════════════════════
+function shuffle(a){
+  const r=[...a];
+  for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}
+  return r;
+}
+
+// ═══════════════════════════════════════════════════
+// INICIAR
+// ═══════════════════════════════════════════════════
+function startGame(cards){
+  const deck=cards||shuffle(filtered());
+  if(!deck.length)return;
+  Object.assign(S,{deck,cur:0,flipped:false,correct:0,wrong:0,skip:0,wrongCards:[]});
+  document.getElementById('setup').style.display='none';
+  document.getElementById('result').style.display='none';
+  document.getElementById('game').style.display='block';
+  renderCard(); updateProgress();
+}
+
+// ═══════════════════════════════════════════════════
+// RENDERIZAR
+// ═══════════════════════════════════════════════════
+function renderCard(){
+  const c=S.deck[S.cur];
+  const col=yColors[c.year]||{bg:'#6C5CE7',light:'#EDE7F6'};
+
+  // Badge ano
+  const b=document.getElementById('frontBadge');
+  b.textContent=c.year+'º ANO · '+c.theme;
+  b.style.background=col.light;
+  b.style.color=col.bg;
+  b.style.border='1.5px solid '+col.bg+'44';
+  b.style.borderRadius='50px';
+  b.style.fontSize='.68rem';
+  b.style.fontFamily="'Fredoka One',cursive";
+  b.style.padding='3px 10px';
+  b.style.letterSpacing='.5px';
+
+  // Tópico (tag roxa)
+  document.getElementById('cardTopic').textContent=c.theme.toUpperCase();
+
+  // Pergunta
+  document.getElementById('cardQuestion').textContent=c.q;
+
+  // Contexto (dica opcional)
+  const ctx=document.getElementById('cardContext');
+  if(c.ctx){ctx.textContent=c.ctx;ctx.style.display='block';}
+  else{ctx.style.display='none';}
+
+  // Verso
+  document.getElementById('cardAnswer').textContent=c.a;
+  document.getElementById('cardAnswerEx').textContent=c.ex?'📌 '+c.ex:'';
+
+  // Reset flip
+  const fc=document.getElementById('flashcard');
+  fc.classList.remove('flipped');
+  S.flipped=false;
+  document.getElementById('actionBtns').style.visibility='hidden';
+}
+
+// ═══════════════════════════════════════════════════
+// VIRAR
+// ═══════════════════════════════════════════════════
+function flipCard(){
+  S.flipped=!S.flipped;
+  document.getElementById('flashcard').classList.toggle('flipped',S.flipped);
+  document.getElementById('actionBtns').style.visibility=S.flipped?'visible':'hidden';
+}
+
+// ═══════════════════════════════════════════════════
+// MARCAR
+// ═══════════════════════════════════════════════════
+function mark(r){
+  if(!S.flipped)return;
+  if(r==='correct')S.correct++;
+  else if(r==='wrong'){S.wrong++;S.wrongCards.push(S.deck[S.cur]);}
+  else S.skip++;
+  document.getElementById('sc').textContent=S.correct;
+  document.getElementById('sw').textContent=S.wrong;
+  document.getElementById('ss').textContent=S.skip;
+  S.cur++;
+  if(S.cur>=S.deck.length){showResult();return;}
+  renderCard(); updateProgress();
+}
+
+// ═══════════════════════════════════════════════════
+// PROGRESSO
+// ═══════════════════════════════════════════════════
+function updateProgress(){
+  const n=S.deck.length,pct=Math.round((S.cur/n)*100);
+  document.getElementById('progressLabel').textContent='Card '+(S.cur+1)+' de '+n;
+  document.getElementById('progressPct').textContent=pct+'%';
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('navCtr').textContent=(S.cur+1)+' / '+n;
+}
+
+// ═══════════════════════════════════════════════════
+// RESULTADO
+// ═══════════════════════════════════════════════════
+function showResult(){
+  document.getElementById('game').style.display='none';
+  document.getElementById('result').style.display='block';
+  const n=S.deck.length,acc=n>0?Math.round((S.correct/n)*100):0;
+  document.getElementById('fC').textContent=S.correct;
+  document.getElementById('fW').textContent=S.wrong;
+  document.getElementById('fS').textContent=S.skip;
+  document.getElementById('accPct').textContent=acc+'%';
+  setTimeout(()=>{document.getElementById('accFill').style.width=acc+'%';},100);
+  let e,t,s;
+  if(acc>=90){e='🏆';t='Excelente!';s='Você domina esses conceitos!';}
+  else if(acc>=75){e='⭐';t='Muito bem!';s='Continue praticando os que errou.';}
+  else if(acc>=50){e='💪';t='Bom esforço!';s='Revise os erros e tente novamente.';}
+  else{e='📚';t='Continue estudando!';s='Revise os conceitos e tente de novo.';}
+  document.getElementById('rEmoji').textContent=e;
+  document.getElementById('rTitle').textContent=t;
+  document.getElementById('rSub').textContent=s+' ('+acc+'% de acerto)';
+  const rev=document.getElementById('reviewSection');
+  if(S.wrongCards.length>0){
+    rev.innerHTML=`<div class="review-title">✗ Para revisar (${S.wrongCards.length} ${S.wrongCards.length===1?'erro':'erros'})</div>`+
+      S.wrongCards.map(c=>`<div class="review-item"><div class="review-q">${c.q}</div><div class="review-a">${c.a.substring(0,120)}${c.a.length>120?'...':''}</div></div>`).join('');
+    document.getElementById('retryWrongBtn').style.display='';
+  } else {
+    rev.innerHTML='';
+    document.getElementById('retryWrongBtn').style.display='none';
+  }
+}
+
+function retryAll(){startGame(shuffle(S.deck));}
+function retryWrong(){if(S.wrongCards.length)startGame(shuffle(S.wrongCards));}
+function backToSetup(){document.getElementById('result').style.display='none';document.getElementById('setup').style.display='block';}
+
+// ═══════════════════════════════════════════════════
+// TECLADO + SWIPE
+// ═══════════════════════════════════════════════════
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('game').style.display==='none')return;
+  if(e.code==='Space'){e.preventDefault();flipCard();}
+  else if(e.code==='ArrowRight'&&S.flipped)mark('correct');
+  else if(e.code==='ArrowLeft'&&S.flipped)mark('wrong');
+  else if(e.code==='ArrowUp'&&S.flipped){e.preventDefault();mark('skip');}
+});
+let tx=0;
+document.getElementById('flashcard').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(document.getElementById('game').style.display==='none'||!S.flipped)return;
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>60)mark(dx>0?'correct':'wrong');
+});
+</script>
+</body>
+</html>
