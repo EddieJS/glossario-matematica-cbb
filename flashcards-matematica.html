@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcards de Matemática — CBB</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F0F4FF;--white:#fff;--purple:#6C5CE7;--pink:#E84393;--teal:#00B4A6;--orange:#FF7043;--green:#43A047;--yellow:#F59E0B;--text:#1A1A2E;--sub:#6B7280;--border:#E5E7EB;--shadow:0 8px 32px rgba(108,92,231,.12);--radius:24px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 600px 400px at 10% 20%,rgba(108,92,231,.07) 0%,transparent 70%),radial-gradient(ellipse 500px 500px at 90% 80%,rgba(0,180,166,.06) 0%,transparent 70%);pointer-events:none;z-index:0;}
+header{text-align:center;padding:36px 20px 16px;position:relative;z-index:1;}
+.logo{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,5vw,2.4rem);color:var(--purple);display:flex;align-items:center;justify-content:center;gap:12px;}
+.logo-icon{width:46px;height:46px;background:var(--purple);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(108,92,231,.4);animation:bob 3s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.subtitle{color:var(--sub);font-size:.88rem;font-weight:700;margin-top:5px;}
+.back-btn{position:absolute;left:20px;top:40px;background:white;border:2px solid var(--border);border-radius:50px;padding:7px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.8rem;cursor:pointer;color:var(--sub);transition:all .2s;text-decoration:none;display:flex;align-items:center;gap:5px;}
+.back-btn:hover{border-color:var(--purple);color:var(--purple);}
+
+/* FILTROS */
+.filters{max-width:860px;margin:0 auto;padding:14px 20px 6px;position:relative;z-index:1;}
+.filter-row{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:10px;}
+.filter-label{font-size:.72rem;font-weight:900;color:var(--sub);letter-spacing:1px;text-transform:uppercase;width:100%;}
+.pill{padding:7px 17px;border-radius:50px;border:2px solid var(--border);background:white;font-family:'Nunito',sans-serif;font-weight:800;font-size:.8rem;cursor:pointer;transition:all .2s;color:var(--sub);}
+.pill:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.pill.active{color:white;border-color:transparent;}
+.pill[data-val="all"].active,.pill[data-theme="all"].active,.pill[data-nivel="all"].active{background:var(--purple);}
+.pill[data-val="6"].active{background:#FF5252;}
+.pill[data-val="7"].active{background:var(--orange);}
+.pill[data-val="8"].active{background:#29B6F6;}
+.pill[data-val="9"].active{background:var(--purple);}
+.pill[data-nivel="1"].active{background:var(--teal);}
+.pill[data-nivel="2"].active{background:var(--green);}
+.pill[data-nivel="3"].active{background:var(--yellow);color:#333!important;}
+.pill[data-nivel="4"].active{background:var(--pink);}
+
+/* NIVEL BADGE COLOR */
+.nivel-1{background:rgba(0,180,166,.12);color:var(--teal);border:1.5px solid rgba(0,180,166,.3);}
+.nivel-2{background:rgba(67,160,71,.12);color:var(--green);border:1.5px solid rgba(67,160,71,.3);}
+.nivel-3{background:rgba(245,158,11,.12);color:#B45309;border:1.5px solid rgba(245,158,11,.3);}
+.nivel-4{background:rgba(232,67,147,.12);color:var(--pink);border:1.5px solid rgba(232,67,147,.3);}
+
+.config-panel{max-width:860px;margin:0 auto 16px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:1;}
+.count-badge{background:var(--purple);color:white;border-radius:50px;padding:6px 16px;font-weight:900;font-size:.82rem;font-family:'Fredoka One',cursive;letter-spacing:.5px;}
+.start-btn{background:linear-gradient(135deg,var(--purple),#A855F7);color:white;border:none;border-radius:50px;padding:12px 30px;font-family:'Fredoka One',cursive;font-size:1rem;cursor:pointer;letter-spacing:.5px;box-shadow:0 6px 20px rgba(108,92,231,.4);transition:all .2s;display:flex;align-items:center;gap:8px;}
+.start-btn:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(108,92,231,.5);}
+.start-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* GAME */
+#game{display:none;position:relative;z-index:1;}
+.progress-bar-wrap{max-width:700px;margin:0 auto 16px;padding:0 20px;}
+.progress-meta{display:flex;justify-content:space-between;font-weight:800;font-size:.82rem;color:var(--sub);margin-bottom:8px;}
+.progress-bar-bg{height:10px;border-radius:50px;background:var(--border);overflow:hidden;}
+.progress-bar-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--purple),#A855F7);transition:width .4s cubic-bezier(.4,0,.2,1);}
+.scoreboard{max-width:700px;margin:0 auto 14px;padding:0 20px;display:flex;gap:10px;justify-content:center;}
+.score-chip{display:flex;align-items:center;gap:6px;background:white;border-radius:50px;padding:7px 16px;font-weight:900;font-size:.85rem;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.score-chip .dot{width:10px;height:10px;border-radius:50%;}
+.chip-correct .dot{background:var(--green);}
+.chip-wrong .dot{background:var(--pink);}
+.chip-skip .dot{background:var(--yellow);}
+
+/* CARD */
+.card-meta{max-width:680px;margin:0 auto 6px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;}
+.nav-counter{font-family:'Fredoka One',cursive;font-size:.95rem;color:var(--sub);letter-spacing:.5px;}
+.flip-hint{font-size:.75rem;font-weight:700;color:var(--sub);opacity:.5;}
+.flashcard-wrap{perspective:1200px;max-width:680px;margin:0 auto;padding:0 20px 14px;}
+.flashcard{position:relative;width:100%;height:360px;cursor:pointer;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);}
+.flashcard.flipped{transform:rotateY(180deg);}
+.card-face{position:absolute;inset:0;border-radius:var(--radius);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 36px;box-shadow:var(--shadow);text-align:center;}
+
+/* FRENTE */
+.card-front{background:white;border:3px solid var(--border);}
+.card-front::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;border-radius:var(--radius) var(--radius) 0 0;background:linear-gradient(90deg,var(--purple),#A855F7,var(--pink));}
+.card-badges{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;}
+.year-badge{font-family:'Fredoka One',cursive;font-size:.68rem;letter-spacing:.5px;padding:3px 10px;border-radius:50px;}
+.nivel-tag{font-family:'Fredoka One',cursive;font-size:.65rem;letter-spacing:.5px;padding:3px 10px;border-radius:50px;}
+.card-topic-tag{font-family:'Fredoka One',cursive;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);background:rgba(108,92,231,.08);padding:4px 14px;border-radius:50px;margin-bottom:18px;}
+.card-question{font-family:'Fredoka One',cursive;font-size:clamp(1.05rem,3.5vw,1.45rem);line-height:1.4;color:var(--text);margin-bottom:0;}
+.card-context{margin-top:14px;font-size:.82rem;font-weight:700;color:var(--sub);background:rgba(108,92,231,.05);border-radius:10px;padding:8px 14px;line-height:1.5;max-width:480px;}
+.flip-cue{position:absolute;bottom:18px;font-size:.77rem;font-weight:700;color:var(--sub);opacity:.45;display:flex;align-items:center;gap:5px;}
+.flip-cue::before{content:'↻';font-size:1rem;}
+
+/* VERSO */
+.card-back{background:linear-gradient(135deg,#1A1A2E,#2D2B55);transform:rotateY(180deg);border:3px solid rgba(108,92,231,.3);}
+.card-back::after{content:'';position:absolute;inset:0;border-radius:calc(var(--radius) - 3px);background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%236C5CE7' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none;}
+.answer-tag{font-family:'Fredoka One',cursive;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:#A855F7;background:rgba(168,85,247,.12);padding:4px 14px;border-radius:50px;margin-bottom:14px;position:relative;z-index:1;}
+.card-answer{font-size:clamp(.88rem,3vw,1.08rem);font-weight:700;color:#F0F4FF;line-height:1.65;position:relative;z-index:1;max-width:500px;}
+.card-answer-ex{margin-top:13px;font-size:.78rem;font-weight:600;color:rgba(240,244,255,.45);font-style:italic;position:relative;z-index:1;max-width:480px;}
+
+/* BOTÕES */
+.action-btns{max-width:680px;margin:0 auto;padding:0 20px 10px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.action-btn{border:none;border-radius:50px;padding:12px 26px;font-family:'Fredoka One',cursive;font-size:.95rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:7px;letter-spacing:.5px;}
+.action-btn:hover{transform:translateY(-3px);}
+.action-btn:active{transform:translateY(0);}
+.btn-correct{background:var(--green);color:white;box-shadow:0 4px 16px rgba(67,160,71,.35);}
+.btn-wrong{background:var(--pink);color:white;box-shadow:0 4px 16px rgba(232,67,147,.35);}
+.btn-skip{background:white;color:var(--sub);border:2px solid var(--border);}
+.keyboard-hint{text-align:center;padding:6px 0 14px;font-size:.73rem;font-weight:700;color:var(--sub);opacity:.4;position:relative;z-index:1;}
+kbd{background:#E5E7EB;border-radius:5px;padding:2px 6px;font-size:.7rem;font-family:monospace;}
+
+/* RESULTADO */
+#result{display:none;position:relative;z-index:1;}
+.result-wrap{max-width:580px;margin:0 auto;padding:20px 20px 60px;text-align:center;}
+.result-emoji{font-size:4rem;margin-bottom:8px;display:block;animation:pop .4s cubic-bezier(.4,0,.2,1);}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+.result-title{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,5vw,2.1rem);color:var(--purple);margin-bottom:6px;}
+.result-sub{font-size:.92rem;font-weight:700;color:var(--sub);margin-bottom:22px;}
+.result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
+.stat-card{background:white;border-radius:18px;padding:18px 10px;box-shadow:0 4px 16px rgba(0,0,0,.06);}
+.stat-number{font-family:'Fredoka One',cursive;font-size:2rem;display:block;margin-bottom:3px;}
+.stat-label{font-size:.73rem;font-weight:800;color:var(--sub);text-transform:uppercase;letter-spacing:.5px;}
+.stat-correct .stat-number{color:var(--green);}
+.stat-wrong .stat-number{color:var(--pink);}
+.stat-skip .stat-number{color:var(--yellow);}
+.acc-wrap{margin-bottom:22px;}
+.acc-label{font-weight:900;font-size:.83rem;color:var(--sub);margin-bottom:7px;display:flex;justify-content:space-between;}
+.acc-label span:last-child{font-family:'Fredoka One',cursive;font-size:.95rem;color:var(--purple);}
+.acc-bg{height:13px;border-radius:50px;background:var(--border);overflow:hidden;}
+.acc-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--green),#66BB6A);transition:width .8s cubic-bezier(.4,0,.2,1) .2s;}
+.review-section{text-align:left;margin-bottom:22px;}
+.review-title{font-family:'Fredoka One',cursive;font-size:1.05rem;color:var(--pink);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.review-item{background:white;border-radius:12px;padding:12px 16px;margin-bottom:7px;border-left:4px solid var(--pink);box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.review-q{font-weight:900;font-size:.85rem;margin-bottom:3px;}
+.review-a{font-size:.8rem;font-weight:600;color:var(--sub);}
+.result-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;}
+.result-btn{border:none;border-radius:50px;cursor:pointer;font-family:'Fredoka One',cursive;font-size:.93rem;padding:12px 26px;transition:all .2s;display:flex;align-items:center;gap:7px;letter-spacing:.5px;}
+.result-btn:hover{transform:translateY(-3px);}
+.btn-retry{background:var(--purple);color:white;box-shadow:0 4px 16px rgba(108,92,231,.4);}
+.btn-retry-wrong{background:var(--pink);color:white;box-shadow:0 4px 16px rgba(232,67,147,.35);}
+.btn-new{background:white;color:var(--sub);border:2px solid var(--border);}
+@media(max-width:520px){.flashcard{height:300px;}.card-face{padding:22px 20px;}.action-btn{padding:10px 18px;font-size:.87rem;}.back-btn{display:none;}}
+</style>
+</head>
+<body>
+<header>
+  <a class="back-btn" href="glossario-matematica.html">← Glossário</a>
+  <div class="logo"><div class="logo-icon">🃏</div>Flashcards de Matemática</div>
+  <p class="subtitle">Colégio Batista Brasileiro · Anos Finais · 6º ao 9º ano</p>
+</header>
+
+<div id="setup">
+  <div class="filters">
+    <div class="filter-row">
+      <span class="filter-label">Ano</span>
+      <button class="pill active" data-filter="year" data-val="all">Todos</button>
+      <button class="pill" data-filter="year" data-val="6">6º ano</button>
+      <button class="pill" data-filter="year" data-val="7">7º ano</button>
+      <button class="pill" data-filter="year" data-val="8">8º ano</button>
+      <button class="pill" data-filter="year" data-val="9">9º ano</button>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Tema</span>
+      <button class="pill active" data-filter="theme" data-theme="all">Todos os temas</button>
+      <button class="pill" data-filter="theme" data-theme="Números">Números</button>
+      <button class="pill" data-filter="theme" data-theme="Álgebra">Álgebra</button>
+      <button class="pill" data-filter="theme" data-theme="Geometria">Geometria</button>
+      <button class="pill" data-filter="theme" data-theme="Estatística">Estatística</button>
+      <button class="pill" data-filter="theme" data-theme="Grandezas">Grandezas</button>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Nível de dificuldade</span>
+      <button class="pill active" data-filter="nivel" data-nivel="all">Todos os níveis</button>
+      <button class="pill" data-filter="nivel" data-nivel="1">🔵 Vocabulário</button>
+      <button class="pill" data-filter="nivel" data-nivel="2">🟢 Conceito</button>
+      <button class="pill" data-filter="nivel" data-nivel="3">🟡 Identificação</button>
+      <button class="pill" data-filter="nivel" data-nivel="4">🔴 Resolução</button>
+    </div>
+  </div>
+  <div class="config-panel">
+    <div id="countBadge" class="count-badge">carregando...</div>
+    <button class="start-btn" onclick="startGame()" id="startBtn">▶ Começar</button>
+  </div>
+</div>
+
+<div id="game">
+  <div class="progress-bar-wrap">
+    <div class="progress-meta"><span id="progressLabel">Card 1 de 30</span><span id="progressPct">0%</span></div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+  <div class="scoreboard">
+    <div class="score-chip chip-correct"><div class="dot"></div><span id="sc">0</span> Acertei</div>
+    <div class="score-chip chip-wrong"><div class="dot"></div><span id="sw">0</span> Errei</div>
+    <div class="score-chip chip-skip"><div class="dot"></div><span id="ss">0</span> Pulei</div>
+  </div>
+  <div class="card-meta">
+    <span class="nav-counter" id="navCtr">1 / 30</span>
+    <span class="flip-hint">clique no card para revelar ↻</span>
+  </div>
+  <div class="flashcard-wrap">
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="card-face card-front">
+        <div class="card-badges">
+          <span class="year-badge" id="frontYear"></span>
+          <span class="nivel-tag" id="frontNivel"></span>
+        </div>
+        <div class="card-topic-tag" id="cardTopic"></div>
+        <div class="card-question" id="cardQuestion"></div>
+        <div class="card-context" id="cardContext" style="display:none"></div>
+        <span class="flip-cue">clique para ver a resposta</span>
+      </div>
+      <div class="card-face card-back">
+        <div class="answer-tag">RESPOSTA</div>
+        <div class="card-answer" id="cardAnswer"></div>
+        <div class="card-answer-ex" id="cardAnswerEx"></div>
+      </div>
+    </div>
+  </div>
+  <div class="action-btns" id="actionBtns" style="visibility:hidden">
+    <button class="action-btn btn-wrong" onclick="mark('wrong')">✗ Errei</button>
+    <button class="action-btn btn-skip" onclick="mark('skip')">→ Pular</button>
+    <button class="action-btn btn-correct" onclick="mark('correct')">✓ Acertei</button>
+  </div>
+  <div class="keyboard-hint"><kbd>Espaço</kbd> revelar &nbsp;<kbd>←</kbd> errei &nbsp;<kbd>→</kbd> acertei &nbsp;<kbd>↑</kbd> pular</div>
+</div>
+
+<div id="result">
+  <div class="result-wrap">
+    <span class="result-emoji" id="rEmoji">🎉</span>
+    <div class="result-title" id="rTitle"></div>
+    <div class="result-sub" id="rSub"></div>
+    <div class="result-stats">
+      <div class="stat-card stat-correct"><span class="stat-number" id="fC">0</span><span class="stat-label">Acertei</span></div>
+      <div class="stat-card stat-wrong"><span class="stat-number" id="fW">0</span><span class="stat-label">Errei</span></div>
+      <div class="stat-card stat-skip"><span class="stat-number" id="fS">0</span><span class="stat-label">Pulei</span></div>
+    </div>
+    <div class="acc-wrap">
+      <div class="acc-label"><span>Taxa de acerto</span><span id="accPct">0%</span></div>
+      <div class="acc-bg"><div class="acc-fill" id="accFill" style="width:0%"></div></div>
+    </div>
+    <div class="review-section" id="reviewSection"></div>
+    <div class="result-actions">
+      <button class="result-btn btn-retry" onclick="retryAll()">↺ Repetir tudo</button>
+      <button class="result-btn btn-retry-wrong" onclick="retryWrong()" id="retryWrongBtn">✗ Só os erros</button>
+      <button class="result-btn btn-new" onclick="backToSetup()">← Novo deck</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// BANCO DE CARDS
+// nivel: 1=Vocabulário 2=Conceito 3=Identificação 4=Resolução
+// ═══════════════════════════════════════════════════════
+const CARDS=[
+
+// ──────────────────────────────────────────────────────
+// 6º ANO — NÚMEROS
+// ──────────────────────────────────────────────────────
+{year:"6",theme:"Números",nivel:1,
+ q:"O que são números NATURAIS?",ctx:"",
+ a:"São os números usados para contar: 0, 1, 2, 3, 4, 5... São sempre inteiros e nunca negativos.",
+ ex:"32 alunos em uma turma. 7 faltaram. O número de presentes (25) é um número natural."},
+
+{year:"6",theme:"Números",nivel:2,
+ q:"Qual número natural é NEUTRO na adição? E na multiplicação?",ctx:"",
+ a:"Neutro na adição = 0 (qualquer número + 0 = ele mesmo). Neutro na multiplicação = 1 (qualquer número × 1 = ele mesmo).",
+ ex:"5 + 0 = 5. 5 × 1 = 5. O zero ANULA na multiplicação: 5 × 0 = 0."},
+
+{year:"6",theme:"Números",nivel:3,
+ q:"Quais destes são números naturais: −3, 0, 1,5, 7, √2?",ctx:"Classifique cada um",
+ a:"São naturais: 0 e 7. Não são naturais: −3 (negativo), 1,5 (decimal), √2 (irracional).",
+ ex:"Naturais = inteiros + não negativos. 0 é natural (faz parte do conjunto ℕ)."},
+
+{year:"6",theme:"Números",nivel:4,
+ q:"Uma turma tem 32 alunos. 7 faltaram. Os presentes foram divididos em 5 grupos. Quantos em cada grupo?",ctx:"Use operações com números naturais",
+ a:"Presentes: 32−7=25. Grupos: 25÷5=5 alunos por grupo.",
+ ex:"Sempre verifique: 5×5=25 ✓. O resultado (5) é natural."},
+
+{year:"6",theme:"Números",nivel:1,
+ q:"Em Números Romanos, o que significa o símbolo M?",ctx:"",
+ a:"M = 1000. Os símbolos básicos: I=1, V=5, X=10, L=50, C=100, D=500, M=1000.",
+ ex:"MMXXVI = 2026 (MM=2000, XX=20, VI=6). O ano atual em algarismos romanos!"},
+
+{year:"6",theme:"Números",nivel:2,
+ q:"Em Números Romanos, quando um símbolo MENOR aparece ANTES de um MAIOR, o que acontece?",ctx:"Regra da subtração",
+ a:"Subtrai-se o símbolo menor do maior. Isso só é válido para: IV, IX, XL, XC, CD e CM.",
+ ex:"IV=4 (5−1). IX=9 (10−1). XL=40 (50−10). XC=90. CD=400. CM=900."},
+
+{year:"6",theme:"Números",nivel:3,
+ q:"Qual destes é um número romano INVÁLIDO: VIII, VIIII, XIV, XC?",ctx:"Identifique o erro",
+ a:"VIIII é inválido! Nunca se repete o mesmo símbolo mais de 3 vezes seguidas. O correto é IX.",
+ ex:"VIII ✓ (três I). VIIII ✗ (quatro I — use IX=9). XIV ✓. XC ✓."},
+
+{year:"6",theme:"Números",nivel:4,
+ q:"Converta MCMLIV para o sistema decimal e explique cada parte.",ctx:"Romano → Arábico",
+ a:"M=1000, CM=900 (1000−100), L=50, IV=4 (5−1). Total: 1000+900+50+4=1954.",
+ ex:"Estratégia: leia da esquerda para a direita. Se símbolo menor vem antes do maior, subtraia."},
+
+{year:"6",theme:"Números",nivel:1,
+ q:"O que é uma POTENCIAÇÃO? O que são base e expoente?",ctx:"",
+ a:"Potenciação é uma multiplicação repetida. Base = número que se multiplica. Expoente = quantas vezes multiplica.",
+ ex:"2⁵: base=2, expoente=5. Lê-se: 2 elevado à quinta potência."},
+
+{year:"6",theme:"Números",nivel:2,
+ q:"Quanto vale QUALQUER número elevado ao expoente ZERO? Por quê?",ctx:"Propriedade especial da potenciação",
+ a:"Qualquer número (exceto 0) elevado a 0 = 1. Isso vem da propriedade: aⁿ ÷ aⁿ = aⁿ⁻ⁿ = a⁰ = 1.",
+ ex:"5⁰=1. 100⁰=1. (−7)⁰=1. Mas 0⁰ é indeterminado (caso especial)."},
+
+{year:"6",theme:"Números",nivel:3,
+ q:"(−3)² é igual a +9 ou a −9? Explique a diferença entre (−3)² e −3².",ctx:"Atenção ao parêntese!",
+ a:"(−3)²=+9 porque o parêntese inclui o sinal: (−3)×(−3)=+9. Já −3²=−9 porque é −(3²)=−9.",
+ ex:"O parêntese muda tudo! (−3)²=9 mas −3²=−9. Na calculadora, confirme a diferença."},
+
+{year:"6",theme:"Números",nivel:4,
+ q:"Calcule: 2³ + 3² − 4¹ + 5⁰",ctx:"Resolva cada potência e depois some/subtraia",
+ a:"2³=8, 3²=9, 4¹=4, 5⁰=1. Resultado: 8+9−4+1=14.",
+ ex:"Sempre calcule as potências ANTES de somar e subtrair (ordem das operações)."},
+
+{year:"6",theme:"Números",nivel:1,
+ q:"O que é a RAIZ QUADRADA de um número?",ctx:"",
+ a:"É a operação inversa da potenciação ao quadrado. √a = b quando b² = a. Pergunte: qual número elevado ao quadrado dá a?",
+ ex:"√25=5 porque 5²=25. √100=10 porque 10²=100."},
+
+{year:"6",theme:"Números",nivel:2,
+ q:"O que são QUADRADOS PERFEITOS? Cite os 10 primeiros.",ctx:"",
+ a:"São números cujas raízes quadradas são inteiras: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100.",
+ ex:"√49=7 ✓. √50 não é inteiro (√50≈7,07) porque 50 não é quadrado perfeito."},
+
+{year:"6",theme:"Números",nivel:3,
+ q:"√72 está entre quais números inteiros? Como simplificar √72?",ctx:"Decompor o radicando",
+ a:"√64=8 e √81=9, então √72 está entre 8 e 9. Simplificando: √72=√(36×2)=6√2.",
+ ex:"Estratégia: encontre o maior quadrado perfeito que divide 72: é 36. √(36×2)=√36×√2=6√2."},
+
+{year:"6",theme:"Números",nivel:4,
+ q:"Calcule √144 + √25 − √9.",ctx:"Some as raízes quadradas",
+ a:"√144=12, √25=5, √9=3. Resultado: 12+5−3=14.",
+ ex:"Erro comum: √(a+b) ≠ √a+√b. Mas aqui as raízes já estão separadas — pode calcular cada uma."},
+
+{year:"6",theme:"Números",nivel:1,
+ q:"O que significa dizer que um número é DIVISÍVEL por outro?",ctx:"",
+ a:"Um número a é divisível por b quando a divisão a÷b resulta em um número inteiro, sem resto.",
+ ex:"12 é divisível por 3 (12÷3=4, resto 0). 13 não é divisível por 3 (13÷3=4, resto 1)."},
+
+{year:"6",theme:"Números",nivel:2,
+ q:"Como verificar rapidamente se um número é divisível por 9?",ctx:"Critério de divisibilidade",
+ a:"Some todos os dígitos. Se a soma for divisível por 9, o número também é.",
+ ex:"729: 7+2+9=18. Como 18÷9=2 (exato), 729 é divisível por 9. ✓"},
+
+{year:"6",theme:"Números",nivel:3,
+ q:"O número 360 é divisível por 2, 3, 4, 5, 9? Identifique quais sem dividir.",ctx:"Use os critérios de divisibilidade",
+ a:"÷2: termina em 0 ✓. ÷3: 3+6+0=9 ✓. ÷5: termina em 0 ✓. ÷9: soma=9 ✓. ÷4: últimos 2 dígitos (60)÷4=15 ✓.",
+ ex:"360 é divisível por todos eles! É por isso que 360° foi escolhido para o círculo."},
+
+{year:"6",theme:"Números",nivel:4,
+ q:"Fatore o número 120 em fatores primos.",ctx:"Decomposição em fatores primos",
+ a:"120÷2=60÷2=30÷2=15÷3=5÷5=1. Portanto 120=2³×3×5.",
+ ex:"Verificação: 8×3×5=8×15=120 ✓. Sempre divida pelo menor primo possível repetidamente."},
+
+{year:"6",theme:"Números",nivel:1,
+ q:"O que é o MMC de dois números? E o MDC?",ctx:"",
+ a:"MMC (Mínimo Múltiplo Comum) = o menor número divisível por todos. MDC (Máximo Divisor Comum) = o maior número que divide todos.",
+ ex:"MMC serve para somar frações. MDC serve para simplificá-las."},
+
+{year:"6",theme:"Números",nivel:2,
+ q:"Para encontrar o MMC por fatoração, qual a regra com os expoentes?",ctx:"",
+ a:"MMC: pegue TODOS os fatores primos, com o MAIOR expoente. MDC: pegue só os fatores COMUNS, com o MENOR expoente.",
+ ex:"12=2²×3 e 18=2×3². MMC=2²×3²=36. MDC=2×3=6. Verificação: MMC×MDC=36×6=216=12×18 ✓"},
+
+{year:"6",theme:"Números",nivel:4,
+ q:"Três ônibus saem juntos às 6h. Um sai a cada 20min, outro a cada 30min, outro a cada 45min. Quando saem juntos novamente?",ctx:"Use o MMC",
+ a:"MMC(20,30,45)=180 minutos=3 horas. Saem juntos às 9h.",
+ ex:"20=2²×5. 30=2×3×5. 45=3²×5. MMC=2²×3²×5=180 minutos."},
+
+{year:"6",theme:"Números",nivel:1,
+ q:"O que é uma fração? O que são numerador e denominador?",ctx:"",
+ a:"Fração representa partes de um todo. Numerador (em cima) = partes que temos. Denominador (embaixo) = em quantas partes o todo foi dividido.",
+ ex:"3/4: o todo foi dividido em 4 partes e temos 3 delas."},
+
+{year:"6",theme:"Números",nivel:2,
+ q:"Como multiplicar duas frações? E como dividir?",ctx:"",
+ a:"Multiplicar: numerador × numerador e denominador × denominador. Dividir: inverta a segunda fração e multiplique.",
+ ex:"2/3 × 3/4 = 6/12 = 1/2. E: 3/4 ÷ 2/5 = 3/4 × 5/2 = 15/8."},
+
+{year:"6",theme:"Números",nivel:3,
+ q:"Qual é maior: 3/4 ou 5/7? Como comparar frações com denominadores diferentes?",ctx:"",
+ a:"Calcule o produto cruzado: 3×7=21 e 5×4=20. Como 21>20, então 3/4 > 5/7.",
+ ex:"Ou converta para mesmo denominador: 3/4=21/28 e 5/7=20/28. Como 21>20, então 3/4>5/7 ✓"},
+
+{year:"6",theme:"Números",nivel:4,
+ q:"Calcule: 1/4 + 1/6 − 1/12",ctx:"Encontre o denominador comum (MMC)",
+ a:"MMC(4,6,12)=12. Convertendo: 3/12+2/12−1/12=4/12=1/3.",
+ ex:"Sempre encontre o MMC antes de somar frações. Nunca some denominadores diretamente!"},
+
+// ──────────────────────────────────────────────────────
+// 7º ANO — GEOMETRIA, ÁLGEBRA, GRANDEZAS
+// ──────────────────────────────────────────────────────
+{year:"7",theme:"Geometria",nivel:1,
+ q:"O que é um ÂNGULO? Quais são os tipos básicos?",ctx:"",
+ a:"Ângulo é a medida de abertura entre dois raios com o mesmo ponto de origem. Tipos: agudo (<90°), reto (=90°), obtuso (>90°), raso (=180°).",
+ ex:"Canto de uma folha de papel = ângulo reto (90°). Ponta de flecha afiada = ângulo agudo."},
+
+{year:"7",theme:"Geometria",nivel:2,
+ q:"Quando dois ângulos são chamados de SUPLEMENTARES? E de COMPLEMENTARES?",ctx:"",
+ a:"Suplementares: somam 180° (formam uma linha reta). Complementares: somam 90° (formam um ângulo reto).",
+ ex:"Um ângulo de 70° tem suplemento de 110° e complemento de 20°."},
+
+{year:"7",theme:"Geometria",nivel:3,
+ q:"Dois ângulos são opostos pelo vértice. Um mede 65°. Quanto mede o outro?",ctx:"",
+ a:"Opostos pelo vértice são IGUAIS. O outro ângulo também mede 65°.",
+ ex:"Os dois ângulos adjacentes a eles medem 180°−65°=115° (são suplementares aos de 65°)."},
+
+{year:"7",theme:"Geometria",nivel:4,
+ q:"Num triângulo, dois ângulos medem 70° e 55°. Quanto mede o terceiro?",ctx:"A soma dos ângulos internos de um triângulo é sempre...",
+ a:"Soma dos ângulos internos do triângulo = 180°. Terceiro ângulo = 180°−70°−55°=55°.",
+ ex:"Como dois ângulos têm 55°, é um triângulo isósceles! Os lados opostos aos ângulos iguais são iguais."},
+
+{year:"7",theme:"Geometria",nivel:1,
+ q:"Qual a diferença entre PERÍMETRO e ÁREA?",ctx:"",
+ a:"Perímetro = medida do contorno (soma de todos os lados), resultado em metros (m). Área = medida da superfície, resultado em metros quadrados (m²).",
+ ex:"Para colocar cerca num jardim: usa perímetro. Para comprar grama: usa área."},
+
+{year:"7",theme:"Geometria",nivel:2,
+ q:"Qual é a fórmula da área de um TRIÂNGULO?",ctx:"",
+ a:"Área do triângulo = (base × altura) ÷ 2. A altura deve ser perpendicular à base.",
+ ex:"Triângulo com base 8cm e altura 5cm: A=8×5÷2=20cm²."},
+
+{year:"7",theme:"Geometria",nivel:3,
+ q:"Um quadrado e um retângulo têm o mesmo perímetro de 20cm. O retângulo tem base 6cm. Qual a área de cada um?",ctx:"",
+ a:"Quadrado: lado=20÷4=5cm, A=25cm². Retângulo: altura=20÷2−6=4cm, A=6×4=24cm².",
+ ex:"Áreas diferentes com o mesmo perímetro! O quadrado maximiza a área para um dado perímetro."},
+
+{year:"7",theme:"Geometria",nivel:4,
+ q:"Um campo de futebol tem 105m×68m. Uma volta completa em volta do campo equivale a quantos metros?",ctx:"Calcule o perímetro",
+ a:"Perímetro = 2×(105+68) = 2×173 = 346 metros por volta.",
+ ex:"Para calcular o número de voltas de uma corrida: divida a distância total pelo perímetro."},
+
+{year:"7",theme:"Grandezas",nivel:1,
+ q:"O que significa calcular 30% de um valor?",ctx:"",
+ a:"Porcentagem é uma fração com denominador 100. 30% = 30/100 = 0,30. Calcular 30% de algo = multiplicar por 0,30.",
+ ex:"30% de R$200 = 200×0,30 = R$60. Ou: 200×30÷100 = R$60."},
+
+{year:"7",theme:"Grandezas",nivel:2,
+ q:"O que é um FATOR DE MULTIPLICAÇÃO na porcentagem? Para que serve?",ctx:"",
+ a:"É um número único que aplica o aumento ou desconto direto, sem dois passos. Aumento de p%: fator=(1+p/100). Desconto de p%: fator=(1−p/100).",
+ ex:"Desconto de 25%: fator=0,75. R$200×0,75=R$150. Muito mais rápido que calcular 25% e subtrair!"},
+
+{year:"7",theme:"Grandezas",nivel:3,
+ q:"Um produto custava R$80 e agora custa R$100. Qual foi o percentual de aumento?",ctx:"",
+ a:"Variação % = (valor final − valor inicial) / valor inicial × 100 = (100−80)/80×100 = 25%.",
+ ex:"Inverso: se houve desconto de 25% e o produto custa R$150, o original era 150÷0,75=R$200."},
+
+{year:"7",theme:"Grandezas",nivel:4,
+ q:"Uma loja dá 20% de desconto e, sobre esse valor, mais 10%. Qual o percentual total de desconto?",ctx:"Variações sucessivas — use fatores",
+ a:"Fator total: 0,80×0,90=0,72. Desconto total: 1−0,72=0,28=28%. NÃO é 30% (erro de somar porcentagens).",
+ ex:"R$100→R$80 (−20%)→R$72 (−10% do R$80). Sempre multiplique os fatores, nunca some as porcentagens!"},
+
+{year:"7",theme:"Números",nivel:1,
+ q:"O que são números INTEIROS? Como diferem dos naturais?",ctx:"",
+ a:"Inteiros incluem negativos, zero e positivos: ...−3, −2, −1, 0, 1, 2, 3... Os naturais só têm 0 e positivos.",
+ ex:"Temperatura −5°C, andar −1 (subsolo), saldo bancário −R$50 são exemplos de inteiros negativos."},
+
+{year:"7",theme:"Números",nivel:2,
+ q:"Qual é a REGRA DOS SINAIS para multiplicação e divisão de inteiros?",ctx:"",
+ a:"Sinais IGUAIS (++ou−−) → resultado POSITIVO. Sinais DIFERENTES (+−ou−+) → resultado NEGATIVO.",
+ ex:"(+3)×(−4)=−12. (−3)×(−4)=+12. (−12)÷(+3)=−4. (−12)÷(−3)=+4."},
+
+{year:"7",theme:"Números",nivel:3,
+ q:"Como resolver: 5 − (−3) = ?",ctx:"Subtração com números negativos",
+ a:"Subtrair um negativo = somar o positivo. 5−(−3) = 5+(+3) = 8.",
+ ex:"Regra: a−(−b) = a+b. Dois sinais iguais juntos viram positivo: −(−3) = +3."},
+
+{year:"7",theme:"Números",nivel:4,
+ q:"Calcule: (−2)³ + (−3)² − 4×(−2)",ctx:"Aplique a ordem das operações com inteiros",
+ a:"(−2)³=−8. (−3)²=+9. 4×(−2)=−8. Resultado: −8+9−(−8) = −8+9+8 = 9.",
+ ex:"Atenção: (−2)³=−8 (expoente ímpar mantém o sinal) mas (−3)²=+9 (expoente par vira positivo)."},
+
+{year:"7",theme:"Álgebra",nivel:1,
+ q:"O que é uma EQUAÇÃO do 1º grau? Qual sua forma geral?",ctx:"",
+ a:"É uma igualdade que contém uma incógnita (geralmente x) com expoente 1. Forma geral: ax + b = c, com a≠0.",
+ ex:"3x+5=20 é uma equação do 1º grau. x²+1=5 NÃO é (expoente 2)."},
+
+{year:"7",theme:"Álgebra",nivel:2,
+ q:"O que acontece com o SINAL quando um termo passa de um lado para o outro em uma equação?",ctx:"",
+ a:"O sinal muda para a operação inversa: + vira −, − vira +, × vira ÷, ÷ vira ×.",
+ ex:"3x+5=20 → 3x=20−5 (o +5 passou para lá virando −5). 3x=15 → x=15÷3=5."},
+
+{year:"7",theme:"Álgebra",nivel:3,
+ q:"A equação 2(x+3)=x+8. Antes de resolver, qual deve ser o primeiro passo?",ctx:"",
+ a:"Distribuir (aplicar a propriedade distributiva): 2×x+2×3=x+8 → 2x+6=x+8.",
+ ex:"Depois: 2x−x=8−6 → x=2. Verificação: 2(2+3)=2×5=10 e 2+8=10 ✓"},
+
+{year:"7",theme:"Álgebra",nivel:4,
+ q:"A soma de dois números consecutivos é 47. Quais são os números?",ctx:"Monte a equação",
+ a:"Seja o primeiro número x, o próximo é x+1. Equação: x+(x+1)=47 → 2x+1=47 → x=23. Os números são 23 e 24.",
+ ex:"Verificação: 23+24=47 ✓. Dois números consecutivos se diferem por 1."},
+
+{year:"7",theme:"Grandezas",nivel:1,
+ q:"O que é uma PROPORÇÃO? Como se lê a/b = c/d?",ctx:"",
+ a:"Proporção é a igualdade entre duas razões. Lê-se: 'a está para b assim como c está para d'.",
+ ex:"2/4 = 5/10 é uma proporção porque as duas razões valem 0,5."},
+
+{year:"7",theme:"Grandezas",nivel:2,
+ q:"O que é o PRODUTO CRUZADO em uma proporção a/b = c/d?",ctx:"",
+ a:"O produto dos extremos (a×d) é igual ao produto dos meios (b×c). Usa-se para encontrar a incógnita.",
+ ex:"3/6=5/x → 3×x=6×5 → 3x=30 → x=10. Verificação: 3/6=5/10=0,5 ✓"},
+
+{year:"7",theme:"Grandezas",nivel:3,
+ q:"Numa receita para 4 pessoas usa-se 300g de farinha. Para 6 pessoas, quantos gramas?",ctx:"É uma regra de três direta ou inversa?",
+ a:"Mais pessoas → mais farinha → DIRETA. 4/300 = 6/x → 4x=1800 → x=450g.",
+ ex:"Fator de escala: 6÷4=1,5. Então 300×1,5=450g. Mais fácil quando reconhece o fator!"},
+
+{year:"7",theme:"Grandezas",nivel:4,
+ q:"8 torneiras enchem um tanque em 3 horas. Quantas horas 6 torneiras levariam?",ctx:"É direta ou inversa? Monte a equação.",
+ a:"Mais torneiras → menos tempo → INVERSA. 8×3=6×x → x=24÷6=4 horas.",
+ ex:"Verificação: 8×3=24 e 6×4=24 ✓. O produto é sempre constante na regra de três inversa."},
+
+{year:"7",theme:"Estatística",nivel:1,
+ q:"O que é a MÉDIA ARITMÉTICA de um conjunto de dados?",ctx:"",
+ a:"É a soma de todos os valores dividida pela quantidade de valores. Representa o 'centro' dos dados.",
+ ex:"Notas 7, 8, 9, 6: média=(7+8+9+6)÷4=30÷4=7,5."},
+
+{year:"7",theme:"Estatística",nivel:2,
+ q:"O que é a MEDIANA? Como encontrá-la?",ctx:"",
+ a:"É o valor central quando os dados são ordenados. Com quantidade ímpar: valor do meio. Com par: média dos dois centrais.",
+ ex:"Dados 3,3,7,8,9 (ímpar): mediana=7 (3º valor). Dados 3,3,7,8: mediana=(3+7)÷2=5."},
+
+{year:"7",theme:"Estatística",nivel:3,
+ q:"Qual medida usar quando há um valor muito diferente dos outros (outlier)? Por quê?",ctx:"Salários: R$1000, R$1000, R$1200, R$50000",
+ a:"Use a MEDIANA. Outliers distorcem a média puxando-a para cima ou para baixo, mas não afetam a mediana.",
+ ex:"Média=(1000+1000+1200+50000)÷4=R$13.300 (enganosa!). Mediana=(1000+1200)÷2=R$1100 (representativa ✓)"},
+
+{year:"7",theme:"Estatística",nivel:4,
+ q:"Turma tem 5 notas: 6, 7, 8, 9 e x. A média é 8. Qual é o valor de x?",ctx:"Monte a equação",
+ a:"(6+7+8+9+x)÷5=8 → 30+x=40 → x=10.",
+ ex:"Verificação: (6+7+8+9+10)÷5=40÷5=8 ✓. A nota máxima possível (10) é o único valor de x."},
+
+// ──────────────────────────────────────────────────────
+// 8º ANO — ÁLGEBRA, GEOMETRIA, GRANDEZAS
+// ──────────────────────────────────────────────────────
+{year:"8",theme:"Números",nivel:1,
+ q:"O que são números IRRACIONAIS? Dê dois exemplos famosos.",ctx:"",
+ a:"São números que não podem ser escritos como fração p/q. Sua representação decimal é infinita e sem padrão que se repete.",
+ ex:"√2=1,41421356... e π=3,14159265... são os mais famosos. Nunca terminam, nunca se repetem."},
+
+{year:"8",theme:"Números",nivel:2,
+ q:"Como simplificar uma raiz quadrada como √72?",ctx:"Estratégia: encontre o maior quadrado perfeito que divide o número",
+ a:"Decomponha o radicando: √72=√(36×2)=√36×√2=6√2. Procure o maior quadrado perfeito que divide 72: é 36.",
+ ex:"Outros: √50=5√2. √75=5√3. √200=10√2. A raiz 'veste' metade dos expoentes na fatoração."},
+
+{year:"8",theme:"Números",nivel:3,
+ q:"Entre quais inteiros consecutivos está √55?",ctx:"Estime sem calcular",
+ a:"√49=7 e √64=8. Como 49<55<64, então 7<√55<8. √55 está entre 7 e 8.",
+ ex:"Para ser mais preciso: 7,4²=54,76 e 7,5²=56,25. Então √55≈7,4."},
+
+{year:"8",theme:"Números",nivel:1,
+ q:"O que é NOTAÇÃO CIENTÍFICA? Para que é usada?",ctx:"",
+ a:"Forma compacta de escrever números muito grandes ou muito pequenos: a×10ⁿ, onde 1≤a<10.",
+ ex:"Distância Terra-Sol: 150.000.000km = 1,5×10⁸km. Vírus: 0,0000001m = 1×10⁻⁷m."},
+
+{year:"8",theme:"Números",nivel:2,
+ q:"Como converter 0,000045 para notação científica?",ctx:"Quantas casas a vírgula se move?",
+ a:"Mova a vírgula até ter um número entre 1 e 10. Para a direita: expoente negativo. 0,000045 → 4,5×10⁻⁵.",
+ ex:"A vírgula andou 5 casas para a direita → expoente −5. Confirme: 4,5÷100.000=0,000045 ✓"},
+
+{year:"8",theme:"Números",nivel:4,
+ q:"Multiplique: (3×10⁴) × (2×10³)",ctx:"Notação científica — multiplicação",
+ a:"Multiplique as mantissas e some os expoentes: 3×2=6 e 10⁴×10³=10⁷. Resultado: 6×10⁷.",
+ ex:"Se o resultado fosse 12×10⁶, precisaria ajustar para 1,2×10⁷ (a mantissa deve ser entre 1 e 10)."},
+
+{year:"8",theme:"Álgebra",nivel:1,
+ q:"O que é um MONÔMIO? O que são monômios SEMELHANTES?",ctx:"",
+ a:"Monômio é um produto de número e letras (ex: 3x², −5xy). Semelhantes têm a mesma parte literal (mesmas letras e expoentes).",
+ ex:"5x² e −3x² são semelhantes. 5x² e 3x NÃO são (partes literais diferentes: x² ≠ x)."},
+
+{year:"8",theme:"Álgebra",nivel:2,
+ q:"O que é o GRAU de um monômio? E de um polinômio?",ctx:"",
+ a:"Grau do monômio = soma dos expoentes das variáveis. Grau do polinômio = maior grau entre seus monômios.",
+ ex:"3x²y: grau=2+1=3. Polinômio 4x³−2x+1: grau=3 (maior é o 3 em x³)."},
+
+{year:"8",theme:"Álgebra",nivel:3,
+ q:"Calcule o valor numérico de 2x² − 3y para x=2 e y=3.",ctx:"Substitua as variáveis",
+ a:"2×(2)² − 3×(3) = 2×4 − 9 = 8−9 = −1.",
+ ex:"Sempre calcule as potências antes! 2×4=8 (não 4×2=8 — coincide aqui, mas a potência vem antes)."},
+
+{year:"8",theme:"Álgebra",nivel:1,
+ q:"Quais são os 3 produtos notáveis que você precisa dominar?",ctx:"",
+ a:"1) Quadrado da soma: (a+b)²=a²+2ab+b². 2) Quadrado da diferença: (a−b)²=a²−2ab+b². 3) Soma×diferença: (a+b)(a−b)=a²−b².",
+ ex:"São chamados 'notáveis' porque seus resultados têm padrão fixo e devem ser reconhecidos de memória."},
+
+{year:"8",theme:"Álgebra",nivel:2,
+ q:"Por que (a+b)² NÃO é igual a a²+b²?",ctx:"Erro muito comum!",
+ a:"Porque o desenvolvimento correto é (a+b)²=a²+2ab+b². O termo 2ab no meio é sempre esquecido.",
+ ex:"(x+3)²=x²+6x+9, NÃO x²+9. A diferença é o termo central: 2×x×3=6x."},
+
+{year:"8",theme:"Álgebra",nivel:3,
+ q:"Reconheça e fatore: x² − 16",ctx:"Produto notável inverso",
+ a:"x²−16 = x²−4² = (x+4)(x−4). É uma diferença de quadrados: a²−b²=(a+b)(a−b).",
+ ex:"Identifique: é um quadrado perfeito menos outro quadrado perfeito? Então use (a+b)(a−b)."},
+
+{year:"8",theme:"Álgebra",nivel:4,
+ q:"Expanda e simplifique: (2x+3)² − (2x−3)²",ctx:"Use produtos notáveis",
+ a:"(2x+3)²=4x²+12x+9. (2x−3)²=4x²−12x+9. Diferença: 4x²+12x+9−(4x²−12x+9)=24x.",
+ ex:"Atalho: use a identidade (a+b)²−(a−b)²=4ab. Aqui a=2x, b=3: resultado=4×2x×3=24x ✓"},
+
+{year:"8",theme:"Geometria",nivel:1,
+ q:"O que é a CONDIÇÃO DE EXISTÊNCIA de um triângulo?",ctx:"",
+ a:"Cada lado do triângulo deve ser MENOR que a SOMA dos outros dois. Se qualquer lado for maior ou igual à soma dos outros, o triângulo não existe.",
+ ex:"Lados 3, 4, 8: 3+4=7 < 8 → NÃO existe! Lados 3, 4, 6: 3+4=7 > 6 → existe ✓"},
+
+{year:"8",theme:"Geometria",nivel:2,
+ q:"Como classificar um triângulo pelos seus ÂNGULOS?",ctx:"",
+ a:"Acutângulo: todos os ângulos menores que 90°. Retângulo: um ângulo de exatamente 90°. Obtusângulo: um ângulo maior que 90°.",
+ ex:"Triângulo com ângulos 50°, 60°, 70° → acutângulo. Com 30°, 60°, 90° → retângulo."},
+
+{year:"8",theme:"Geometria",nivel:3,
+ q:"Um triângulo tem lados 5cm, 5cm e 8cm. Como ele se classifica pelos lados e pelos ângulos?",ctx:"",
+ a:"Pelos lados: ISÓSCELES (dois lados iguais). Pelos ângulos: precisa calcular. O ângulo entre os lados iguais é obtuso (>90°).",
+ ex:"Verificação se é retângulo: 5²+5²=50 ≠ 8²=64 → não é retângulo. Os dois ângulos da base são iguais."},
+
+{year:"8",theme:"Álgebra",nivel:1,
+ q:"Qual é a forma geral de uma equação do 2º grau?",ctx:"",
+ a:"ax² + bx + c = 0, onde a, b, c são coeficientes reais e a ≠ 0. O que diferencia do 1º grau é o termo x² (expoente 2).",
+ ex:"x²−5x+6=0: a=1, b=−5, c=6. 2x²+3=0: a=2, b=0, c=3 (incompleta, sem o termo x)."},
+
+{year:"8",theme:"Álgebra",nivel:2,
+ q:"O que é o discriminante Δ e o que ele revela?",ctx:"Δ = b²−4ac",
+ a:"Δ>0: a equação tem 2 raízes reais distintas. Δ=0: tem 1 raiz real (dupla). Δ<0: não tem raízes reais.",
+ ex:"x²−5x+6=0: Δ=25−24=1>0 → 2 raízes. x²−2x+1=0: Δ=4−4=0 → 1 raiz. x²+1=0: Δ=−4<0 → 0 raízes."},
+
+{year:"8",theme:"Álgebra",nivel:3,
+ q:"Antes de aplicar Bhaskara em x²−5x+6=0, qual deve ser o PRIMEIRO passo?",ctx:"",
+ a:"Calcular o discriminante Δ=b²−4ac=25−24=1>0. O Δ confirma que existem 2 raízes antes de qualquer cálculo adicional.",
+ ex:"Se Δ<0, pare! Não há raízes reais. Calcular Bhaskara com Δ negativo é erro conceitual."},
+
+{year:"8",theme:"Álgebra",nivel:4,
+ q:"Resolva x²−5x+6=0 usando Bhaskara. Verifique as raízes.",ctx:"x=(−b±√Δ)/2a",
+ a:"a=1,b=−5,c=6. Δ=25−24=1. x=(5±1)/2 → x₁=(5+1)/2=3 e x₂=(5−1)/2=2.",
+ ex:"Verificação rápida: x₁+x₂=5=−b/a ✓ e x₁×x₂=6=c/a ✓. Muito mais rápido que substituir!"},
+
+// ──────────────────────────────────────────────────────
+// 9º ANO — GEOMETRIA, GRANDEZAS
+// ──────────────────────────────────────────────────────
+{year:"9",theme:"Geometria",nivel:1,
+ q:"Enuncia o Teorema de Pitágoras. Para que tipo de triângulo ele se aplica?",ctx:"",
+ a:"Em todo triângulo retângulo, o quadrado da hipotenusa é igual à soma dos quadrados dos catetos: c²=a²+b². Aplica-se APENAS a triângulos retângulos.",
+ ex:"Hipotenusa = lado oposto ao ângulo reto (sempre o maior lado). Catetos = os outros dois lados."},
+
+{year:"9",theme:"Geometria",nivel:2,
+ q:"Quais são as principais TERNAS PITAGÓRICAS que você deve memorizar?",ctx:"",
+ a:"3-4-5 (e múltiplos: 6-8-10, 9-12-15). 5-12-13. 8-15-17. Se reconhecer a terna, não precisa calcular!",
+ ex:"Triângulo com lados 6, 8 e 10: é 2×(3-4-5). Como 6²+8²=100=10² ✓, é retângulo."},
+
+{year:"9",theme:"Geometria",nivel:3,
+ q:"Um retângulo tem lados 9cm e 12cm. Qual é o comprimento de sua diagonal?",ctx:"Use Pitágoras",
+ a:"A diagonal divide o retângulo em dois triângulos retângulos. d²=9²+12²=81+144=225. d=√225=15cm.",
+ ex:"Reconhece? 9-12-15 = 3×(3-4-5). Uma terna pitagórica! Com prática, identifica sem calcular."},
+
+{year:"9",theme:"Geometria",nivel:4,
+ q:"Um telhado tem dois planos inclinados, cada um com 5m de comprimento, que sobem de uma base de 8m de largura. Qual é a altura do pico?",ctx:"",
+ a:"A base de cada plano = 8÷2 = 4m. Pitágoras: altura²=5²−4²=25−16=9. Altura=3m.",
+ ex:"Reconhece? 3-4-5! O triângulo formado tem catetos 3 e 4, hipotenusa 5. Terna pitagórica."},
+
+{year:"9",theme:"Geometria",nivel:1,
+ q:"O que são triângulos SEMELHANTES? Quais são as condições para semelhança?",ctx:"",
+ a:"Triângulos semelhantes têm os mesmos ângulos (forma igual) e lados proporcionais (tamanho diferente). Condições: AA (dois ângulos iguais), LAL ou LLL.",
+ ex:"Um triângulo menor e um maior com os mesmos ângulos são semelhantes — como uma foto e sua ampliação."},
+
+{year:"9",theme:"Geometria",nivel:2,
+ q:"Se a razão de semelhança entre dois triângulos é k=3, qual é a razão entre suas áreas?",ctx:"",
+ a:"A razão entre as áreas é k²=9. Se um triângulo tem lados 3 vezes maiores, sua área é 9 vezes maior.",
+ ex:"Triângulos com razão de semelhança 1:3 → áreas na razão 1:9. Dimensões lineares: ×3. Áreas: ×9."},
+
+{year:"9",theme:"Geometria",nivel:3,
+ q:"Duas árvores projetam sombras no mesmo instante. A menor (2m) projeta 3m de sombra. A maior projeta 12m. Como saber a altura da maior?",ctx:"Semelhança de triângulos",
+ a:"Os triângulos formados são semelhantes. Árvore/sombra é constante: h/12=2/3 → h=8m.",
+ ex:"Mesmo instante = mesmo ângulo solar = triângulos semelhantes. A razão de semelhança é k=12÷3=4."},
+
+{year:"9",theme:"Grandezas",nivel:1,
+ q:"Qual é a diferença entre JUROS SIMPLES e JUROS COMPOSTOS?",ctx:"",
+ a:"Juros simples: calculados sempre sobre o capital inicial — crescimento linear. Juros compostos: calculados sobre o montante acumulado — crescimento exponencial.",
+ ex:"Simples: M=C(1+i·n). Compostos: M=C×(1+i)ⁿ. No mercado financeiro, quase sempre são compostos."},
+
+{year:"9",theme:"Grandezas",nivel:2,
+ q:"Por que é ERRADO multiplicar a taxa mensal pelo número de meses para calcular juros compostos?",ctx:"",
+ a:"Porque nos juros compostos os juros de cada período são incorporados ao capital e geram novos juros (juros sobre juros). i×n só vale para juros SIMPLES.",
+ ex:"R$1000 a 10% ao mês por 2 meses: Simples=R$1200. Compostos: 1000×(1,1)²=R$1210. A diferença aumenta com o tempo."},
+
+{year:"9",theme:"Grandezas",nivel:3,
+ q:"R$1000 rendeu R$102,50 em 2 meses com juros compostos. Qual foi a taxa mensal?",ctx:"Use M=C×(1+i)ⁿ",
+ a:"M=1102,50, C=1000, n=2. (1+i)²=1102,50÷1000=1,1025. (1+i)=√1,1025=1,05. i=5% ao mês.",
+ ex:"√1,1025=1,05 porque 1,05²=1,1025 ✓. A taxa foi de 5% ao mês."},
+
+{year:"9",theme:"Grandezas",nivel:4,
+ q:"R$2000 a 5% ao mês: qual o montante depois de 3 meses (compostos)? Quanto foram os juros?",ctx:"M=C×(1+i)ⁿ",
+ a:"M=2000×(1,05)³=2000×1,157625=R$2315,25. Juros=2315,25−2000=R$315,25.",
+ ex:"(1,05)³=1,05×1,05×1,05=1,1025×1,05=1,157625. Compare com simples: 2000×(1+0,05×3)=R$2300."},
+
+{year:"9",theme:"Estatística",nivel:1,
+ q:"O que o DESVIO PADRÃO mede em um conjunto de dados?",ctx:"",
+ a:"Mede o quanto os dados se afastam da média. DP pequeno = dados concentrados perto da média. DP grande = dados muito espalhados.",
+ ex:"Turma A: notas 7,7,8,8. DP pequeno (homogênea). Turma B: notas 2,5,9,10. DP grande (heterogênea)."},
+
+{year:"9",theme:"Estatística",nivel:2,
+ q:"Qual é o passo a passo para calcular o DESVIO PADRÃO?",ctx:"",
+ a:"1. Calcule a média. 2. Calcule o desvio de cada dado (dado−média). 3. Eleve cada desvio ao quadrado. 4. Calcule a média dos quadrados (variância). 5. Tire a raiz quadrada.",
+ ex:"Dados 2, 4, 6: média=4. Desvios: −2, 0, +2. Quadrados: 4, 0, 4. Variância=8÷3≈2,67. DP≈1,63."},
+
+{year:"9",theme:"Estatística",nivel:3,
+ q:"Dois grupos têm a mesma média de 7. O Grupo A tem DP=0,5 e o Grupo B tem DP=2,5. O que isso significa?",ctx:"",
+ a:"O Grupo A é muito mais homogêneo (todos próximos de 7). O Grupo B tem desempenho muito variado (alguns com 4, outros com 10).",
+ ex:"Para o professor, Grupo B exige mais atenção: alguns precisam de reforço, outros de desafio."},
+
+{year:"9",theme:"Estatística",nivel:4,
+ q:"Dados: 4, 6, 8, 10. Calcule a variância e o desvio padrão.",ctx:"Siga os 5 passos",
+ a:"Média=7. Desvios: −3,−1,+1,+3. Quadrados: 9,1,1,9. Variância=(9+1+1+9)÷4=5. DP=√5≈2,24.",
+ ex:"DP≈2,24 significa que os dados se afastam, em média, 2,24 unidades da média 7."},
+
+];
+
+// ═══════════════════════════════════════════════════
+// CONFIGURAÇÃO DE NÍVEIS
+// ═══════════════════════════════════════════════════
+const NIVEL_CONFIG={
+  '1':{label:'🔵 Vocabulário',cls:'nivel-1'},
+  '2':{label:'🟢 Conceito',cls:'nivel-2'},
+  '3':{label:'🟡 Identificação',cls:'nivel-3'},
+  '4':{label:'🔴 Resolução',cls:'nivel-4'},
+};
+const YEAR_COLORS={
+  '6':{bg:'#FF5252',light:'#FFEBEE'},
+  '7':{bg:'#FF7043',light:'#FBE9E7'},
+  '8':{bg:'#29B6F6',light:'#E1F5FE'},
+  '9':{bg:'#6C5CE7',light:'#EDE7F6'},
+};
+
+// ═══════════════════════════════════════════════════
+// ESTADO
+// ═══════════════════════════════════════════════════
+const S={deck:[],cur:0,flipped:false,correct:0,wrong:0,skip:0,wrongCards:[],
+         activeYear:'all',activeTheme:'all',activeNivel:'all'};
+
+// ═══════════════════════════════════════════════════
+// FILTROS
+// ═══════════════════════════════════════════════════
+['year','theme','nivel'].forEach(f=>{
+  document.querySelectorAll(`.pill[data-filter="${f}"]`).forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll(`.pill[data-filter="${f}"]`).forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      S[`active${f.charAt(0).toUpperCase()+f.slice(1)}`]=b.dataset[f==='nivel'?'nivel':f==='year'?'val':'theme'];
+      updateCount();
+    });
+  });
+});
+
+function filtered(){
+  return CARDS.filter(c=>{
+    const yOk=S.activeYear==='all'||c.year===S.activeYear;
+    const tOk=S.activeTheme==='all'||c.theme===S.activeTheme;
+    const nOk=S.activeNivel==='all'||String(c.nivel)===S.activeNivel;
+    return yOk&&tOk&&nOk;
+  });
+}
+
+function updateCount(){
+  const n=filtered().length;
+  document.getElementById('countBadge').textContent=n+' card'+(n!==1?'s':'')+' disponíve'+(n!==1?'is':'l');
+  document.getElementById('startBtn').disabled=n===0;
+}
+updateCount();
+
+// ═══════════════════════════════════════════════════
+// EMBARALHAR
+// ═══════════════════════════════════════════════════
+function shuffle(a){
+  const r=[...a];
+  for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}
+  return r;
+}
+
+// ═══════════════════════════════════════════════════
+// INICIAR
+// ═══════════════════════════════════════════════════
+function startGame(cards){
+  const deck=cards||shuffle(filtered());
+  if(!deck.length)return;
+  Object.assign(S,{deck,cur:0,flipped:false,correct:0,wrong:0,skip:0,wrongCards:[]});
+  document.getElementById('setup').style.display='none';
+  document.getElementById('result').style.display='none';
+  document.getElementById('game').style.display='block';
+  renderCard(); updateProgress();
+}
+
+// ═══════════════════════════════════════════════════
+// RENDERIZAR
+// ═══════════════════════════════════════════════════
+function renderCard(){
+  const c=S.deck[S.cur];
+  const yc=YEAR_COLORS[c.year]||{bg:'#6C5CE7',light:'#EDE7F6'};
+  const nc=NIVEL_CONFIG[String(c.nivel)]||{label:'',cls:''};
+
+  // Badge ano
+  const yb=document.getElementById('frontYear');
+  yb.textContent=c.year+'º ANO';
+  yb.style.cssText=`background:${yc.light};color:${yc.bg};border:1.5px solid ${yc.bg}44;border-radius:50px;font-family:'Fredoka One',cursive;font-size:.68rem;padding:3px 10px;letter-spacing:.5px;`;
+
+  // Badge nível
+  const nb=document.getElementById('frontNivel');
+  nb.textContent=nc.label;
+  nb.className='nivel-tag '+nc.cls;
+
+  // Tópico
+  document.getElementById('cardTopic').textContent=c.theme.toUpperCase();
+
+  // Pergunta
+  document.getElementById('cardQuestion').textContent=c.q;
+
+  // Contexto
+  const ctx=document.getElementById('cardContext');
+  if(c.ctx){ctx.textContent=c.ctx;ctx.style.display='block';}
+  else ctx.style.display='none';
+
+  // Verso
+  document.getElementById('cardAnswer').textContent=c.a;
+  document.getElementById('cardAnswerEx').textContent=c.ex?'📌 '+c.ex:'';
+
+  // Reset flip
+  document.getElementById('flashcard').classList.remove('flipped');
+  S.flipped=false;
+  document.getElementById('actionBtns').style.visibility='hidden';
+}
+
+// ═══════════════════════════════════════════════════
+// VIRAR
+// ═══════════════════════════════════════════════════
+function flipCard(){
+  S.flipped=!S.flipped;
+  document.getElementById('flashcard').classList.toggle('flipped',S.flipped);
+  document.getElementById('actionBtns').style.visibility=S.flipped?'visible':'hidden';
+}
+
+// ═══════════════════════════════════════════════════
+// MARCAR
+// ═══════════════════════════════════════════════════
+function mark(r){
+  if(!S.flipped)return;
+  if(r==='correct')S.correct++;
+  else if(r==='wrong'){S.wrong++;S.wrongCards.push(S.deck[S.cur]);}
+  else S.skip++;
+  document.getElementById('sc').textContent=S.correct;
+  document.getElementById('sw').textContent=S.wrong;
+  document.getElementById('ss').textContent=S.skip;
+  if(++S.cur>=S.deck.length){showResult();return;}
+  renderCard(); updateProgress();
+}
+
+// ═══════════════════════════════════════════════════
+// PROGRESSO
+// ═══════════════════════════════════════════════════
+function updateProgress(){
+  const n=S.deck.length,pct=Math.round((S.cur/n)*100);
+  document.getElementById('progressLabel').textContent='Card '+(S.cur+1)+' de '+n;
+  document.getElementById('progressPct').textContent=pct+'%';
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('navCtr').textContent=(S.cur+1)+' / '+n;
+}
+
+// ═══════════════════════════════════════════════════
+// RESULTADO
+// ═══════════════════════════════════════════════════
+function showResult(){
+  document.getElementById('game').style.display='none';
+  document.getElementById('result').style.display='block';
+  const n=S.deck.length,acc=n>0?Math.round((S.correct/n)*100):0;
+  document.getElementById('fC').textContent=S.correct;
+  document.getElementById('fW').textContent=S.wrong;
+  document.getElementById('fS').textContent=S.skip;
+  document.getElementById('accPct').textContent=acc+'%';
+  setTimeout(()=>{document.getElementById('accFill').style.width=acc+'%';},100);
+  let e,t,s;
+  if(acc>=90){e='🏆';t='Excelente!';s='Você domina esses conceitos!';}
+  else if(acc>=75){e='⭐';t='Muito bem!';s='Continue praticando os que errou.';}
+  else if(acc>=50){e='💪';t='Bom esforço!';s='Revise os erros e tente novamente.';}
+  else{e='📚';t='Continue estudando!';s='Revise os conceitos e tente de novo.';}
+  document.getElementById('rEmoji').textContent=e;
+  document.getElementById('rTitle').textContent=t;
+  document.getElementById('rSub').textContent=s+' ('+acc+'% de acerto)';
+  const rev=document.getElementById('reviewSection');
+  if(S.wrongCards.length>0){
+    rev.innerHTML='<div class="review-title">✗ Para revisar ('+S.wrongCards.length+' '+(S.wrongCards.length===1?'erro':'erros')+')</div>'+
+      S.wrongCards.map(c=>'<div class="review-item"><div class="review-q">'+c.q+'</div><div class="review-a">'+c.a.substring(0,110)+(c.a.length>110?'...':'')+'</div></div>').join('');
+    document.getElementById('retryWrongBtn').style.display='';
+  }else{
+    rev.innerHTML='';
+    document.getElementById('retryWrongBtn').style.display='none';
+  }
+}
+
+function retryAll(){startGame(shuffle(S.deck));}
+function retryWrong(){if(S.wrongCards.length)startGame(shuffle(S.wrongCards));}
+function backToSetup(){document.getElementById('result').style.display='none';document.getElementById('setup').style.display='block';}
+
+// ═══════════════════════════════════════════════════
+// TECLADO + SWIPE
+// ═══════════════════════════════════════════════════
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('game').style.display==='none')return;
+  if(e.code==='Space'){e.preventDefault();flipCard();}
+  else if(e.code==='ArrowRight'&&S.flipped)mark('correct');
+  else if(e.code==='ArrowLeft'&&S.flipped)mark('wrong');
+  else if(e.code==='ArrowUp'&&S.flipped){e.preventDefault();mark('skip');}
+});
+let tx=0;
+document.getElementById('flashcard').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(document.getElementById('game').style.display==='none'||!S.flipped)return;
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>60)mark(dx>0?'correct':'wrong');
+});
+</script>
+</body>
+</html>
