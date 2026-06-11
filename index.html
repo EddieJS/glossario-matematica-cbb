@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossário de Matemática — CBB</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #F7F4EE;
+  --paper2: #F2EEE6;
+  --ink: #2C2C2C;
+  --ink-light: #6B6560;
+  --pencil: #8B7D6B;
+  --grid-line: rgba(100,140,200,.18);
+  --grid-red: rgba(220,60,60,.12);
+  --blue-pen: #2C4A8A;
+  --red-pen: #C0392B;
+  --accent-ef: #5B3FD4;
+  --accent-em: #1A7A5E;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { min-height: 100vh; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px 48px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ── PAPEL MILIMETRADO ── */
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0;
+  /* grade principal 5mm */
+  background-image:
+    /* linha vermelha da margem */
+    linear-gradient(90deg, transparent 60px, var(--grid-red) 60px, var(--grid-red) 62px, transparent 62px),
+    /* linhas horizontais principais (cada 48px) */
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    /* linhas verticais principais (cada 48px) */
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    /* subdivisões horizontais (cada 9.6px) */
+    linear-gradient(rgba(100,140,200,.07) 1px, transparent 1px),
+    /* subdivisões verticais (cada 9.6px) */
+    linear-gradient(90deg, rgba(100,140,200,.07) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    48px 48px,
+    48px 48px,
+    9.6px 9.6px,
+    9.6px 9.6px;
+  background-color: var(--paper);
+}
+
+/* sombra sutil de papel envelhecido nas bordas */
+.bg-vignette {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 90% 85% at 50% 48%, transparent 60%, rgba(180,165,140,.18) 100%);
+}
+
+/* ── SVG DE FUNDO: DESENHOS A LÁPIS ── */
+.bg-drawings {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  overflow: hidden;
+}
+
+/* ── CONTENT ── */
+.content {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 720px;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+/* ── HEADER ── */
+.logo-wrap {
+  text-align: center;
+  margin-bottom: 32px;
+  animation: fadeDown .6s ease both;
+}
+
+/* título como se fosse escrito a lápis numa folha */
+.logo-icon {
+  font-size: 3.2rem;
+  display: block;
+  margin-bottom: 6px;
+  filter: drop-shadow(1px 2px 0 rgba(0,0,0,.12));
+}
+
+.logo-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(2rem, 6vw, 3rem);
+  color: var(--blue-pen);
+  line-height: 1.1;
+  /* leve rotação como escrito à mão */
+  display: inline-block;
+  transform: rotate(-.4deg);
+  /* sublinhado ondulado manual */
+  border-bottom: 3px solid;
+  border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='6'%3E%3Cpath d='M0 4 Q25 1 50 4 Q75 7 100 4 Q125 1 150 4 Q175 7 200 4' stroke='%232C4A8A' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") 1 stretch;
+  padding-bottom: 4px;
+}
+
+.logo-sub {
+  font-family: 'Caveat', cursive;
+  margin-top: 14px;
+  font-size: 1.25rem;
+  color: var(--pencil);
+  transform: rotate(-.3deg);
+  display: inline-block;
+}
+
+.logo-school {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: 'Caveat', cursive;
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--red-pen);
+  opacity: .7;
+  transform: rotate(.2deg);
+  /* como um carimbo */
+  border: 1.5px solid var(--red-pen);
+  border-radius: 4px;
+  padding: 2px 14px;
+  opacity: .5;
+}
+
+/* ── DIVIDER como régua ── */
+.divider {
+  width: 100%;
+  margin: 8px 0 28px;
+  position: relative;
+  height: 24px;
+  animation: fadeIn .6s .2s ease both;
+}
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--pencil) 15%, var(--pencil) 85%, transparent);
+  opacity: .25;
+}
+/* marcações de régua */
+.divider::after {
+  content: '0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20';
+  position: absolute;
+  top: 0; left: 5%; right: 5%;
+  font-family: 'Caveat', cursive;
+  font-size: .62rem;
+  color: var(--pencil);
+  opacity: .3;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* ── CARDS ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 24px;
+  width: 100%;
+  animation: fadeUp .6s .3s ease both;
+}
+
+/* card como folha de caderno colada/post-it */
+.card {
+  position: relative;
+  border-radius: var(--radius);
+  padding: 28px 26px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  overflow: visible;
+  transition: transform .22s, box-shadow .22s;
+  background: #FDFAF4;
+  /* sombra de folha de papel */
+  box-shadow:
+    0 1px 0 rgba(0,0,0,.04),
+    0 2px 6px rgba(0,0,0,.06),
+    0 8px 24px rgba(0,0,0,.07),
+    inset 0 0 0 1px rgba(0,0,0,.05);
+  /* leve inclinação diferente para cada card */
+}
+.card::before {
+  /* faixa colorida lateral (borda esquerda) */
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 5px;
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+/* linhas horizontais do caderno dentro do card */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 52px 0 0 5px;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 27px,
+    rgba(100,140,200,.14) 27px,
+    rgba(100,140,200,.14) 28px
+  );
+  pointer-events: none;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.card-ef {
+  transform: rotate(-.5deg);
+}
+.card-ef:hover {
+  transform: rotate(0deg) translateY(-5px);
+  box-shadow: 0 16px 48px rgba(91,63,212,.15), inset 0 0 0 1px rgba(0,0,0,.05);
+}
+.card-ef::before { background: var(--accent-ef); }
+
+.card-em {
+  transform: rotate(.4deg);
+}
+.card-em:hover {
+  transform: rotate(0deg) translateY(-5px);
+  box-shadow: 0 16px 48px rgba(26,122,94,.15), inset 0 0 0 1px rgba(0,0,0,.05);
+}
+.card-em::before { background: var(--accent-em); }
+
+/* clipe de papel simulado */
+.card-clip {
+  position: absolute;
+  top: -14px; left: 24px;
+  width: 20px; height: 32px;
+  border: 2.5px solid #AAA;
+  border-radius: 10px 10px 0 0;
+  background: transparent;
+  z-index: 2;
+  box-shadow: 1px 1px 0 rgba(0,0,0,.08);
+}
+.card-clip::after {
+  content: '';
+  position: absolute;
+  top: 6px; left: 3px; right: 3px; bottom: -2px;
+  border: 2px solid #BBB;
+  border-radius: 8px 8px 0 0;
+  background: transparent;
+}
+
+.card-emoji {
+  font-size: 2.4rem;
+  display: block;
+  margin-bottom: 10px;
+  position: relative; z-index: 1;
+}
+
+.card-tag {
+  display: inline-block;
+  font-family: 'Caveat', cursive;
+  font-size: .92rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  padding: 1px 0;
+  position: relative; z-index: 1;
+  /* sublinhado manual */
+  border-bottom: 2px solid;
+}
+.card-ef .card-tag { color: var(--accent-ef); border-color: rgba(91,63,212,.3); }
+.card-em .card-tag { color: var(--accent-em); border-color: rgba(26,122,94,.3); }
+
+.card h2 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.5rem;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.2;
+  position: relative; z-index: 1;
+}
+
+.card p {
+  font-size: .88rem;
+  color: var(--ink-light);
+  font-weight: 700;
+  line-height: 1.65;
+  margin-bottom: 18px;
+  position: relative; z-index: 1;
+}
+
+.card-stats {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 20px;
+  position: relative; z-index: 1;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.stat-num {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.card-ef .stat-num { color: var(--accent-ef); }
+.card-em .stat-num { color: var(--accent-em); }
+.stat-label {
+  font-size: .68rem;
+  color: var(--pencil);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.card-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 50px;
+  font-family: 'Fredoka One', cursive;
+  font-size: .95rem;
+  color: #fff;
+  width: 100%;
+  position: relative; z-index: 1;
+  transition: opacity .18s, transform .18s;
+  border: none;
+}
+.card-ef .card-btn { background: var(--accent-ef); }
+.card-em .card-btn { background: var(--accent-em); }
+.card:hover .card-btn { opacity: .88; transform: scale(1.01); }
+
+.card-arrow { transition: transform .2s; }
+.card:hover .card-arrow { transform: translateX(3px); }
+
+/* ── ANOTAÇÃO MANUSCRITA ── */
+.sticky-note {
+  position: absolute;
+  font-family: 'Caveat', cursive;
+  font-size: .82rem;
+  color: var(--pencil);
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+/* ── FEATURES como lista de tarefas ── */
+.features-wrap {
+  width: 100%;
+  margin-top: 28px;
+  animation: fadeIn .6s .5s ease both;
+}
+.features-label {
+  font-family: 'Caveat', cursive;
+  font-size: .9rem;
+  color: var(--pencil);
+  margin-bottom: 10px;
+  opacity: .7;
+  transform: rotate(-.2deg);
+  display: inline-block;
+}
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+.feat {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Caveat', cursive;
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--ink-light);
+}
+/* checkbox manual */
+.feat-check {
+  width: 15px; height: 15px;
+  border: 1.5px solid var(--pencil);
+  border-radius: 2px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: .65rem;
+  color: var(--accent-ef);
+  flex-shrink: 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  margin-top: 36px;
+  font-family: 'Caveat', cursive;
+  font-size: .9rem;
+  color: var(--pencil);
+  opacity: .45;
+  text-align: center;
+  animation: fadeIn .6s .7s ease both;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .cards { grid-template-columns: 1fr; }
+  .card-ef { transform: rotate(0); }
+  .card-em { transform: rotate(0); }
+  .logo-title { font-size: 1.9rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Fundo papel milimetrado -->
+<div class="bg-grid"></div>
+<div class="bg-vignette"></div>
+
+<!-- Desenhos a lápis no fundo -->
+<div class="bg-drawings">
+  <svg width="100%" height="100%" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="opacity:.55">
+    <defs>
+      <!-- filtro de lápis: textura granulada -->
+      <filter id="pencil" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="pencil2" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.8" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+
+    <!-- ── CANTO SUPERIOR ESQUERDO ── -->
+    <!-- triângulo retângulo com catetos anotados -->
+    <g filter="url(#pencil)" opacity=".45" transform="translate(48,60)">
+      <path d="M0 120 L0 0 L90 120 Z" stroke="#6B6560" stroke-width="1.6" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+      <!-- ângulo reto -->
+      <path d="M0 108 L10 108 L10 120" stroke="#6B6560" stroke-width="1.2" fill="none"/>
+      <!-- setas dos catetos -->
+      <line x1="-12" y1="60" x2="-4" y2="60" stroke="#6B6560" stroke-width="1" stroke-linecap="round"/>
+      <line x1="-12" y1="62" x2="-4" y2="62" stroke="#6B6560" stroke-width="1" stroke-linecap="round"/>
+    </g>
+    <!-- rótulos do triângulo -->
+    <text x="20" y="202" font-family="Caveat,cursive" font-size="14" fill="#8B7D6B" opacity=".5" transform="rotate(-1,20,202)">cateto a</text>
+    <text x="80" y="182" font-family="Caveat,cursive" font-size="14" fill="#8B7D6B" opacity=".5" transform="rotate(53,80,182)">hipotenusa</text>
+    <text x="22" y="248" font-family="Caveat,cursive" font-size="13" fill="#8B7D6B" opacity=".4">a² + b² = c²</text>
+
+    <!-- círculo com raio anotado -->
+    <g filter="url(#pencil2)" opacity=".38" transform="translate(200,30)">
+      <circle cx="50" cy="55" r="44" stroke="#6B6560" stroke-width="1.5" fill="none" stroke-dasharray="3 2"/>
+      <!-- raio -->
+      <line x1="50" y1="55" x2="94" y2="55" stroke="#6B6560" stroke-width="1.4" stroke-linecap="round"/>
+      <!-- ponto central -->
+      <circle cx="50" cy="55" r="2" fill="#6B6560" opacity=".6"/>
+    </g>
+    <text x="232" y="86" font-family="Caveat,cursive" font-size="13" fill="#8B7D6B" opacity=".45">r</text>
+    <text x="208" y="112" font-family="Caveat,cursive" font-size="13" fill="#8B7D6B" opacity=".4">A = π·r²</text>
+
+    <!-- ── CANTO SUPERIOR DIREITO ── -->
+    <!-- eixo cartesiano -->
+    <g filter="url(#pencil)" opacity=".38" transform="translate(940,30)">
+      <!-- eixo x -->
+      <line x1="0" y1="80" x2="180" y2="80" stroke="#6B6560" stroke-width="1.5" stroke-linecap="round"/>
+      <polygon points="180,76 188,80 180,84" fill="#6B6560" opacity=".7"/>
+      <!-- eixo y -->
+      <line x1="40" y1="150" x2="40" y2="0" stroke="#6B6560" stroke-width="1.5" stroke-linecap="round"/>
+      <polygon points="36,0 40,-8 44,0" fill="#6B6560" opacity=".7"/>
+      <!-- curva de função -->
+      <path d="M0 130 Q40 80 80 65 Q120 50 180 30" stroke="#6B6560" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <!-- pontilhados de referência -->
+      <line x1="40" y1="65" x2="80" y2="65" stroke="#6B6560" stroke-width=".8" stroke-dasharray="3 2" opacity=".6"/>
+      <line x1="80" y1="65" x2="80" y2="80" stroke="#6B6560" stroke-width=".8" stroke-dasharray="3 2" opacity=".6"/>
+      <!-- pontos marcados -->
+      <circle cx="80" cy="65" r="2.5" fill="#6B6560" opacity=".7"/>
+    </g>
+    <text x="1134" y="116" font-family="Caveat,cursive" font-size="13" fill="#8B7D6B" opacity=".4">x</text>
+    <text x="942" y="26" font-family="Caveat,cursive" font-size="13" fill="#8B7D6B" opacity=".4">y</text>
+    <text x="1010" y="52" font-family="Caveat,cursive" font-size="13" fill="#8B7D6B" opacity=".38">f(x)</text>
+
+    <!-- ── CANTO INFERIOR ESQUERDO ── -->
+    <!-- polígono regular (hexágono) -->
+    <g filter="url(#pencil2)" opacity=".35" transform="translate(30,600)">
+      <polygon points="45,0 90,26 90,78 45,104 0,78 0,26" stroke="#6B6560" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+      <!-- diagonais internas -->
+      <line x1="45" y1="0" x2="45" y2="104" stroke="#6B6560" stroke-width=".8" stroke-dasharray="4 3" opacity=".4"/>
+      <line x1="0" y1="26" x2="90" y2="78" stroke="#6B6560" stroke-width=".8" stroke-dasharray="4 3" opacity=".4"/>
+      <line x1="90" y1="26" x2="0" y2="78" stroke="#6B6560" stroke-width=".8" stroke-dasharray="4 3" opacity=".4"/>
+      <circle cx="45" cy="52" r="2" fill="#6B6560" opacity=".5"/>
+    </g>
+    <text x="36" y="724" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".38">hexágono</text>
+    <text x="28" y="740" font-family="Caveat,cursive" font-size="11" fill="#8B7D6B" opacity=".32">n=6 lados</text>
+
+    <!-- seta com anotação -->
+    <g opacity=".32" transform="translate(150,670)">
+      <path d="M0 0 Q30 -20 60 10" stroke="#8B7D6B" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <polygon points="56,18 62,6 68,14" fill="#8B7D6B"/>
+    </g>
+    <text x="155" y="668" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".35" transform="rotate(-8,155,668)">centro</text>
+
+    <!-- ── CANTO INFERIOR DIREITO ── -->
+    <!-- reta numérica com marcações -->
+    <g filter="url(#pencil)" opacity=".4" transform="translate(920,680)">
+      <line x1="0" y1="20" x2="220" y2="20" stroke="#6B6560" stroke-width="1.5" stroke-linecap="round"/>
+      <polygon points="220,16 228,20 220,24" fill="#6B6560" opacity=".7"/>
+      <!-- marcações -->
+      <line x1="0"   y1="14" x2="0"   y2="26" stroke="#6B6560" stroke-width="1.2"/>
+      <line x1="44"  y1="16" x2="44"  y2="24" stroke="#6B6560" stroke-width="1"/>
+      <line x1="88"  y1="14" x2="88"  y2="26" stroke="#6B6560" stroke-width="1.2"/>
+      <line x1="132" y1="16" x2="132" y2="24" stroke="#6B6560" stroke-width="1"/>
+      <line x1="176" y1="14" x2="176" y2="26" stroke="#6B6560" stroke-width="1.2"/>
+    </g>
+    <text x="914"  y="716" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".4">-2</text>
+    <text x="956"  y="716" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".4">-1</text>
+    <text x="1000" y="716" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".4">0</text>
+    <text x="1044" y="716" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".4">1</text>
+    <text x="1086" y="716" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".4">2</text>
+
+    <!-- ── CENTRO-ESQUERDA ── -->
+    <!-- ângulos com transferidor parcial -->
+    <g filter="url(#pencil2)" opacity=".32" transform="translate(60,350)">
+      <path d="M0 60 A60 60 0 0 1 60 0" stroke="#6B6560" stroke-width="1.3" fill="none" stroke-dasharray="2 2"/>
+      <line x1="0" y1="60" x2="80" y2="60" stroke="#6B6560" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="0" y1="60" x2="42" y2="0" stroke="#6B6560" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M0 60 A20 20 0 0 1 20 40" stroke="#6B6560" stroke-width="1.1" fill="none"/>
+    </g>
+    <text x="78" y="402" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".35">θ = 37°</text>
+
+    <!-- ── CENTRO-DIREITA ── -->
+    <!-- fórmula quadrática + raízes -->
+    <g opacity=".38" transform="translate(1020,350)">
+      <text font-family="Caveat,cursive" font-size="16" fill="#6B6560" x="0" y="0">ax² + bx + c = 0</text>
+      <line x1="0" y1="6" x2="178" y2="6" stroke="#6B6560" stroke-width=".8" opacity=".4"/>
+      <text font-family="Caveat,cursive" font-size="14" fill="#6B6560" x="10" y="28">x = -b ± √(b²-4ac)</text>
+      <line x1="54" y1="18" x2="178" y2="18" stroke="#6B6560" stroke-width="1.2" stroke-linecap="round"/>
+      <text font-family="Caveat,cursive" font-size="14" fill="#6B6560" x="88" y="38">2a</text>
+      <!-- chave/colchete lateral -->
+      <path d="M-8 -8 L-16 -8 L-16 44 L-8 44" stroke="#6B6560" stroke-width="1" fill="none" opacity=".5"/>
+    </g>
+
+    <!-- ── TOPO CENTRO ── -->
+    <!-- fração anotada -->
+    <text x="580" y="44" font-family="Caveat,cursive" font-size="20" fill="#8B7D6B" opacity=".35" transform="rotate(1,580,44)">3</text>
+    <line x1="572" y1="50" x2="598" y2="50" stroke="#8B7D6B" stroke-width="1.5" opacity=".35"/>
+    <text x="576" y="68" font-family="Caveat,cursive" font-size="20" fill="#8B7D6B" opacity=".35" transform="rotate(1,576,68)">4</text>
+    <!-- seta e rótulo -->
+    <path d="M608 55 Q625 50 640 58" stroke="#8B7D6B" stroke-width="1.1" fill="none" opacity=".28" stroke-linecap="round"/>
+    <text x="642" y="62" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".3">fração</text>
+
+    <!-- ── INFERIOR CENTRO ── -->
+    <!-- diagrama de Venn -->
+    <g filter="url(#pencil)" opacity=".3" transform="translate(500,680)">
+      <circle cx="40" cy="40" r="38" stroke="#6B6560" stroke-width="1.4" fill="none" stroke-dasharray="3 2"/>
+      <circle cx="78" cy="40" r="38" stroke="#6B6560" stroke-width="1.4" fill="none" stroke-dasharray="3 2"/>
+    </g>
+    <text x="502" y="736" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".3">A</text>
+    <text x="573" y="736" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".3">A∩B</text>
+    <text x="615" y="736" font-family="Caveat,cursive" font-size="12" fill="#8B7D6B" opacity=".3">B</text>
+
+    <!-- marca de rabisco/grifo decorativo -->
+    <path d="M340 760 Q380 755 420 762 Q460 768 500 760" stroke="#8B7D6B" stroke-width="1" fill="none" opacity=".2" stroke-linecap="round"/>
+  </svg>
+</div>
+
+<div class="content">
+
+  <div class="logo-wrap">
+    <span class="logo-icon">📐</span>
+    <div class="logo-title">Glossário de Matemática</div>
+    <p class="logo-sub">Entenda cada conceito. Avance com confiança.</p>
+    <span class="logo-school">Colégio Batista Brasileiro</span>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="cards">
+
+    <!-- Anos Finais -->
+    <a class="card card-ef" href="glossario-matematica.html">
+      <div class="card-clip"></div>
+      <span class="card-emoji">🎒</span>
+      <span class="card-tag">6º ao 9º ano</span>
+      <h2>Anos Finais do Fundamental</h2>
+      <p>Frações, equações, geometria e muito mais — explicados com exemplos do cotidiano e diagramas visuais.</p>
+      <div class="card-stats">
+        <div class="stat">
+          <span class="stat-num">30</span>
+          <span class="stat-label">Termos</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">5</span>
+          <span class="stat-label">Temas</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">4</span>
+          <span class="stat-label">Camadas</span>
+        </div>
+      </div>
+      <div class="card-btn">
+        Acessar glossário <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Ensino Médio -->
+    <a class="card card-em" href="glossario-matematica-em.html">
+      <div class="card-clip"></div>
+      <span class="card-emoji">🎓</span>
+      <span class="card-tag">1ª à 3ª série + ENEM</span>
+      <h2>Ensino Médio</h2>
+      <p>Funções, logaritmo, geometria espacial, progressões e estatística — com pré-requisitos mapeados por tema.</p>
+      <div class="card-stats">
+        <div class="stat">
+          <span class="stat-num">26</span>
+          <span class="stat-label">Termos</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">5</span>
+          <span class="stat-label">Temas</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">4</span>
+          <span class="stat-label">Camadas</span>
+        </div>
+      </div>
+      <div class="card-btn">
+        Acessar glossário <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="features-wrap">
+    <span class="features-label">o que você encontra aqui:</span>
+    <div class="features">
+      <div class="feat"><span class="feat-check">✓</span> Busca por termo</div>
+      <div class="feat"><span class="feat-check">✓</span> Diagramas visuais</div>
+      <div class="feat"><span class="feat-check">✓</span> Aprenda com Histórias</div>
+      <div class="feat"><span class="feat-check">✓</span> Pré-requisitos mapeados</div>
+      <div class="feat"><span class="feat-check">✓</span> Como Resolver (passo a passo)</div>
+      <div class="feat"><span class="feat-check">✓</span> Funciona no celular</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Colégio Batista Brasileiro · Coordenação Pedagógica
+</footer>
+
+</body>
+</html>
